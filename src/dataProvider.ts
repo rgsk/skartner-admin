@@ -1,26 +1,11 @@
 import jsonServerProvider from "ra-data-json-server";
 import { DataProvider } from "react-admin";
+import dataProviderUtils from "utils/dataProviderUtils/dataProviderUtils";
 import apolloClient from "./lib/apolloClient";
 
 export const jsonServerDataProvider = jsonServerProvider(
   import.meta.env.VITE_JSON_SERVER_URL
 );
-
-function getWhereObject(filter: any) {
-  const output: any = {};
-  for (const key in filter) {
-    const value = filter[key];
-    const [prefix, suffix] = key.split("_");
-    if (suffix) {
-      output[prefix] = output[prefix] || {};
-      output[prefix][suffix] = value;
-    } else {
-      output[key] = value;
-    }
-  }
-
-  return output;
-}
 
 export const dataProvider: Partial<DataProvider> = {
   getList: async (resource, params) => {
@@ -32,7 +17,7 @@ export const dataProvider: Partial<DataProvider> = {
       variables: {
         skip: (page - 1) * perPage,
         take: perPage,
-        where: getWhereObject(params.filter),
+        where: dataProviderUtils.getWhereObject(params.filter),
       },
     });
     const returnValue = {

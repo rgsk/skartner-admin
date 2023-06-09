@@ -19,7 +19,10 @@ const GreWordList: React.FC<IGreWordListProps> = ({}) => {
           query: GreWordListDocument,
         },
       }}
-      filters={[<TextInput source="spelling_startsWith" alwaysOn />]}
+      filters={[
+        <TextInput source="spelling_startsWith" alwaysOn />,
+        <TextInput source="user_email_startsWith" alwaysOn />,
+      ]}
     >
       <Datagrid rowClick="show">
         <TextField source="id"></TextField>
