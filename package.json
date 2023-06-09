@@ -2,24 +2,32 @@
   "name": "skartner-admin",
   "private": true,
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"yarn codegen:watch\" \"vite\"",
     "build": "vite build",
     "serve": "vite preview",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "codegen": "graphql-codegen --config codegen.ts",
+    "codegen:watch": "nodemon -w src -e graphql,gql --exec \"yarn codegen\""
   },
   "dependencies": {
     "@apollo/client": "^3.7.15",
+    "graphql": "^16.6.0",
     "graphql-ws": "^5.13.1",
     "ra-data-json-server": "^4.9.2",
     "react": "^18.2.0",
     "react-admin": "^4.9.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "vite-tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "3.3.0",
+    "@graphql-codegen/client-preset": "3.0.0",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.7",
     "@types/node": "^18.16.1",
     "@types/react": "^18.0.22",
     "@types/react-dom": "^18.0.7",
     "@vitejs/plugin-react": "^2.2.0",
+    "concurrently": "^8.0.1",
     "typescript": "^4.6.4",
     "vite": "^3.2.0"
   }

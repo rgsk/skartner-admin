@@ -1,9 +1,9 @@
 import { Admin, Resource } from "react-admin";
-import { jsonServerDataProvider } from "./dataProvider";
+import { dataProvider } from "./dataProvider";
 import users from "./users/users";
 
 export const App = () => (
-  <Admin dataProvider={jsonServerDataProvider}>
+  <Admin dataProvider={dataProvider}>
     <Resource name="users" {...users} />
   </Admin>
 );

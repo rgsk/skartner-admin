@@ -1,4 +1,4 @@
-import UserList from "./Children/UsersList";
+import UserList from "./Children/UserList/UserList";
 
 const users = {
   list: UserList,
