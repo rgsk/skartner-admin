@@ -40,4 +40,21 @@ export const dataProvider: Partial<DataProvider> = {
     };
     return returnValue;
   },
+  getMany: async (resource, params) => {
+    console.log({ resource, params });
+    const result = await apolloClient.query({
+      query: params.meta.query,
+      variables: {
+        where: {
+          id: {
+            in: params.ids,
+          },
+        },
+      },
+    });
+    const returnValue = {
+      data: result.data[resource],
+    };
+    return returnValue;
+  },
 };

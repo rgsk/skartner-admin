@@ -399,7 +399,14 @@ export type GreWordListQueryVariables = Exact<{
 }>;
 
 
-export type GreWordListQuery = { __typename?: 'Query', total: number, greWords: Array<{ __typename?: 'GreWord', id: string, spelling: string }> };
+export type GreWordListQuery = { __typename?: 'Query', total: number, greWords: Array<{ __typename?: 'GreWord', id: string, spelling: string, userId?: string | null }> };
+
+export type GreWordListReferenceUsersQueryVariables = Exact<{
+  where?: InputMaybe<UserWhereInput>;
+}>;
+
+
+export type GreWordListReferenceUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string }> };
 
 export type GreWordShowQueryVariables = Exact<{
   where?: InputMaybe<GreWordWhereUniqueInput>;
@@ -423,6 +430,7 @@ export const GreWordListDocument = gql`
   greWords(where: $where, skip: $skip, take: $take) {
     id
     spelling
+    userId
   }
   total: greWordsCount(where: $where)
 }
@@ -457,6 +465,42 @@ export function useGreWordListLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type GreWordListQueryHookResult = ReturnType<typeof useGreWordListQuery>;
 export type GreWordListLazyQueryHookResult = ReturnType<typeof useGreWordListLazyQuery>;
 export type GreWordListQueryResult = Apollo.QueryResult<GreWordListQuery, GreWordListQueryVariables>;
+export const GreWordListReferenceUsersDocument = gql`
+    query GreWordListReferenceUsers($where: UserWhereInput) {
+  users(where: $where) {
+    id
+    email
+  }
+}
+    `;
+
+/**
+ * __useGreWordListReferenceUsersQuery__
+ *
+ * To run a query within a React component, call `useGreWordListReferenceUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGreWordListReferenceUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGreWordListReferenceUsersQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useGreWordListReferenceUsersQuery(baseOptions?: Apollo.QueryHookOptions<GreWordListReferenceUsersQuery, GreWordListReferenceUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GreWordListReferenceUsersQuery, GreWordListReferenceUsersQueryVariables>(GreWordListReferenceUsersDocument, options);
+      }
+export function useGreWordListReferenceUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GreWordListReferenceUsersQuery, GreWordListReferenceUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GreWordListReferenceUsersQuery, GreWordListReferenceUsersQueryVariables>(GreWordListReferenceUsersDocument, options);
+        }
+export type GreWordListReferenceUsersQueryHookResult = ReturnType<typeof useGreWordListReferenceUsersQuery>;
+export type GreWordListReferenceUsersLazyQueryHookResult = ReturnType<typeof useGreWordListReferenceUsersLazyQuery>;
+export type GreWordListReferenceUsersQueryResult = Apollo.QueryResult<GreWordListReferenceUsersQuery, GreWordListReferenceUsersQueryVariables>;
 export const GreWordShowDocument = gql`
     query GreWordShow($where: GreWordWhereUniqueInput) {
   greWord(where: $where) {

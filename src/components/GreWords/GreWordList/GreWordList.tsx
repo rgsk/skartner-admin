@@ -1,5 +1,8 @@
-import { GreWordListDocument } from "gql/graphql";
-import { Datagrid, List, TextField } from "react-admin";
+import {
+  GreWordListDocument,
+  GreWordListReferenceUsersDocument,
+} from "gql/graphql";
+import { Datagrid, List, ReferenceField, TextField } from "react-admin";
 
 interface IGreWordListProps {}
 const GreWordList: React.FC<IGreWordListProps> = ({}) => {
@@ -14,6 +17,18 @@ const GreWordList: React.FC<IGreWordListProps> = ({}) => {
       <Datagrid rowClick="show">
         <TextField source="id"></TextField>
         <TextField source="spelling"></TextField>
+        <ReferenceField
+          label="User"
+          source="userId"
+          reference="users"
+          queryOptions={{
+            meta: {
+              query: GreWordListReferenceUsersDocument,
+            },
+          }}
+        >
+          <TextField source="email" />
+        </ReferenceField>
       </Datagrid>
     </List>
   );

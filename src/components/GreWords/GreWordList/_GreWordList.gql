@@ -2,6 +2,14 @@ query GreWordList($where: GreWordWhereInput, $skip: Int, $take: Int) {
   greWords(where: $where, skip: $skip, take: $take) {
     id
     spelling
+    userId
   }
   total: greWordsCount(where: $where)
+}
+
+query GreWordListReferenceUsers($where: UserWhereInput) {
+  users(where: $where) {
+    id
+    email
+  }
 }
