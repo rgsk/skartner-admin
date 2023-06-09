@@ -1,0 +1,13 @@
+query GreWordShow($where: GreWordWhereUniqueInput) {
+  greWord(where: $where) {
+    id
+    spelling
+    gptPrompts {
+      id
+      input
+      response
+      editedResponse
+      greWordId
+    }
+  }
+}

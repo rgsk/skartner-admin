@@ -1,15 +1,11 @@
-fragment UserFields on User {
-  id
-  email
-  meta {
-    defaultGreWordSearchPromptInput
-    showDefaultGreWordSearchPromptInputs
-  }
-}
-
-query users($where: UserWhereInput, $skip: Int, $take: Int) {
+query UserList($where: UserWhereInput, $skip: Int, $take: Int) {
   users(where: $where, skip: $skip, take: $take) {
-    ...UserFields
+    id
+    email
+    meta {
+      defaultGreWordSearchPromptInput
+      showDefaultGreWordSearchPromptInputs
+    }
   }
   total: usersCount(where: $where)
 }

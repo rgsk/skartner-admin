@@ -120,6 +120,10 @@ export type GreWordWhereInput = {
   userId?: InputMaybe<StringFilter>;
 };
 
+export type GreWordWhereUniqueInput = {
+  id?: InputMaybe<Scalars['String']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createDraft?: Maybe<Post>;
@@ -251,6 +255,7 @@ export type Query = {
   drafts?: Maybe<Array<Maybe<Post>>>;
   gptPrompts?: Maybe<Array<Maybe<GptPrompt>>>;
   greConfiguration: GreConfiguration;
+  greWord?: Maybe<GreWord>;
   greWordSearchPromptInputs: Array<GreWordSearchPromptInput>;
   greWordTags: Array<GreWordTag>;
   greWords: Array<GreWord>;
@@ -272,6 +277,11 @@ export type QueryAllPostsArgs = {
 export type QueryGptPromptsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QueryGreWordArgs = {
+  where?: InputMaybe<GreWordWhereUniqueInput>;
 };
 
 
@@ -382,47 +392,53 @@ export type HelloWorld = {
   message: Scalars['String'];
 };
 
-export type UserFieldsFragment = { __typename?: 'User', id: string, email: string, meta: { __typename?: 'UserMetaParsedJsonValue', defaultGreWordSearchPromptInput?: string | null, showDefaultGreWordSearchPromptInputs?: boolean | null } };
+export type GreWordListQueryVariables = Exact<{
+  where?: InputMaybe<GreWordWhereInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+}>;
 
-export type UsersQueryVariables = Exact<{
+
+export type GreWordListQuery = { __typename?: 'Query', total: number, greWords: Array<{ __typename?: 'GreWord', id: string, spelling: string }> };
+
+export type GreWordShowQueryVariables = Exact<{
+  where?: InputMaybe<GreWordWhereUniqueInput>;
+}>;
+
+
+export type GreWordShowQuery = { __typename?: 'Query', greWord?: { __typename?: 'GreWord', id: string, spelling: string, gptPrompts: Array<{ __typename?: 'GptPrompt', id: string, input: string, response: string, editedResponse?: string | null, greWordId?: string | null }> } | null };
+
+export type UserListQueryVariables = Exact<{
   where?: InputMaybe<UserWhereInput>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type UsersQuery = { __typename?: 'Query', total: number, users: Array<{ __typename?: 'User', id: string, email: string, meta: { __typename?: 'UserMetaParsedJsonValue', defaultGreWordSearchPromptInput?: string | null, showDefaultGreWordSearchPromptInputs?: boolean | null } }> };
+export type UserListQuery = { __typename?: 'Query', total: number, users: Array<{ __typename?: 'User', id: string, email: string, meta: { __typename?: 'UserMetaParsedJsonValue', defaultGreWordSearchPromptInput?: string | null, showDefaultGreWordSearchPromptInputs?: boolean | null } }> };
 
-export const UserFieldsFragmentDoc = gql`
-    fragment UserFields on User {
-  id
-  email
-  meta {
-    defaultGreWordSearchPromptInput
-    showDefaultGreWordSearchPromptInputs
+
+export const GreWordListDocument = gql`
+    query GreWordList($where: GreWordWhereInput, $skip: Int, $take: Int) {
+  greWords(where: $where, skip: $skip, take: $take) {
+    id
+    spelling
   }
+  total: greWordsCount(where: $where)
 }
     `;
-export const UsersDocument = gql`
-    query users($where: UserWhereInput, $skip: Int, $take: Int) {
-  users(where: $where, skip: $skip, take: $take) {
-    ...UserFields
-  }
-  total: usersCount(where: $where)
-}
-    ${UserFieldsFragmentDoc}`;
 
 /**
- * __useUsersQuery__
+ * __useGreWordListQuery__
  *
- * To run a query within a React component, call `useUsersQuery` and pass it any options that fit your needs.
- * When your component renders, `useUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGreWordListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGreWordListQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUsersQuery({
+ * const { data, loading, error } = useGreWordListQuery({
  *   variables: {
  *      where: // value for 'where'
  *      skip: // value for 'skip'
@@ -430,14 +446,100 @@ export const UsersDocument = gql`
  *   },
  * });
  */
-export function useUsersQuery(baseOptions?: Apollo.QueryHookOptions<UsersQuery, UsersQueryVariables>) {
+export function useGreWordListQuery(baseOptions?: Apollo.QueryHookOptions<GreWordListQuery, GreWordListQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UsersQuery, UsersQueryVariables>(UsersDocument, options);
+        return Apollo.useQuery<GreWordListQuery, GreWordListQueryVariables>(GreWordListDocument, options);
       }
-export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsersQuery, UsersQueryVariables>) {
+export function useGreWordListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GreWordListQuery, GreWordListQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UsersQuery, UsersQueryVariables>(UsersDocument, options);
+          return Apollo.useLazyQuery<GreWordListQuery, GreWordListQueryVariables>(GreWordListDocument, options);
         }
-export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
-export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
-export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;
+export type GreWordListQueryHookResult = ReturnType<typeof useGreWordListQuery>;
+export type GreWordListLazyQueryHookResult = ReturnType<typeof useGreWordListLazyQuery>;
+export type GreWordListQueryResult = Apollo.QueryResult<GreWordListQuery, GreWordListQueryVariables>;
+export const GreWordShowDocument = gql`
+    query GreWordShow($where: GreWordWhereUniqueInput) {
+  greWord(where: $where) {
+    id
+    spelling
+    gptPrompts {
+      id
+      input
+      response
+      editedResponse
+      greWordId
+    }
+  }
+}
+    `;
+
+/**
+ * __useGreWordShowQuery__
+ *
+ * To run a query within a React component, call `useGreWordShowQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGreWordShowQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGreWordShowQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useGreWordShowQuery(baseOptions?: Apollo.QueryHookOptions<GreWordShowQuery, GreWordShowQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GreWordShowQuery, GreWordShowQueryVariables>(GreWordShowDocument, options);
+      }
+export function useGreWordShowLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GreWordShowQuery, GreWordShowQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GreWordShowQuery, GreWordShowQueryVariables>(GreWordShowDocument, options);
+        }
+export type GreWordShowQueryHookResult = ReturnType<typeof useGreWordShowQuery>;
+export type GreWordShowLazyQueryHookResult = ReturnType<typeof useGreWordShowLazyQuery>;
+export type GreWordShowQueryResult = Apollo.QueryResult<GreWordShowQuery, GreWordShowQueryVariables>;
+export const UserListDocument = gql`
+    query UserList($where: UserWhereInput, $skip: Int, $take: Int) {
+  users(where: $where, skip: $skip, take: $take) {
+    id
+    email
+    meta {
+      defaultGreWordSearchPromptInput
+      showDefaultGreWordSearchPromptInputs
+    }
+  }
+  total: usersCount(where: $where)
+}
+    `;
+
+/**
+ * __useUserListQuery__
+ *
+ * To run a query within a React component, call `useUserListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserListQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *      skip: // value for 'skip'
+ *      take: // value for 'take'
+ *   },
+ * });
+ */
+export function useUserListQuery(baseOptions?: Apollo.QueryHookOptions<UserListQuery, UserListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserListQuery, UserListQueryVariables>(UserListDocument, options);
+      }
+export function useUserListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserListQuery, UserListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserListQuery, UserListQueryVariables>(UserListDocument, options);
+        }
+export type UserListQueryHookResult = ReturnType<typeof useUserListQuery>;
+export type UserListLazyQueryHookResult = ReturnType<typeof useUserListLazyQuery>;
+export type UserListQueryResult = Apollo.QueryResult<UserListQuery, UserListQueryVariables>;

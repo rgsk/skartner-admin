@@ -1,0 +1,7 @@
+query GreWordList($where: GreWordWhereInput, $skip: Int, $take: Int) {
+  greWords(where: $where, skip: $skip, take: $take) {
+    id
+    spelling
+  }
+  total: greWordsCount(where: $where)
+}

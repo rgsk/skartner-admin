@@ -1,4 +1,4 @@
-import { UsersDocument } from "gql/graphql";
+import { UserListDocument } from "gql/graphql";
 import {
   BooleanField,
   Datagrid,
@@ -11,7 +11,7 @@ const UserList = () => {
     <List
       queryOptions={{
         meta: {
-          query: UsersDocument,
+          query: UserListDocument,
         },
       }}
     >
