@@ -5,12 +5,8 @@ import {
   EmailField,
   List,
   TextField,
-  useGetList,
 } from "react-admin";
-
 const UserList = () => {
-  const { data } = useGetList("users", { meta: { query: UsersDocument } });
-  console.log({ useGetList: data });
   return (
     <List
       queryOptions={{
