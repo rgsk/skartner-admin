@@ -117,6 +117,7 @@ export type GreWordWhereInput = {
   id?: InputMaybe<StringFilter>;
   spelling?: InputMaybe<StringFilter>;
   status?: InputMaybe<EnumGreWordStatusFilter>;
+  user?: InputMaybe<UserWhereInput>;
   userId?: InputMaybe<StringFilter>;
 };
 

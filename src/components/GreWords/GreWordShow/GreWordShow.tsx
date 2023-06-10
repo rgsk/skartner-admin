@@ -7,24 +7,30 @@ import {
   useRecordContext,
 } from "react-admin";
 
+type GreRecord = Exclude<GreWordShowQuery["greWord"], undefined | null>;
+
+const getSource = (v: keyof GreRecord) => {
+  return v;
+};
+
 interface IGreWordShowProps {}
 const GreWordShow: React.FC<IGreWordShowProps> = ({}) => {
   return (
     <Show queryOptions={{ meta: { query: GreWordShowDocument } }}>
       <SimpleShowLayout>
-        <TextField source="id" />
-        <TextField source="spelling" />
+        <TextField source={getSource("id")} />
+        <TextField source={getSource("spelling")} />
         <RenderPrompts />
       </SimpleShowLayout>
     </Show>
   );
 };
+
 export default GreWordShow;
 
 interface IRenderPromptsProps {}
 const RenderPrompts: React.FC<IRenderPromptsProps> = ({}) => {
-  const greWord =
-    useRecordContext<Exclude<GreWordShowQuery["greWord"], undefined | null>>();
+  const greWord = useRecordContext<GreRecord>();
 
   return (
     <Box>
