@@ -18,6 +18,9 @@ export const dataProvider: Partial<DataProvider> = {
         skip: (page - 1) * perPage,
         take: perPage,
         where: dataProviderUtils.getWhereObject(params.filter),
+        orderBy: {
+          [field]: order.toLowerCase(),
+        },
       },
     });
     const returnValue = {

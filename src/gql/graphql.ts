@@ -57,6 +57,10 @@ export type GreWord = {
   userId?: Maybe<Scalars['String']>;
 };
 
+export type GreWordOrderByWithRelationInput = {
+  spelling?: InputMaybe<SortOrder>;
+};
+
 export type GreWordSearchPromptInput = {
   __typename?: 'GreWordSearchPromptInput';
   createdAt: Scalars['String'];
@@ -301,6 +305,7 @@ export type QueryGreWordTagsArgs = {
 
 
 export type QueryGreWordsArgs = {
+  orderBy?: InputMaybe<GreWordOrderByWithRelationInput>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GreWordWhereInput>;
@@ -318,6 +323,7 @@ export type QuerySendSinglePromptArgs = {
 
 
 export type QueryUsersArgs = {
+  orderBy?: InputMaybe<UserOrderByWithRelationInput>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<UserWhereInput>;
@@ -327,6 +333,11 @@ export type QueryUsersArgs = {
 export type QueryUsersCountArgs = {
   where?: InputMaybe<UserWhereInput>;
 };
+
+export enum SortOrder {
+  Asc = 'asc',
+  Desc = 'desc'
+}
 
 export type StringFilter = {
   contains?: InputMaybe<Scalars['String']>;
@@ -383,6 +394,10 @@ export type UserMetaParsedJsonValueInput = {
   showDefaultGreWordSearchPromptInputs?: InputMaybe<Scalars['Boolean']>;
 };
 
+export type UserOrderByWithRelationInput = {
+  email?: InputMaybe<SortOrder>;
+};
+
 export type UserWhereInput = {
   email?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
@@ -397,6 +412,7 @@ export type GreWordListQueryVariables = Exact<{
   where?: InputMaybe<GreWordWhereInput>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<GreWordOrderByWithRelationInput>;
 }>;
 
 
@@ -420,6 +436,7 @@ export type UserListQueryVariables = Exact<{
   where?: InputMaybe<UserWhereInput>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<UserOrderByWithRelationInput>;
 }>;
 
 
@@ -427,8 +444,8 @@ export type UserListQuery = { __typename?: 'Query', total: number, users: Array<
 
 
 export const GreWordListDocument = gql`
-    query GreWordList($where: GreWordWhereInput, $skip: Int, $take: Int) {
-  greWords(where: $where, skip: $skip, take: $take) {
+    query GreWordList($where: GreWordWhereInput, $skip: Int, $take: Int, $orderBy: GreWordOrderByWithRelationInput) {
+  greWords(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
     id
     spelling
     userId
@@ -452,6 +469,7 @@ export const GreWordListDocument = gql`
  *      where: // value for 'where'
  *      skip: // value for 'skip'
  *      take: // value for 'take'
+ *      orderBy: // value for 'orderBy'
  *   },
  * });
  */
@@ -546,8 +564,8 @@ export type GreWordShowQueryHookResult = ReturnType<typeof useGreWordShowQuery>;
 export type GreWordShowLazyQueryHookResult = ReturnType<typeof useGreWordShowLazyQuery>;
 export type GreWordShowQueryResult = Apollo.QueryResult<GreWordShowQuery, GreWordShowQueryVariables>;
 export const UserListDocument = gql`
-    query UserList($where: UserWhereInput, $skip: Int, $take: Int) {
-  users(where: $where, skip: $skip, take: $take) {
+    query UserList($where: UserWhereInput, $skip: Int, $take: Int, $orderBy: UserOrderByWithRelationInput) {
+  users(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
     id
     email
     meta {
@@ -574,6 +592,7 @@ export const UserListDocument = gql`
  *      where: // value for 'where'
  *      skip: // value for 'skip'
  *      take: // value for 'take'
+ *      orderBy: // value for 'orderBy'
  *   },
  * });
  */

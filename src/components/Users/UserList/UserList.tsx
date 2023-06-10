@@ -16,9 +16,12 @@ const UserList = () => {
       }}
     >
       <Datagrid>
-        <TextField source="id" />
+        <TextField source="id" sortable={false} />
         <EmailField source="email" />
-        <BooleanField source="meta.showDefaultGreWordSearchPromptInputs" />
+        <BooleanField
+          source="meta.showDefaultGreWordSearchPromptInputs"
+          sortable={false}
+        />
       </Datagrid>
     </List>
   );

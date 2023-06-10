@@ -25,7 +25,7 @@ const GreWordList: React.FC<IGreWordListProps> = ({}) => {
       ]}
     >
       <Datagrid rowClick="show">
-        <TextField source="id"></TextField>
+        <TextField source="id" sortable={false}></TextField>
         <TextField source="spelling"></TextField>
         <ReferenceField
           label="User"
@@ -36,6 +36,7 @@ const GreWordList: React.FC<IGreWordListProps> = ({}) => {
               query: GreWordListReferenceUsersDocument,
             },
           }}
+          sortable={false}
         >
           <TextField source="email" />
         </ReferenceField>

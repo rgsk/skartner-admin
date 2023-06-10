@@ -1,5 +1,10 @@
-query UserList($where: UserWhereInput, $skip: Int, $take: Int) {
-  users(where: $where, skip: $skip, take: $take) {
+query UserList(
+  $where: UserWhereInput
+  $skip: Int
+  $take: Int
+  $orderBy: UserOrderByWithRelationInput
+) {
+  users(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
     id
     email
     meta {
