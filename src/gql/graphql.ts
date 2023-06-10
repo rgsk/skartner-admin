@@ -81,6 +81,11 @@ export type GreWordSearchPromptInputWhereInput = {
   userId?: InputMaybe<StringFilter>;
 };
 
+export type GreWordSpellingUserIdCompoundUniqueInput = {
+  spelling: Scalars['String'];
+  userId: Scalars['String'];
+};
+
 export enum GreWordStatus {
   AlmostLearnt = 'ALMOST_LEARNT',
   FinishedLearning = 'FINISHED_LEARNING',
@@ -130,11 +135,13 @@ export type GreWordWhereInput = {
 
 export type GreWordWhereUniqueInput = {
   id?: InputMaybe<Scalars['String']>;
+  spelling_userId?: InputMaybe<GreWordSpellingUserIdCompoundUniqueInput>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   createDraft?: Maybe<Post>;
+  createGptPrompt: GptPrompt;
   createGreWord: GreWord;
   createGreWordSearchPromptInput: GreWordSearchPromptInput;
   createGreWordTag: GreWordTag;
@@ -158,11 +165,19 @@ export type MutationCreateDraftArgs = {
 };
 
 
+export type MutationCreateGptPromptArgs = {
+  greWordId: Scalars['String'];
+  input: Scalars['String'];
+  response: Scalars['String'];
+};
+
+
 export type MutationCreateGreWordArgs = {
   greWordTags?: InputMaybe<Array<InputMaybe<GreWordTagWhereUniqueInput>>>;
   promptInput: Scalars['String'];
   promptResponse: Scalars['String'];
   spelling: Scalars['String'];
+  status?: InputMaybe<GreWordStatus>;
   userId: Scalars['String'];
 };
 
@@ -225,7 +240,7 @@ export type MutationUpdateGptPromptArgs = {
 export type MutationUpdateGreWordArgs = {
   greWordTags?: InputMaybe<Array<InputMaybe<GreWordTagWhereUniqueInput>>>;
   id: Scalars['String'];
-  status?: InputMaybe<Scalars['String']>;
+  status?: InputMaybe<GreWordStatus>;
 };
 
 
@@ -358,14 +373,8 @@ export type StringFilter = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  greWordCreated?: Maybe<GreWord>;
   notificationReceived?: Maybe<Notification>;
   truths?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type SubscriptionGreWordCreatedArgs = {
-  userId: Scalars['String'];
 };
 
 
