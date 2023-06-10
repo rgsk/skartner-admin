@@ -8,6 +8,7 @@ query GreWordList(
     id
     spelling
     userId
+    updatedAt
   }
   total: greWordsCount(where: $where)
 }

@@ -11,6 +11,7 @@ query UserList(
       defaultGreWordSearchPromptInput
       showDefaultGreWordSearchPromptInputs
     }
+    createdAt
   }
   total: usersCount(where: $where)
 }

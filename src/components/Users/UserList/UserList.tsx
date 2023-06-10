@@ -2,6 +2,7 @@ import { UserListDocument } from "gql/graphql";
 import {
   BooleanField,
   Datagrid,
+  DateField,
   EmailField,
   List,
   TextField,
@@ -22,6 +23,7 @@ const UserList = () => {
           source="meta.showDefaultGreWordSearchPromptInputs"
           sortable={false}
         />
+        <DateField source="createdAt" />
       </Datagrid>
     </List>
   );

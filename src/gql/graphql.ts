@@ -58,7 +58,10 @@ export type GreWord = {
 };
 
 export type GreWordOrderByWithRelationInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
   spelling?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
 };
 
 export type GreWordSearchPromptInput = {
@@ -395,7 +398,10 @@ export type UserMetaParsedJsonValueInput = {
 };
 
 export type UserOrderByWithRelationInput = {
+  createdAt?: InputMaybe<SortOrder>;
   email?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
 };
 
 export type UserWhereInput = {
@@ -416,7 +422,7 @@ export type GreWordListQueryVariables = Exact<{
 }>;
 
 
-export type GreWordListQuery = { __typename?: 'Query', total: number, greWords: Array<{ __typename?: 'GreWord', id: string, spelling: string, userId?: string | null }> };
+export type GreWordListQuery = { __typename?: 'Query', total: number, greWords: Array<{ __typename?: 'GreWord', id: string, spelling: string, userId?: string | null, updatedAt: string }> };
 
 export type GreWordListReferenceUsersQueryVariables = Exact<{
   where?: InputMaybe<UserWhereInput>;
@@ -440,7 +446,7 @@ export type UserListQueryVariables = Exact<{
 }>;
 
 
-export type UserListQuery = { __typename?: 'Query', total: number, users: Array<{ __typename?: 'User', id: string, email: string, meta: { __typename?: 'UserMetaParsedJsonValue', defaultGreWordSearchPromptInput?: string | null, showDefaultGreWordSearchPromptInputs?: boolean | null } }> };
+export type UserListQuery = { __typename?: 'Query', total: number, users: Array<{ __typename?: 'User', id: string, email: string, createdAt: string, meta: { __typename?: 'UserMetaParsedJsonValue', defaultGreWordSearchPromptInput?: string | null, showDefaultGreWordSearchPromptInputs?: boolean | null } }> };
 
 
 export const GreWordListDocument = gql`
@@ -449,6 +455,7 @@ export const GreWordListDocument = gql`
     id
     spelling
     userId
+    updatedAt
   }
   total: greWordsCount(where: $where)
 }
@@ -572,6 +579,7 @@ export const UserListDocument = gql`
       defaultGreWordSearchPromptInput
       showDefaultGreWordSearchPromptInputs
     }
+    createdAt
   }
   total: usersCount(where: $where)
 }

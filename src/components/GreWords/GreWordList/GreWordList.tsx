@@ -4,6 +4,7 @@ import {
 } from "gql/graphql";
 import {
   Datagrid,
+  DateField,
   List,
   ReferenceField,
   TextField,
@@ -40,6 +41,7 @@ const GreWordList: React.FC<IGreWordListProps> = ({}) => {
         >
           <TextField source="email" />
         </ReferenceField>
+        <DateField source="updatedAt" />
       </Datagrid>
     </List>
   );
