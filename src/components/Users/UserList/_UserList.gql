@@ -2,7 +2,7 @@ query UserList(
   $where: UserWhereInput
   $skip: Int
   $take: Int
-  $orderBy: UserOrderByWithRelationInput
+  $orderBy: [UserOrderByWithRelationInput]
 ) {
   users(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
     id

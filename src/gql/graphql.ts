@@ -308,7 +308,7 @@ export type QueryGreWordTagsArgs = {
 
 
 export type QueryGreWordsArgs = {
-  orderBy?: InputMaybe<GreWordOrderByWithRelationInput>;
+  orderBy?: InputMaybe<Array<InputMaybe<GreWordOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<GreWordWhereInput>;
@@ -326,7 +326,7 @@ export type QuerySendSinglePromptArgs = {
 
 
 export type QueryUsersArgs = {
-  orderBy?: InputMaybe<UserOrderByWithRelationInput>;
+  orderBy?: InputMaybe<Array<InputMaybe<UserOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<UserWhereInput>;
@@ -418,7 +418,7 @@ export type GreWordListQueryVariables = Exact<{
   where?: InputMaybe<GreWordWhereInput>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<GreWordOrderByWithRelationInput>;
+  orderBy?: InputMaybe<Array<InputMaybe<GreWordOrderByWithRelationInput>> | InputMaybe<GreWordOrderByWithRelationInput>>;
 }>;
 
 
@@ -442,7 +442,7 @@ export type UserListQueryVariables = Exact<{
   where?: InputMaybe<UserWhereInput>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<UserOrderByWithRelationInput>;
+  orderBy?: InputMaybe<Array<InputMaybe<UserOrderByWithRelationInput>> | InputMaybe<UserOrderByWithRelationInput>>;
 }>;
 
 
@@ -450,7 +450,7 @@ export type UserListQuery = { __typename?: 'Query', total: number, users: Array<
 
 
 export const GreWordListDocument = gql`
-    query GreWordList($where: GreWordWhereInput, $skip: Int, $take: Int, $orderBy: GreWordOrderByWithRelationInput) {
+    query GreWordList($where: GreWordWhereInput, $skip: Int, $take: Int, $orderBy: [GreWordOrderByWithRelationInput]) {
   greWords(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
     id
     spelling
@@ -571,7 +571,7 @@ export type GreWordShowQueryHookResult = ReturnType<typeof useGreWordShowQuery>;
 export type GreWordShowLazyQueryHookResult = ReturnType<typeof useGreWordShowLazyQuery>;
 export type GreWordShowQueryResult = Apollo.QueryResult<GreWordShowQuery, GreWordShowQueryVariables>;
 export const UserListDocument = gql`
-    query UserList($where: UserWhereInput, $skip: Int, $take: Int, $orderBy: UserOrderByWithRelationInput) {
+    query UserList($where: UserWhereInput, $skip: Int, $take: Int, $orderBy: [UserOrderByWithRelationInput]) {
   users(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
     id
     email

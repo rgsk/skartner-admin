@@ -2,7 +2,7 @@ query GreWordList(
   $where: GreWordWhereInput
   $skip: Int
   $take: Int
-  $orderBy: GreWordOrderByWithRelationInput
+  $orderBy: [GreWordOrderByWithRelationInput]
 ) {
   greWords(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
     id
