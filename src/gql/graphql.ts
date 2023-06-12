@@ -355,6 +355,7 @@ export type QueryUserSessionArgs = {
 
 
 export type QueryUserSessionsArgs = {
+  orderBy?: InputMaybe<Array<InputMaybe<UserSessionOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<UserSessionWhereInput>;
@@ -459,6 +460,15 @@ export type UserSessionMetaParsedJsonValueInput = {
   none?: InputMaybe<Scalars['String']>;
 };
 
+export type UserSessionOrderByWithRelationInput = {
+  duration?: InputMaybe<SortOrder>;
+  endedAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  startedAt?: InputMaybe<SortOrder>;
+  user?: InputMaybe<UserOrderByWithRelationInput>;
+  userId?: InputMaybe<SortOrder>;
+};
+
 export type UserSessionWhereInput = {
   id?: InputMaybe<StringFilter>;
   user?: InputMaybe<UserWhereInput>;
@@ -512,10 +522,11 @@ export type UserSessionListQueryVariables = Exact<{
   where?: InputMaybe<UserSessionWhereInput>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<InputMaybe<UserSessionOrderByWithRelationInput>> | InputMaybe<UserSessionOrderByWithRelationInput>>;
 }>;
 
 
-export type UserSessionListQuery = { __typename?: 'Query', total: number, userSessions: Array<{ __typename?: 'UserSession', id: string, startedAt: string, endedAt?: string | null, duration?: number | null, user: { __typename?: 'User', email: string, meta: { __typename?: 'UserMetaParsedJsonValue', showDefaultGreWordSearchPromptInputs?: boolean | null } } }> };
+export type UserSessionListQuery = { __typename?: 'Query', total: number, userSessions: Array<{ __typename?: 'UserSession', id: string, startedAt: string, endedAt?: string | null, duration?: number | null, user: { __typename?: 'User', email: string } }> };
 
 export type UserListQueryVariables = Exact<{
   where?: InputMaybe<UserWhereInput>;
@@ -650,14 +661,11 @@ export type GreWordShowQueryHookResult = ReturnType<typeof useGreWordShowQuery>;
 export type GreWordShowLazyQueryHookResult = ReturnType<typeof useGreWordShowLazyQuery>;
 export type GreWordShowQueryResult = Apollo.QueryResult<GreWordShowQuery, GreWordShowQueryVariables>;
 export const UserSessionListDocument = gql`
-    query UserSessionList($where: UserSessionWhereInput, $skip: Int, $take: Int) {
-  userSessions(where: $where, skip: $skip, take: $take) {
+    query UserSessionList($where: UserSessionWhereInput, $skip: Int, $take: Int, $orderBy: [UserSessionOrderByWithRelationInput]) {
+  userSessions(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
     id
     user {
       email
-      meta {
-        showDefaultGreWordSearchPromptInputs
-      }
     }
     startedAt
     endedAt
@@ -682,6 +690,7 @@ export const UserSessionListDocument = gql`
  *      where: // value for 'where'
  *      skip: // value for 'skip'
  *      take: // value for 'take'
+ *      orderBy: // value for 'orderBy'
  *   },
  * });
  */

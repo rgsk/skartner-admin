@@ -1,11 +1,13 @@
-query UserSessionList($where: UserSessionWhereInput, $skip: Int, $take: Int) {
-  userSessions(where: $where, skip: $skip, take: $take) {
+query UserSessionList(
+  $where: UserSessionWhereInput
+  $skip: Int
+  $take: Int
+  $orderBy: [UserSessionOrderByWithRelationInput]
+) {
+  userSessions(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
     id
     user {
       email
-      meta {
-        showDefaultGreWordSearchPromptInputs
-      }
     }
     startedAt
     endedAt
