@@ -1,0 +1,15 @@
+query UserSessionList($where: UserSessionWhereInput, $skip: Int, $take: Int) {
+  userSessions(where: $where, skip: $skip, take: $take) {
+    id
+    user {
+      email
+      meta {
+        showDefaultGreWordSearchPromptInputs
+      }
+    }
+    startedAt
+    endedAt
+    duration
+  }
+  total: userSessionsCount(where: $where)
+}

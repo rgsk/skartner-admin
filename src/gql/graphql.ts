@@ -286,6 +286,10 @@ export type Query = {
   hello: HelloWorld;
   posts?: Maybe<Array<Maybe<Post>>>;
   sendSinglePrompt?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
+  userSession?: Maybe<UserSession>;
+  userSessions: Array<UserSession>;
+  userSessionsCount: Scalars['Int'];
   users: Array<User>;
   usersCount: Scalars['Int'];
 };
@@ -337,6 +341,28 @@ export type QueryGreWordsCountArgs = {
 
 export type QuerySendSinglePromptArgs = {
   input: Scalars['String'];
+};
+
+
+export type QueryUserArgs = {
+  where: UserWhereUniqueInput;
+};
+
+
+export type QueryUserSessionArgs = {
+  where: UserSessionWhereUniqueInput;
+};
+
+
+export type QueryUserSessionsArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<UserSessionWhereInput>;
+};
+
+
+export type QueryUserSessionsCountArgs = {
+  where?: InputMaybe<UserSessionWhereInput>;
 };
 
 
@@ -413,9 +439,44 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: InputMaybe<SortOrder>;
 };
 
+export type UserSession = {
+  __typename?: 'UserSession';
+  duration?: Maybe<Scalars['Int']>;
+  endedAt?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  meta: UserSessionMetaParsedJsonValue;
+  startedAt: Scalars['String'];
+  user: User;
+  userId: Scalars['String'];
+};
+
+export type UserSessionMetaParsedJsonValue = {
+  __typename?: 'UserSessionMetaParsedJsonValue';
+  none?: Maybe<Scalars['String']>;
+};
+
+export type UserSessionMetaParsedJsonValueInput = {
+  none?: InputMaybe<Scalars['String']>;
+};
+
+export type UserSessionWhereInput = {
+  id?: InputMaybe<StringFilter>;
+  user?: InputMaybe<UserWhereInput>;
+  userId?: InputMaybe<StringFilter>;
+};
+
+export type UserSessionWhereUniqueInput = {
+  id?: InputMaybe<Scalars['String']>;
+};
+
 export type UserWhereInput = {
   email?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
+};
+
+export type UserWhereUniqueInput = {
+  email?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
 };
 
 export type HelloWorld = {
@@ -446,6 +507,15 @@ export type GreWordShowQueryVariables = Exact<{
 
 
 export type GreWordShowQuery = { __typename?: 'Query', greWord?: { __typename?: 'GreWord', id: string, spelling: string, gptPrompts: Array<{ __typename?: 'GptPrompt', id: string, input: string, response: string, editedResponse?: string | null, greWordId?: string | null }> } | null };
+
+export type UserSessionListQueryVariables = Exact<{
+  where?: InputMaybe<UserSessionWhereInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type UserSessionListQuery = { __typename?: 'Query', total: number, userSessions: Array<{ __typename?: 'UserSession', id: string, startedAt: string, endedAt?: string | null, duration?: number | null, user: { __typename?: 'User', email: string, meta: { __typename?: 'UserMetaParsedJsonValue', showDefaultGreWordSearchPromptInputs?: boolean | null } } }> };
 
 export type UserListQueryVariables = Exact<{
   where?: InputMaybe<UserWhereInput>;
@@ -579,6 +649,53 @@ export function useGreWordShowLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type GreWordShowQueryHookResult = ReturnType<typeof useGreWordShowQuery>;
 export type GreWordShowLazyQueryHookResult = ReturnType<typeof useGreWordShowLazyQuery>;
 export type GreWordShowQueryResult = Apollo.QueryResult<GreWordShowQuery, GreWordShowQueryVariables>;
+export const UserSessionListDocument = gql`
+    query UserSessionList($where: UserSessionWhereInput, $skip: Int, $take: Int) {
+  userSessions(where: $where, skip: $skip, take: $take) {
+    id
+    user {
+      email
+      meta {
+        showDefaultGreWordSearchPromptInputs
+      }
+    }
+    startedAt
+    endedAt
+    duration
+  }
+  total: userSessionsCount(where: $where)
+}
+    `;
+
+/**
+ * __useUserSessionListQuery__
+ *
+ * To run a query within a React component, call `useUserSessionListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserSessionListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserSessionListQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *      skip: // value for 'skip'
+ *      take: // value for 'take'
+ *   },
+ * });
+ */
+export function useUserSessionListQuery(baseOptions?: Apollo.QueryHookOptions<UserSessionListQuery, UserSessionListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserSessionListQuery, UserSessionListQueryVariables>(UserSessionListDocument, options);
+      }
+export function useUserSessionListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserSessionListQuery, UserSessionListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserSessionListQuery, UserSessionListQueryVariables>(UserSessionListDocument, options);
+        }
+export type UserSessionListQueryHookResult = ReturnType<typeof useUserSessionListQuery>;
+export type UserSessionListLazyQueryHookResult = ReturnType<typeof useUserSessionListLazyQuery>;
+export type UserSessionListQueryResult = Apollo.QueryResult<UserSessionListQuery, UserSessionListQueryVariables>;
 export const UserListDocument = gql`
     query UserList($where: UserWhereInput, $skip: Int, $take: Int, $orderBy: [UserOrderByWithRelationInput]) {
   users(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
