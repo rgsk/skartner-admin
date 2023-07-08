@@ -285,7 +285,7 @@ export type Query = {
   greWordsCount: Scalars['Int'];
   hello: HelloWorld;
   posts?: Maybe<Array<Maybe<Post>>>;
-  sendSinglePrompt?: Maybe<Scalars['String']>;
+  sendSinglePrompt: SendSinglePromptResponse;
   user?: Maybe<User>;
   userSession?: Maybe<UserSession>;
   userSessions: Array<UserSession>;
@@ -340,7 +340,10 @@ export type QueryGreWordsCountArgs = {
 
 
 export type QuerySendSinglePromptArgs = {
+  indexesReturned?: InputMaybe<Array<Scalars['Int']>>;
   input: Scalars['String'];
+  resultIndexFromCache?: InputMaybe<Scalars['Int']>;
+  skipCache?: InputMaybe<Scalars['Boolean']>;
 };
 
 
@@ -377,6 +380,14 @@ export type QueryUsersArgs = {
 
 export type QueryUsersCountArgs = {
   where?: InputMaybe<UserWhereInput>;
+};
+
+export type SendSinglePromptResponse = {
+  __typename?: 'SendSinglePromptResponse';
+  error?: Maybe<Scalars['String']>;
+  result?: Maybe<Scalars['String']>;
+  resultIndex?: Maybe<Scalars['Int']>;
+  totalResultsInCache: Scalars['Int'];
 };
 
 export enum SortOrder {
