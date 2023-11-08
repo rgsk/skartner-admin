@@ -53,6 +53,7 @@ const CustomLoginPage = (props: any) => {
   useEffect(() => {
     eventTracker.loginPageVisited();
   }, []);
+
   return (
     <Login {...props}>
       <CustomLoginForm {...props} />

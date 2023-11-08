@@ -146,7 +146,7 @@ export type Mutation = {
   createGreWordSearchPromptInput: GreWordSearchPromptInput;
   createGreWordTag: GreWordTag;
   createNotification: Notification;
-  createUser?: Maybe<User>;
+  createUser: User;
   deleteGptPrompt?: Maybe<GptPrompt>;
   deleteGreWord?: Maybe<GreWord>;
   deleteGreWordSearchPromptInput?: Maybe<GreWordSearchPromptInput>;

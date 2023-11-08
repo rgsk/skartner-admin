@@ -1,4 +1,11 @@
-import { ApolloClient, HttpLink, InMemoryCache, split } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  concat,
+  split,
+} from "@apollo/client";
 
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { getMainDefinition } from "@apollo/client/utilities";
@@ -10,6 +17,22 @@ const wsUrl = httpUrl.replace("http", "ws");
 
 const httpLink = new HttpLink({
   uri: httpUrl,
+});
+
+const authMiddleware = new ApolloLink((operation, forward) => {
+  const token = window.localStorage.getItem("token");
+
+  operation.setContext(({ headers = {} }) => ({
+    headers: {
+      ...headers,
+      ...(token
+        ? {
+            Authorization: `Bearer ${token}`,
+          }
+        : {}),
+    },
+  }));
+  return forward(operation);
 });
 
 const getSplitLink = () => {
@@ -33,14 +56,14 @@ const getSplitLink = () => {
       );
     },
     wsLink,
-    httpLink
+    concat(authMiddleware, httpLink)
   );
   return splitLink;
 };
 
 const apolloClient = new ApolloClient({
   // this check ensures that websocket connection is not initialized on server side
-  link: typeof window === "undefined" ? httpLink : getSplitLink(),
+  link: getSplitLink(),
   cache: new InMemoryCache(),
 });
 export default apolloClient;
