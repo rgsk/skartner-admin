@@ -45,13 +45,21 @@ const RenderPrompts: React.FC<IRenderPromptsProps> = ({}) => {
               </Typography>
             </Box>
             <Box sx={{ mt: 2 }}>
-              <Typography>Response: </Typography>
+              <Typography>Edited Response: </Typography>
               <Typography
                 sx={{
                   whiteSpace: "pre",
                 }}
               >
                 {gptPrompt.editedResponse}
+              </Typography>
+              <Typography>Response: </Typography>
+              <Typography
+                sx={{
+                  whiteSpace: "pre",
+                }}
+              >
+                {gptPrompt.cacheResponse.text}
               </Typography>
             </Box>
           </Box>
