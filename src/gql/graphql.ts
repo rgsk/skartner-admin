@@ -16,6 +16,47 @@ export type Scalars = {
   Json: any;
 };
 
+export type AuthenticateResponse = {
+  __typename?: 'AuthenticateResponse';
+  message: Scalars['String'];
+};
+
+export type CachePrompt = {
+  __typename?: 'CachePrompt';
+  cacheResponses: Array<CacheResponse>;
+  createdAt: Scalars['String'];
+  id: Scalars['String'];
+  meta: Scalars['Json'];
+  text: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
+export type CacheResponse = {
+  __typename?: 'CacheResponse';
+  cachePrompt: CachePrompt;
+  cacheWord: CacheWord;
+  createdAt: Scalars['String'];
+  gptPrompts: Array<GptPrompt>;
+  id: Scalars['String'];
+  meta: Scalars['Json'];
+  text: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
+export type CacheWord = {
+  __typename?: 'CacheWord';
+  cacheResponses: Array<CacheResponse>;
+  createdAt: Scalars['String'];
+  id: Scalars['String'];
+  meta: Scalars['Json'];
+  text: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
+export type CacheWordWhereInput = {
+  text?: InputMaybe<StringFilter>;
+};
+
 export type EnumGreWordStatusFilter = {
   equals?: InputMaybe<GreWordStatus>;
   in?: InputMaybe<Array<GreWordStatus>>;
@@ -25,14 +66,13 @@ export type EnumGreWordStatusFilter = {
 
 export type GptPrompt = {
   __typename?: 'GptPrompt';
+  cacheResponse: CacheResponse;
   createdAt: Scalars['String'];
   editedResponse?: Maybe<Scalars['String']>;
   greWord?: Maybe<GreWord>;
   greWordId?: Maybe<Scalars['String']>;
   id: Scalars['String'];
-  input: Scalars['String'];
   meta: Scalars['Json'];
-  response: Scalars['String'];
   updatedAt: Scalars['String'];
   user?: Maybe<User>;
   userId?: Maybe<Scalars['String']>;
@@ -45,12 +85,12 @@ export type GreConfiguration = {
 
 export type GreWord = {
   __typename?: 'GreWord';
+  cacheWord: CacheWord;
   createdAt: Scalars['String'];
   gptPrompts: Array<GptPrompt>;
   greWordTags?: Maybe<Array<GreWordTag>>;
   id: Scalars['String'];
   meta: Scalars['Json'];
-  spelling: Scalars['String'];
   status: GreWordStatus;
   updatedAt: Scalars['String'];
   user?: Maybe<User>;
@@ -60,7 +100,6 @@ export type GreWord = {
 export type GreWordOrderByWithRelationInput = {
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  spelling?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
 
@@ -71,19 +110,12 @@ export type GreWordSearchPromptInput = {
   meta: Scalars['Json'];
   text: Scalars['String'];
   updatedAt: Scalars['String'];
-  user: User;
-  userId: Scalars['String'];
 };
 
 export type GreWordSearchPromptInputWhereInput = {
   id?: InputMaybe<StringFilter>;
   text?: InputMaybe<StringFilter>;
-  userId?: InputMaybe<StringFilter>;
-};
-
-export type GreWordSpellingUserIdCompoundUniqueInput = {
-  spelling: Scalars['String'];
-  userId: Scalars['String'];
+  users?: InputMaybe<UserListRelationFilter>;
 };
 
 export enum GreWordStatus {
@@ -113,6 +145,11 @@ export type GreWordTagListRelationFilter = {
   some?: InputMaybe<GreWordTagWhereInput>;
 };
 
+export type GreWordTagNameUserIdCompoundUniqueInput = {
+  name: Scalars['String'];
+  userId: Scalars['String'];
+};
+
 export type GreWordTagWhereInput = {
   id?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringFilter>;
@@ -121,21 +158,21 @@ export type GreWordTagWhereInput = {
 
 export type GreWordTagWhereUniqueInput = {
   id?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  name_userId?: InputMaybe<GreWordTagNameUserIdCompoundUniqueInput>;
 };
 
 export type GreWordWhereInput = {
+  cacheWord?: InputMaybe<CacheWordWhereInput>;
   greWordTags?: InputMaybe<GreWordTagListRelationFilter>;
   id?: InputMaybe<StringFilter>;
-  spelling?: InputMaybe<StringFilter>;
   status?: InputMaybe<EnumGreWordStatusFilter>;
   user?: InputMaybe<UserWhereInput>;
   userId?: InputMaybe<StringFilter>;
 };
 
-export type GreWordWhereUniqueInput = {
-  id?: InputMaybe<Scalars['String']>;
-  spelling_userId?: InputMaybe<GreWordSpellingUserIdCompoundUniqueInput>;
+export type HelloWorld = {
+  __typename?: 'HelloWorld';
+  message: Scalars['String'];
 };
 
 export type Mutation = {
@@ -149,7 +186,6 @@ export type Mutation = {
   createUser: User;
   deleteGptPrompt?: Maybe<GptPrompt>;
   deleteGreWord?: Maybe<GreWord>;
-  deleteGreWordSearchPromptInput?: Maybe<GreWordSearchPromptInput>;
   deleteGreWordTag: GreWordTag;
   publish?: Maybe<Post>;
   updateGptPrompt?: Maybe<GptPrompt>;
@@ -166,17 +202,14 @@ export type MutationCreateDraftArgs = {
 
 
 export type MutationCreateGptPromptArgs = {
+  cacheResponseId: Scalars['String'];
   greWordId: Scalars['String'];
-  input: Scalars['String'];
-  response: Scalars['String'];
 };
 
 
 export type MutationCreateGreWordArgs = {
+  cacheResponseId: Scalars['String'];
   greWordTags?: InputMaybe<Array<InputMaybe<GreWordTagWhereUniqueInput>>>;
-  promptInput: Scalars['String'];
-  promptResponse: Scalars['String'];
-  spelling: Scalars['String'];
   status?: InputMaybe<GreWordStatus>;
   userId: Scalars['String'];
 };
@@ -216,13 +249,9 @@ export type MutationDeleteGreWordArgs = {
 };
 
 
-export type MutationDeleteGreWordSearchPromptInputArgs = {
-  id: Scalars['String'];
-};
-
-
 export type MutationDeleteGreWordTagArgs = {
   name: Scalars['String'];
+  userId: Scalars['String'];
 };
 
 
@@ -245,8 +274,10 @@ export type MutationUpdateGreWordArgs = {
 
 
 export type MutationUpdateGreWordSearchPromptInputArgs = {
+  connectedUserId?: InputMaybe<Scalars['String']>;
+  disconnectedUserId?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
-  text: Scalars['String'];
+  text?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -275,6 +306,7 @@ export type Post = {
 export type Query = {
   __typename?: 'Query';
   allPosts?: Maybe<Array<Maybe<Post>>>;
+  authenticate: AuthenticateResponse;
   drafts?: Maybe<Array<Maybe<Post>>>;
   gptPrompts?: Maybe<Array<Maybe<GptPrompt>>>;
   greConfiguration: GreConfiguration;
@@ -292,6 +324,8 @@ export type Query = {
   userSessionsCount: Scalars['Int'];
   users: Array<User>;
   usersCount: Scalars['Int'];
+  wordsAndResponsesForPrompt: Array<WordAndResponses>;
+  wordsCountForGptPrompts: Array<WordsCountForGptPrompts>;
 };
 
 
@@ -308,7 +342,7 @@ export type QueryGptPromptsArgs = {
 
 
 export type QueryGreWordArgs = {
-  where?: InputMaybe<GreWordWhereUniqueInput>;
+  where?: InputMaybe<GreWordWhereInput>;
 };
 
 
@@ -341,9 +375,10 @@ export type QueryGreWordsCountArgs = {
 
 export type QuerySendSinglePromptArgs = {
   indexesReturned?: InputMaybe<Array<Scalars['Int']>>;
-  input: Scalars['String'];
+  prompt: Scalars['String'];
   resultIndexFromCache?: InputMaybe<Scalars['Int']>;
   skipCache?: InputMaybe<Scalars['Boolean']>;
+  word: Scalars['String'];
 };
 
 
@@ -382,11 +417,21 @@ export type QueryUsersCountArgs = {
   where?: InputMaybe<UserWhereInput>;
 };
 
+
+export type QueryWordsAndResponsesForPromptArgs = {
+  prompt: Scalars['String'];
+};
+
+
+export type QueryWordsCountForGptPromptsArgs = {
+  prompts: Array<Scalars['String']>;
+};
+
 export type SendSinglePromptResponse = {
   __typename?: 'SendSinglePromptResponse';
-  error?: Maybe<Scalars['String']>;
-  result?: Maybe<Scalars['String']>;
-  resultIndex?: Maybe<Scalars['Int']>;
+  cacheResponseId: Scalars['String'];
+  result: Scalars['String'];
+  resultIndex: Scalars['Int'];
   totalResultsInCache: Scalars['Int'];
 };
 
@@ -417,7 +462,7 @@ export type Subscription = {
 
 
 export type SubscriptionNotificationReceivedArgs = {
-  userId: Scalars['String'];
+  token: Scalars['String'];
 };
 
 export type User = {
@@ -431,6 +476,12 @@ export type User = {
   id: Scalars['String'];
   meta: UserMetaParsedJsonValue;
   updatedAt: Scalars['String'];
+};
+
+export type UserListRelationFilter = {
+  every?: InputMaybe<UserWhereInput>;
+  none?: InputMaybe<UserWhereInput>;
+  some?: InputMaybe<UserWhereInput>;
 };
 
 export type UserMetaParsedJsonValue = {
@@ -500,9 +551,16 @@ export type UserWhereUniqueInput = {
   id?: InputMaybe<Scalars['String']>;
 };
 
-export type HelloWorld = {
-  __typename?: 'helloWorld';
-  message: Scalars['String'];
+export type WordAndResponses = {
+  __typename?: 'WordAndResponses';
+  responses: Array<Maybe<Scalars['String']>>;
+  word: Scalars['String'];
+};
+
+export type WordsCountForGptPrompts = {
+  __typename?: 'WordsCountForGptPrompts';
+  count: Scalars['Int'];
+  prompt: Scalars['String'];
 };
 
 export type GreWordListQueryVariables = Exact<{
@@ -513,7 +571,7 @@ export type GreWordListQueryVariables = Exact<{
 }>;
 
 
-export type GreWordListQuery = { __typename?: 'Query', total: number, greWords: Array<{ __typename?: 'GreWord', id: string, spelling: string, userId?: string | null, updatedAt: string }> };
+export type GreWordListQuery = { __typename?: 'Query', total: number, greWords: Array<{ __typename?: 'GreWord', id: string, userId?: string | null, updatedAt: string, cacheWord: { __typename?: 'CacheWord', text: string } }> };
 
 export type GreWordListReferenceUsersQueryVariables = Exact<{
   where?: InputMaybe<UserWhereInput>;
@@ -523,11 +581,11 @@ export type GreWordListReferenceUsersQueryVariables = Exact<{
 export type GreWordListReferenceUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string }> };
 
 export type GreWordShowQueryVariables = Exact<{
-  where?: InputMaybe<GreWordWhereUniqueInput>;
+  where?: InputMaybe<GreWordWhereInput>;
 }>;
 
 
-export type GreWordShowQuery = { __typename?: 'Query', greWord?: { __typename?: 'GreWord', id: string, spelling: string, gptPrompts: Array<{ __typename?: 'GptPrompt', id: string, input: string, response: string, editedResponse?: string | null, greWordId?: string | null }> } | null };
+export type GreWordShowQuery = { __typename?: 'Query', greWord?: { __typename?: 'GreWord', id: string, cacheWord: { __typename?: 'CacheWord', text: string }, gptPrompts: Array<{ __typename?: 'GptPrompt', id: string, editedResponse?: string | null, greWordId?: string | null, cacheResponse: { __typename?: 'CacheResponse', text: string, cachePrompt: { __typename?: 'CachePrompt', text: string }, cacheWord: { __typename?: 'CacheWord', text: string } } }> } | null };
 
 export type UserSessionListQueryVariables = Exact<{
   where?: InputMaybe<UserSessionWhereInput>;
@@ -554,7 +612,9 @@ export const GreWordListDocument = gql`
     query GreWordList($where: GreWordWhereInput, $skip: Int, $take: Int, $orderBy: [GreWordOrderByWithRelationInput]) {
   greWords(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
     id
-    spelling
+    cacheWord {
+      text
+    }
     userId
     updatedAt
   }
@@ -629,14 +689,23 @@ export type GreWordListReferenceUsersQueryHookResult = ReturnType<typeof useGreW
 export type GreWordListReferenceUsersLazyQueryHookResult = ReturnType<typeof useGreWordListReferenceUsersLazyQuery>;
 export type GreWordListReferenceUsersQueryResult = Apollo.QueryResult<GreWordListReferenceUsersQuery, GreWordListReferenceUsersQueryVariables>;
 export const GreWordShowDocument = gql`
-    query GreWordShow($where: GreWordWhereUniqueInput) {
+    query GreWordShow($where: GreWordWhereInput) {
   greWord(where: $where) {
     id
-    spelling
+    cacheWord {
+      text
+    }
     gptPrompts {
       id
-      input
-      response
+      cacheResponse {
+        text
+        cachePrompt {
+          text
+        }
+        cacheWord {
+          text
+        }
+      }
       editedResponse
       greWordId
     }

@@ -21,13 +21,13 @@ const GreWordList: React.FC<IGreWordListProps> = ({}) => {
         },
       }}
       filters={[
-        <TextInput source="spelling_startsWith" alwaysOn />,
+        <TextInput source="cacheWord_text_startsWith" alwaysOn />,
         <TextInput source="user_email_startsWith" alwaysOn />,
       ]}
     >
       <Datagrid rowClick="show">
         <TextField source="id" sortable={false}></TextField>
-        <TextField source="spelling"></TextField>
+        <TextField source="cacheWord.text" sortable={false}></TextField>
         <ReferenceField
           label="User"
           source="userId"

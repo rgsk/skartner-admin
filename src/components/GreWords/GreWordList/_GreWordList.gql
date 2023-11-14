@@ -6,7 +6,9 @@ query GreWordList(
 ) {
   greWords(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
     id
-    spelling
+    cacheWord {
+      text
+    }
     userId
     updatedAt
   }

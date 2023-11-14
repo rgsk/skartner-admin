@@ -38,7 +38,9 @@ export const dataProvider: Partial<DataProvider> = {
       query: params.meta.query,
       variables: {
         where: {
-          id: params.id,
+          id: {
+            equals: params.id,
+          },
         },
       },
     });

@@ -19,7 +19,7 @@ const GreWordShow: React.FC<IGreWordShowProps> = ({}) => {
     <Show queryOptions={{ meta: { query: GreWordShowDocument } }}>
       <SimpleShowLayout>
         <TextField source={getSource("id")} />
-        <TextField source={getSource("spelling")} />
+        <TextField source={"cacheWord.text"} />
         <RenderPrompts />
       </SimpleShowLayout>
     </Show>
@@ -40,7 +40,9 @@ const RenderPrompts: React.FC<IRenderPromptsProps> = ({}) => {
           <Box key={gptPrompt.id} sx={{ mt: 2 }}>
             <Box>
               <Typography>Input: </Typography>
-              <Typography>{gptPrompt.input}</Typography>
+              <Typography>
+                {gptPrompt.cacheResponse.cachePrompt.text}
+              </Typography>
             </Box>
             <Box sx={{ mt: 2 }}>
               <Typography>Response: </Typography>
