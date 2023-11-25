@@ -110,12 +110,14 @@ export type GreWordSearchPromptInput = {
   meta: Scalars['Json'];
   text: Scalars['String'];
   updatedAt: Scalars['String'];
+  user: User;
+  userId: Scalars['String'];
 };
 
 export type GreWordSearchPromptInputWhereInput = {
   id?: InputMaybe<StringFilter>;
   text?: InputMaybe<StringFilter>;
-  users?: InputMaybe<UserListRelationFilter>;
+  userId?: InputMaybe<StringFilter>;
 };
 
 export enum GreWordStatus {
@@ -186,6 +188,7 @@ export type Mutation = {
   createUser: User;
   deleteGptPrompt?: Maybe<GptPrompt>;
   deleteGreWord?: Maybe<GreWord>;
+  deleteGreWordSearchPromptInput?: Maybe<GreWordSearchPromptInput>;
   deleteGreWordTag: GreWordTag;
   publish?: Maybe<Post>;
   updateGptPrompt?: Maybe<GptPrompt>;
@@ -249,6 +252,11 @@ export type MutationDeleteGreWordArgs = {
 };
 
 
+export type MutationDeleteGreWordSearchPromptInputArgs = {
+  id: Scalars['String'];
+};
+
+
 export type MutationDeleteGreWordTagArgs = {
   name: Scalars['String'];
   userId: Scalars['String'];
@@ -274,8 +282,6 @@ export type MutationUpdateGreWordArgs = {
 
 
 export type MutationUpdateGreWordSearchPromptInputArgs = {
-  connectedUserId?: InputMaybe<Scalars['String']>;
-  disconnectedUserId?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
   text?: InputMaybe<Scalars['String']>;
 };
