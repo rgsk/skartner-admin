@@ -13,6 +13,7 @@ import useToken from "hooks/useToken";
 import apolloClient from "lib/apolloClient";
 import environmentVars from "lib/environmentVars";
 import { useEffect } from "react";
+import permissions from "resources/permissions";
 
 const authProvider = FirebaseAuthProvider(environmentVars.firebaseConfig, {});
 
@@ -40,6 +41,7 @@ export const App = () => {
             <Resource name="users" {...users} />
             <Resource name="greWords" {...greWords} />
             <Resource name="userSessions" {...userSessions} />
+            <Resource name="permissions" {...permissions} />
           </>
         )}
       </Admin>

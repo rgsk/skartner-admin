@@ -299,6 +299,24 @@ export type Notification = {
   userId: Scalars['String'];
 };
 
+export type Permission = {
+  __typename?: 'Permission';
+  createdAt: Scalars['String'];
+  id: Scalars['String'];
+  meta: Scalars['Json'];
+  name: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
+export type PermissionHierarchy = {
+  __typename?: 'PermissionHierarchy';
+  childPermission?: Maybe<Permission>;
+  childPermissionId: Scalars['String'];
+  createdAt: Scalars['String'];
+  parentPermission?: Maybe<Permission>;
+  parentPermissionId: Scalars['String'];
+};
+
 export type Post = {
   __typename?: 'Post';
   body?: Maybe<Scalars['String']>;
@@ -322,7 +340,13 @@ export type Query = {
   greWords: Array<GreWord>;
   greWordsCount: Scalars['Int'];
   hello: HelloWorld;
+  permissionHierarchies?: Maybe<Array<Maybe<PermissionHierarchy>>>;
+  permissions?: Maybe<Array<Maybe<Permission>>>;
   posts?: Maybe<Array<Maybe<Post>>>;
+  relationsPermissionToRole?: Maybe<Array<Maybe<RelationPermissionToRole>>>;
+  relationsPermissionToUser?: Maybe<Array<Maybe<RelationPermissionToUser>>>;
+  relationsRoleToUser?: Maybe<Array<Maybe<RelationRoleToUser>>>;
+  roles?: Maybe<Array<Maybe<Role>>>;
   sendSinglePrompt: SendSinglePromptResponse;
   user?: Maybe<User>;
   userSession?: Maybe<UserSession>;
@@ -431,6 +455,50 @@ export type QueryWordsAndResponsesForPromptArgs = {
 
 export type QueryWordsCountForGptPromptsArgs = {
   prompts: Array<Scalars['String']>;
+};
+
+export type RelationPermissionToRole = {
+  __typename?: 'RelationPermissionToRole';
+  grantedAt: Scalars['String'];
+  granter?: Maybe<User>;
+  granterId: Scalars['String'];
+  isAllowed?: Maybe<Scalars['Boolean']>;
+  permission?: Maybe<Permission>;
+  permissionId: Scalars['String'];
+  role?: Maybe<Role>;
+  roleId: Scalars['String'];
+};
+
+export type RelationPermissionToUser = {
+  __typename?: 'RelationPermissionToUser';
+  grantedAt: Scalars['String'];
+  granter?: Maybe<User>;
+  granterId: Scalars['String'];
+  isAllowed?: Maybe<Scalars['Boolean']>;
+  permission?: Maybe<Permission>;
+  permissionId: Scalars['String'];
+  user?: Maybe<User>;
+  userId: Scalars['String'];
+};
+
+export type RelationRoleToUser = {
+  __typename?: 'RelationRoleToUser';
+  assignedAt: Scalars['String'];
+  assigner?: Maybe<User>;
+  assignerId: Scalars['String'];
+  role?: Maybe<Role>;
+  roleId: Scalars['String'];
+  user?: Maybe<User>;
+  userId: Scalars['String'];
+};
+
+export type Role = {
+  __typename?: 'Role';
+  createdAt: Scalars['String'];
+  id: Scalars['String'];
+  meta: Scalars['Json'];
+  name: Scalars['String'];
+  updatedAt: Scalars['String'];
 };
 
 export type SendSinglePromptResponse = {
@@ -593,6 +661,11 @@ export type GreWordShowQueryVariables = Exact<{
 
 export type GreWordShowQuery = { __typename?: 'Query', greWord?: { __typename?: 'GreWord', id: string, cacheWord: { __typename?: 'CacheWord', text: string }, gptPrompts: Array<{ __typename?: 'GptPrompt', id: string, editedResponse?: string | null, greWordId?: string | null, cacheResponse: { __typename?: 'CacheResponse', text: string, cachePrompt: { __typename?: 'CachePrompt', text: string }, cacheWord: { __typename?: 'CacheWord', text: string } } }> } | null };
 
+export type PermissionsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PermissionsQuery = { __typename?: 'Query', permissions?: Array<{ __typename?: 'Permission', id: string, name: string, meta: any, createdAt: string, updatedAt: string } | null> | null };
+
 export type UserSessionListQueryVariables = Exact<{
   where?: InputMaybe<UserSessionWhereInput>;
   skip?: InputMaybe<Scalars['Int']>;
@@ -746,6 +819,44 @@ export function useGreWordShowLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type GreWordShowQueryHookResult = ReturnType<typeof useGreWordShowQuery>;
 export type GreWordShowLazyQueryHookResult = ReturnType<typeof useGreWordShowLazyQuery>;
 export type GreWordShowQueryResult = Apollo.QueryResult<GreWordShowQuery, GreWordShowQueryVariables>;
+export const PermissionsDocument = gql`
+    query Permissions {
+  permissions {
+    id
+    name
+    meta
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __usePermissionsQuery__
+ *
+ * To run a query within a React component, call `usePermissionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePermissionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePermissionsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePermissionsQuery(baseOptions?: Apollo.QueryHookOptions<PermissionsQuery, PermissionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PermissionsQuery, PermissionsQueryVariables>(PermissionsDocument, options);
+      }
+export function usePermissionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PermissionsQuery, PermissionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PermissionsQuery, PermissionsQueryVariables>(PermissionsDocument, options);
+        }
+export type PermissionsQueryHookResult = ReturnType<typeof usePermissionsQuery>;
+export type PermissionsLazyQueryHookResult = ReturnType<typeof usePermissionsLazyQuery>;
+export type PermissionsQueryResult = Apollo.QueryResult<PermissionsQuery, PermissionsQueryVariables>;
 export const UserSessionListDocument = gql`
     query UserSessionList($where: UserSessionWhereInput, $skip: Int, $take: Int, $orderBy: [UserSessionOrderByWithRelationInput]) {
   userSessions(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {

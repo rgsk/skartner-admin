@@ -1,0 +1,9 @@
+query Permissions {
+  permissions {
+    id
+    name
+    meta
+    createdAt
+    updatedAt
+  }
+}
