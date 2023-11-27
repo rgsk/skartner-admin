@@ -20,7 +20,6 @@ const UserList = () => {
         <TextField source="id" sortable={false} />
         <EmailField source="email" />
         <BooleanField
-          label="dummy label"
           source="meta.showDefaultGreWordSearchPromptInputs"
           sortable={false}
         />
