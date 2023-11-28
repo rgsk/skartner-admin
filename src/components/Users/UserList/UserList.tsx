@@ -12,7 +12,9 @@ import {
 const UserList = () => {
   return (
     <Box>
-      <ServerLinks />
+      <Box sx={{ marginTop: 5 }}>
+        <ServerLinks />
+      </Box>
       <List
         queryOptions={{
           meta: {
