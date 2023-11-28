@@ -1,3 +1,5 @@
+import { Box } from "@mui/material";
+import ServerLinks from "components/ServerLinks";
 import { UserListDocument } from "gql/graphql";
 import {
   BooleanField,
@@ -9,23 +11,26 @@ import {
 } from "react-admin";
 const UserList = () => {
   return (
-    <List
-      queryOptions={{
-        meta: {
-          query: UserListDocument,
-        },
-      }}
-    >
-      <Datagrid>
-        <TextField source="id" sortable={false} />
-        <EmailField source="email" />
-        <BooleanField
-          source="meta.showDefaultGreWordSearchPromptInputs"
-          sortable={false}
-        />
-        <DateField source="createdAt" />
-      </Datagrid>
-    </List>
+    <Box>
+      <ServerLinks />
+      <List
+        queryOptions={{
+          meta: {
+            query: UserListDocument,
+          },
+        }}
+      >
+        <Datagrid>
+          <TextField source="id" sortable={false} />
+          <EmailField source="email" />
+          <BooleanField
+            source="meta.showDefaultGreWordSearchPromptInputs"
+            sortable={false}
+          />
+          <DateField source="createdAt" />
+        </Datagrid>
+      </List>
+    </Box>
   );
 };
 
