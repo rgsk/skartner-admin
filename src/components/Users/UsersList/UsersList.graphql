@@ -1,4 +1,4 @@
-query UserList(
+query Users(
   $where: UserWhereInput
   $skip: Int
   $take: Int

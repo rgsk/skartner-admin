@@ -1,0 +1,9 @@
+query Roles {
+  roles {
+    id
+    name
+    meta
+    createdAt
+    updatedAt
+  }
+}

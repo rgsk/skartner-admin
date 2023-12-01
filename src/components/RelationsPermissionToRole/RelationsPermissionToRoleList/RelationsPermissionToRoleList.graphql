@@ -1,0 +1,19 @@
+query RelationsPermissionToRole {
+  relationsPermissionToRole {
+    id
+    permissionId
+    permission {
+      name
+    }
+    roleId
+    role {
+      name
+    }
+    granterId
+    granter {
+      email
+    }
+    isAllowed
+    grantedAt
+  }
+}

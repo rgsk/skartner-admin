@@ -1,8 +1,8 @@
-import GreWordList from "components/GreWords/GreWordList/GreWordList";
-import GreWordShow from "components/GreWords/GreWordShow/GreWordShow";
+import GreWordsShow from "components/GreWords/GreWordShow/GreWordsShow";
+import GreWordsList from "components/GreWords/GreWordsList/GreWordsList";
 
 const greWords = {
-  list: GreWordList,
-  show: GreWordShow,
+  list: GreWordsList,
+  show: GreWordsShow,
 };
 export default greWords;

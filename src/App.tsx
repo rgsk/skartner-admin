@@ -14,6 +14,8 @@ import apolloClient from "lib/apolloClient";
 import environmentVars from "lib/environmentVars";
 import { useEffect } from "react";
 import permissions from "resources/permissions";
+import relationsPermissionToRole from "resources/relationsPermissionToRole";
+import roles from "resources/roles";
 
 const authProvider = FirebaseAuthProvider(environmentVars.firebaseConfig, {});
 
@@ -42,6 +44,11 @@ export const App = () => {
             <Resource name="greWords" {...greWords} />
             <Resource name="userSessions" {...userSessions} />
             <Resource name="permissions" {...permissions} />
+            <Resource name="roles" {...roles} />
+            <Resource
+              name="relationsPermissionToRole"
+              {...relationsPermissionToRole}
+            />
           </>
         )}
       </Admin>

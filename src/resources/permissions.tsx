@@ -1,4 +1,4 @@
-import PermissionList from "components/Permissions/PermissionList/PermissionList";
+import PermissionList from "components/Permissions/PermissionsList/PermissionsList";
 
 const permissions = {
   list: PermissionList,

@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import ServerLinks from "components/ServerLinks";
-import { UserListDocument } from "gql/graphql";
+import { UsersDocument } from "gql/graphql";
 import {
   BooleanField,
   Datagrid,
@@ -9,7 +9,7 @@ import {
   List,
   TextField,
 } from "react-admin";
-const UserList = () => {
+const UsersList = () => {
   return (
     <Box>
       <Box sx={{ marginTop: 5 }}>
@@ -18,7 +18,7 @@ const UserList = () => {
       <List
         queryOptions={{
           meta: {
-            query: UserListDocument,
+            query: UsersDocument,
           },
         }}
       >
@@ -36,4 +36,4 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default UsersList;

@@ -1,6 +1,6 @@
-import UserList from "components/Users/UserList/UserList";
+import UsersList from "components/Users/UsersList/UsersList";
 
 const users = {
-  list: UserList,
+  list: UsersList,
 };
 export default users;

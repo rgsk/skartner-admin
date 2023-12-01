@@ -1,4 +1,4 @@
-import { UserSessionListDocument, UserSessionListQuery } from "gql/graphql";
+import { UserSessionsDocument, UserSessionsQuery } from "gql/graphql";
 import { getSourceValidator } from "lib/graphqlUtils";
 import {
   Datagrid,
@@ -10,19 +10,19 @@ import {
 } from "react-admin";
 
 type UserSessionRecord = Exclude<
-  UserSessionListQuery["userSessions"][number],
+  UserSessionsQuery["userSessions"][number],
   undefined | null
 >;
 
 const getSource = getSourceValidator<UserSessionRecord>();
 
 interface IUserSessionListProps {}
-const UserSessionList: React.FC<IUserSessionListProps> = ({}) => {
+const UserSessionsList: React.FC<IUserSessionListProps> = ({}) => {
   return (
     <List
       queryOptions={{
         meta: {
-          query: UserSessionListDocument,
+          query: UserSessionsDocument,
         },
       }}
       filters={[<TextInput source="user_email_startsWith" alwaysOn />]}
@@ -37,4 +37,4 @@ const UserSessionList: React.FC<IUserSessionListProps> = ({}) => {
     </List>
   );
 };
-export default UserSessionList;
+export default UserSessionsList;

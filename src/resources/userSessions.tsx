@@ -1,6 +1,6 @@
-import UserSessionList from "components/UserSessions/UserSessionList/UserSessionList";
+import UserSessionsList from "components/UserSessions/UserSessionsList/UserSessionsList";
 
 const userSessions = {
-  list: UserSessionList,
+  list: UserSessionsList,
 };
 export default userSessions;

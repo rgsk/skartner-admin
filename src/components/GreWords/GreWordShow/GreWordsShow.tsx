@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { GreWordShowDocument, GreWordShowQuery } from "gql/graphql";
+import { GreWordDocument, GreWordQuery } from "gql/graphql";
 import {
   Show,
   SimpleShowLayout,
@@ -7,16 +7,16 @@ import {
   useRecordContext,
 } from "react-admin";
 
-type GreRecord = Exclude<GreWordShowQuery["greWord"], undefined | null>;
+type GreRecord = Exclude<GreWordQuery["greWord"], undefined | null>;
 
 const getSource = (v: keyof GreRecord) => {
   return v;
 };
 
 interface IGreWordShowProps {}
-const GreWordShow: React.FC<IGreWordShowProps> = ({}) => {
+const GreWordsShow: React.FC<IGreWordShowProps> = ({}) => {
   return (
-    <Show queryOptions={{ meta: { query: GreWordShowDocument } }}>
+    <Show queryOptions={{ meta: { query: GreWordDocument } }}>
       <SimpleShowLayout>
         <TextField source={getSource("id")} />
         <TextField source={"cacheWord.text"} />
@@ -26,7 +26,7 @@ const GreWordShow: React.FC<IGreWordShowProps> = ({}) => {
   );
 };
 
-export default GreWordShow;
+export default GreWordsShow;
 
 interface IRenderPromptsProps {}
 const RenderPrompts: React.FC<IRenderPromptsProps> = ({}) => {

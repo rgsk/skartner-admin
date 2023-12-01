@@ -1,6 +1,6 @@
 import {
-  GreWordListDocument,
   GreWordListReferenceUsersDocument,
+  GreWordsDocument,
 } from "gql/graphql";
 import {
   Datagrid,
@@ -12,12 +12,12 @@ import {
 } from "react-admin";
 
 interface IGreWordListProps {}
-const GreWordList: React.FC<IGreWordListProps> = ({}) => {
+const GreWordsList: React.FC<IGreWordListProps> = ({}) => {
   return (
     <List
       queryOptions={{
         meta: {
-          query: GreWordListDocument,
+          query: GreWordsDocument,
         },
       }}
       filters={[
@@ -46,4 +46,4 @@ const GreWordList: React.FC<IGreWordListProps> = ({}) => {
     </List>
   );
 };
-export default GreWordList;
+export default GreWordsList;

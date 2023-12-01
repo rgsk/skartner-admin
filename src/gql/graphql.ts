@@ -49,6 +49,7 @@ export type CacheWord = {
   createdAt: Scalars['String'];
   id: Scalars['String'];
   meta: Scalars['Json'];
+  pronunciationAudioUrl?: Maybe<Scalars['String']>;
   text: Scalars['String'];
   updatedAt: Scalars['String'];
 };
@@ -64,6 +65,16 @@ export type EnumGreWordStatusFilter = {
   notIn?: InputMaybe<Array<GreWordStatus>>;
 };
 
+export type GenerateImagesForPromptResponse = {
+  __typename?: 'GenerateImagesForPromptResponse';
+  imageUrls?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+export type GenerateImagesForWordResponse = {
+  __typename?: 'GenerateImagesForWordResponse';
+  imageUrls?: Maybe<Array<Scalars['String']>>;
+};
+
 export type GptPrompt = {
   __typename?: 'GptPrompt';
   cacheResponse: CacheResponse;
@@ -72,6 +83,7 @@ export type GptPrompt = {
   greWord?: Maybe<GreWord>;
   greWordId?: Maybe<Scalars['String']>;
   id: Scalars['String'];
+  imageUrls: Array<Scalars['String']>;
   meta: Scalars['Json'];
   updatedAt: Scalars['String'];
   user?: Maybe<User>;
@@ -91,6 +103,7 @@ export type GreWord = {
   greWordTags?: Maybe<Array<GreWordTag>>;
   id: Scalars['String'];
   meta: Scalars['Json'];
+  pronunciationAudioUrl?: Maybe<Scalars['String']>;
   status: GreWordStatus;
   updatedAt: Scalars['String'];
   user?: Maybe<User>;
@@ -191,6 +204,7 @@ export type Mutation = {
   deleteGreWordSearchPromptInput?: Maybe<GreWordSearchPromptInput>;
   deleteGreWordTag: GreWordTag;
   publish?: Maybe<Post>;
+  saveImageToS3?: Maybe<SaveImageToS3Response>;
   updateGptPrompt?: Maybe<GptPrompt>;
   updateGreWord?: Maybe<GreWord>;
   updateGreWordSearchPromptInput?: Maybe<GreWordSearchPromptInput>;
@@ -268,9 +282,16 @@ export type MutationPublishArgs = {
 };
 
 
+export type MutationSaveImageToS3Args = {
+  imageUrl: Scalars['String'];
+  key?: InputMaybe<Scalars['String']>;
+};
+
+
 export type MutationUpdateGptPromptArgs = {
   editedResponse?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
+  imageUrls?: InputMaybe<Array<Scalars['String']>>;
 };
 
 
@@ -305,6 +326,10 @@ export type Permission = {
   id: Scalars['String'];
   meta: Scalars['Json'];
   name: Scalars['String'];
+  permissionHierarchyAsChild: Array<PermissionHierarchy>;
+  permissionHierarchyAsParent: Array<PermissionHierarchy>;
+  relationPermissionToRoleAsPermission: Array<RelationPermissionToRole>;
+  relationPermissionToUserAsPermission: Array<RelationPermissionToUser>;
   updatedAt: Scalars['String'];
 };
 
@@ -313,6 +338,7 @@ export type PermissionHierarchy = {
   childPermission?: Maybe<Permission>;
   childPermissionId: Scalars['String'];
   createdAt: Scalars['String'];
+  id: Scalars['String'];
   parentPermission?: Maybe<Permission>;
   parentPermissionId: Scalars['String'];
 };
@@ -332,6 +358,8 @@ export type Query = {
   allPosts?: Maybe<Array<Maybe<Post>>>;
   authenticate: AuthenticateResponse;
   drafts?: Maybe<Array<Maybe<Post>>>;
+  generateImagesForPrompt?: Maybe<GenerateImagesForPromptResponse>;
+  generateImagesForWord?: Maybe<GenerateImagesForWordResponse>;
   gptPrompts?: Maybe<Array<Maybe<GptPrompt>>>;
   greConfiguration: GreConfiguration;
   greWord?: Maybe<GreWord>;
@@ -362,6 +390,16 @@ export type Query = {
 export type QueryAllPostsArgs = {
   isPublished: Scalars['Boolean'];
   token?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryGenerateImagesForPromptArgs = {
+  prompt: Scalars['String'];
+};
+
+
+export type QueryGenerateImagesForWordArgs = {
+  word: Scalars['String'];
 };
 
 
@@ -462,6 +500,7 @@ export type RelationPermissionToRole = {
   grantedAt: Scalars['String'];
   granter?: Maybe<User>;
   granterId: Scalars['String'];
+  id: Scalars['String'];
   isAllowed?: Maybe<Scalars['Boolean']>;
   permission?: Maybe<Permission>;
   permissionId: Scalars['String'];
@@ -474,6 +513,7 @@ export type RelationPermissionToUser = {
   grantedAt: Scalars['String'];
   granter?: Maybe<User>;
   granterId: Scalars['String'];
+  id: Scalars['String'];
   isAllowed?: Maybe<Scalars['Boolean']>;
   permission?: Maybe<Permission>;
   permissionId: Scalars['String'];
@@ -486,6 +526,7 @@ export type RelationRoleToUser = {
   assignedAt: Scalars['String'];
   assigner?: Maybe<User>;
   assignerId: Scalars['String'];
+  id: Scalars['String'];
   role?: Maybe<Role>;
   roleId: Scalars['String'];
   user?: Maybe<User>;
@@ -498,7 +539,14 @@ export type Role = {
   id: Scalars['String'];
   meta: Scalars['Json'];
   name: Scalars['String'];
+  relationPermissionToRoleAsRole: Array<RelationPermissionToRole>;
+  relationRoleToUserAsRole: Array<RelationRoleToUser>;
   updatedAt: Scalars['String'];
+};
+
+export type SaveImageToS3Response = {
+  __typename?: 'SaveImageToS3Response';
+  s3Url?: Maybe<Scalars['String']>;
 };
 
 export type SendSinglePromptResponse = {
@@ -637,7 +685,14 @@ export type WordsCountForGptPrompts = {
   prompt: Scalars['String'];
 };
 
-export type GreWordListQueryVariables = Exact<{
+export type GreWordQueryVariables = Exact<{
+  where?: InputMaybe<GreWordWhereInput>;
+}>;
+
+
+export type GreWordQuery = { __typename?: 'Query', greWord?: { __typename?: 'GreWord', id: string, cacheWord: { __typename?: 'CacheWord', text: string }, gptPrompts: Array<{ __typename?: 'GptPrompt', id: string, editedResponse?: string | null, greWordId?: string | null, cacheResponse: { __typename?: 'CacheResponse', text: string, cachePrompt: { __typename?: 'CachePrompt', text: string }, cacheWord: { __typename?: 'CacheWord', text: string } } }> } | null };
+
+export type GreWordsQueryVariables = Exact<{
   where?: InputMaybe<GreWordWhereInput>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
@@ -645,7 +700,7 @@ export type GreWordListQueryVariables = Exact<{
 }>;
 
 
-export type GreWordListQuery = { __typename?: 'Query', total: number, greWords: Array<{ __typename?: 'GreWord', id: string, userId?: string | null, updatedAt: string, cacheWord: { __typename?: 'CacheWord', text: string } }> };
+export type GreWordsQuery = { __typename?: 'Query', total: number, greWords: Array<{ __typename?: 'GreWord', id: string, userId?: string | null, updatedAt: string, cacheWord: { __typename?: 'CacheWord', text: string } }> };
 
 export type GreWordListReferenceUsersQueryVariables = Exact<{
   where?: InputMaybe<UserWhereInput>;
@@ -654,19 +709,22 @@ export type GreWordListReferenceUsersQueryVariables = Exact<{
 
 export type GreWordListReferenceUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string }> };
 
-export type GreWordShowQueryVariables = Exact<{
-  where?: InputMaybe<GreWordWhereInput>;
-}>;
-
-
-export type GreWordShowQuery = { __typename?: 'Query', greWord?: { __typename?: 'GreWord', id: string, cacheWord: { __typename?: 'CacheWord', text: string }, gptPrompts: Array<{ __typename?: 'GptPrompt', id: string, editedResponse?: string | null, greWordId?: string | null, cacheResponse: { __typename?: 'CacheResponse', text: string, cachePrompt: { __typename?: 'CachePrompt', text: string }, cacheWord: { __typename?: 'CacheWord', text: string } } }> } | null };
-
 export type PermissionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type PermissionsQuery = { __typename?: 'Query', permissions?: Array<{ __typename?: 'Permission', id: string, name: string, meta: any, createdAt: string, updatedAt: string } | null> | null };
 
-export type UserSessionListQueryVariables = Exact<{
+export type RelationsPermissionToRoleQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RelationsPermissionToRoleQuery = { __typename?: 'Query', relationsPermissionToRole?: Array<{ __typename?: 'RelationPermissionToRole', id: string, permissionId: string, roleId: string, granterId: string, isAllowed?: boolean | null, grantedAt: string, permission?: { __typename?: 'Permission', name: string } | null, role?: { __typename?: 'Role', name: string } | null, granter?: { __typename?: 'User', email: string } | null } | null> | null };
+
+export type RolesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RolesQuery = { __typename?: 'Query', roles?: Array<{ __typename?: 'Role', id: string, name: string, meta: any, createdAt: string, updatedAt: string } | null> | null };
+
+export type UserSessionsQueryVariables = Exact<{
   where?: InputMaybe<UserSessionWhereInput>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
@@ -674,9 +732,9 @@ export type UserSessionListQueryVariables = Exact<{
 }>;
 
 
-export type UserSessionListQuery = { __typename?: 'Query', total: number, userSessions: Array<{ __typename?: 'UserSession', id: string, startedAt: string, endedAt?: string | null, duration?: number | null, user: { __typename?: 'User', email: string } }> };
+export type UserSessionsQuery = { __typename?: 'Query', total: number, userSessions: Array<{ __typename?: 'UserSession', id: string, startedAt: string, endedAt?: string | null, duration?: number | null, user: { __typename?: 'User', email: string } }> };
 
-export type UserListQueryVariables = Exact<{
+export type UsersQueryVariables = Exact<{
   where?: InputMaybe<UserWhereInput>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
@@ -684,11 +742,63 @@ export type UserListQueryVariables = Exact<{
 }>;
 
 
-export type UserListQuery = { __typename?: 'Query', total: number, users: Array<{ __typename?: 'User', id: string, email: string, createdAt: string, meta: { __typename?: 'UserMetaParsedJsonValue', defaultGreWordSearchPromptInput?: string | null, showDefaultGreWordSearchPromptInputs?: boolean | null } }> };
+export type UsersQuery = { __typename?: 'Query', total: number, users: Array<{ __typename?: 'User', id: string, email: string, createdAt: string, meta: { __typename?: 'UserMetaParsedJsonValue', defaultGreWordSearchPromptInput?: string | null, showDefaultGreWordSearchPromptInputs?: boolean | null } }> };
 
 
-export const GreWordListDocument = gql`
-    query GreWordList($where: GreWordWhereInput, $skip: Int, $take: Int, $orderBy: [GreWordOrderByWithRelationInput]) {
+export const GreWordDocument = gql`
+    query GreWord($where: GreWordWhereInput) {
+  greWord(where: $where) {
+    id
+    cacheWord {
+      text
+    }
+    gptPrompts {
+      id
+      cacheResponse {
+        text
+        cachePrompt {
+          text
+        }
+        cacheWord {
+          text
+        }
+      }
+      editedResponse
+      greWordId
+    }
+  }
+}
+    `;
+
+/**
+ * __useGreWordQuery__
+ *
+ * To run a query within a React component, call `useGreWordQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGreWordQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGreWordQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useGreWordQuery(baseOptions?: Apollo.QueryHookOptions<GreWordQuery, GreWordQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GreWordQuery, GreWordQueryVariables>(GreWordDocument, options);
+      }
+export function useGreWordLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GreWordQuery, GreWordQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GreWordQuery, GreWordQueryVariables>(GreWordDocument, options);
+        }
+export type GreWordQueryHookResult = ReturnType<typeof useGreWordQuery>;
+export type GreWordLazyQueryHookResult = ReturnType<typeof useGreWordLazyQuery>;
+export type GreWordQueryResult = Apollo.QueryResult<GreWordQuery, GreWordQueryVariables>;
+export const GreWordsDocument = gql`
+    query GreWords($where: GreWordWhereInput, $skip: Int, $take: Int, $orderBy: [GreWordOrderByWithRelationInput]) {
   greWords(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
     id
     cacheWord {
@@ -702,16 +812,16 @@ export const GreWordListDocument = gql`
     `;
 
 /**
- * __useGreWordListQuery__
+ * __useGreWordsQuery__
  *
- * To run a query within a React component, call `useGreWordListQuery` and pass it any options that fit your needs.
- * When your component renders, `useGreWordListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGreWordsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGreWordsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGreWordListQuery({
+ * const { data, loading, error } = useGreWordsQuery({
  *   variables: {
  *      where: // value for 'where'
  *      skip: // value for 'skip'
@@ -720,17 +830,17 @@ export const GreWordListDocument = gql`
  *   },
  * });
  */
-export function useGreWordListQuery(baseOptions?: Apollo.QueryHookOptions<GreWordListQuery, GreWordListQueryVariables>) {
+export function useGreWordsQuery(baseOptions?: Apollo.QueryHookOptions<GreWordsQuery, GreWordsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GreWordListQuery, GreWordListQueryVariables>(GreWordListDocument, options);
+        return Apollo.useQuery<GreWordsQuery, GreWordsQueryVariables>(GreWordsDocument, options);
       }
-export function useGreWordListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GreWordListQuery, GreWordListQueryVariables>) {
+export function useGreWordsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GreWordsQuery, GreWordsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GreWordListQuery, GreWordListQueryVariables>(GreWordListDocument, options);
+          return Apollo.useLazyQuery<GreWordsQuery, GreWordsQueryVariables>(GreWordsDocument, options);
         }
-export type GreWordListQueryHookResult = ReturnType<typeof useGreWordListQuery>;
-export type GreWordListLazyQueryHookResult = ReturnType<typeof useGreWordListLazyQuery>;
-export type GreWordListQueryResult = Apollo.QueryResult<GreWordListQuery, GreWordListQueryVariables>;
+export type GreWordsQueryHookResult = ReturnType<typeof useGreWordsQuery>;
+export type GreWordsLazyQueryHookResult = ReturnType<typeof useGreWordsLazyQuery>;
+export type GreWordsQueryResult = Apollo.QueryResult<GreWordsQuery, GreWordsQueryVariables>;
 export const GreWordListReferenceUsersDocument = gql`
     query GreWordListReferenceUsers($where: UserWhereInput) {
   users(where: $where) {
@@ -767,58 +877,6 @@ export function useGreWordListReferenceUsersLazyQuery(baseOptions?: Apollo.LazyQ
 export type GreWordListReferenceUsersQueryHookResult = ReturnType<typeof useGreWordListReferenceUsersQuery>;
 export type GreWordListReferenceUsersLazyQueryHookResult = ReturnType<typeof useGreWordListReferenceUsersLazyQuery>;
 export type GreWordListReferenceUsersQueryResult = Apollo.QueryResult<GreWordListReferenceUsersQuery, GreWordListReferenceUsersQueryVariables>;
-export const GreWordShowDocument = gql`
-    query GreWordShow($where: GreWordWhereInput) {
-  greWord(where: $where) {
-    id
-    cacheWord {
-      text
-    }
-    gptPrompts {
-      id
-      cacheResponse {
-        text
-        cachePrompt {
-          text
-        }
-        cacheWord {
-          text
-        }
-      }
-      editedResponse
-      greWordId
-    }
-  }
-}
-    `;
-
-/**
- * __useGreWordShowQuery__
- *
- * To run a query within a React component, call `useGreWordShowQuery` and pass it any options that fit your needs.
- * When your component renders, `useGreWordShowQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGreWordShowQuery({
- *   variables: {
- *      where: // value for 'where'
- *   },
- * });
- */
-export function useGreWordShowQuery(baseOptions?: Apollo.QueryHookOptions<GreWordShowQuery, GreWordShowQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GreWordShowQuery, GreWordShowQueryVariables>(GreWordShowDocument, options);
-      }
-export function useGreWordShowLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GreWordShowQuery, GreWordShowQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GreWordShowQuery, GreWordShowQueryVariables>(GreWordShowDocument, options);
-        }
-export type GreWordShowQueryHookResult = ReturnType<typeof useGreWordShowQuery>;
-export type GreWordShowLazyQueryHookResult = ReturnType<typeof useGreWordShowLazyQuery>;
-export type GreWordShowQueryResult = Apollo.QueryResult<GreWordShowQuery, GreWordShowQueryVariables>;
 export const PermissionsDocument = gql`
     query Permissions {
   permissions {
@@ -857,8 +915,94 @@ export function usePermissionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type PermissionsQueryHookResult = ReturnType<typeof usePermissionsQuery>;
 export type PermissionsLazyQueryHookResult = ReturnType<typeof usePermissionsLazyQuery>;
 export type PermissionsQueryResult = Apollo.QueryResult<PermissionsQuery, PermissionsQueryVariables>;
-export const UserSessionListDocument = gql`
-    query UserSessionList($where: UserSessionWhereInput, $skip: Int, $take: Int, $orderBy: [UserSessionOrderByWithRelationInput]) {
+export const RelationsPermissionToRoleDocument = gql`
+    query RelationsPermissionToRole {
+  relationsPermissionToRole {
+    id
+    permissionId
+    permission {
+      name
+    }
+    roleId
+    role {
+      name
+    }
+    granterId
+    granter {
+      email
+    }
+    isAllowed
+    grantedAt
+  }
+}
+    `;
+
+/**
+ * __useRelationsPermissionToRoleQuery__
+ *
+ * To run a query within a React component, call `useRelationsPermissionToRoleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRelationsPermissionToRoleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRelationsPermissionToRoleQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRelationsPermissionToRoleQuery(baseOptions?: Apollo.QueryHookOptions<RelationsPermissionToRoleQuery, RelationsPermissionToRoleQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RelationsPermissionToRoleQuery, RelationsPermissionToRoleQueryVariables>(RelationsPermissionToRoleDocument, options);
+      }
+export function useRelationsPermissionToRoleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RelationsPermissionToRoleQuery, RelationsPermissionToRoleQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RelationsPermissionToRoleQuery, RelationsPermissionToRoleQueryVariables>(RelationsPermissionToRoleDocument, options);
+        }
+export type RelationsPermissionToRoleQueryHookResult = ReturnType<typeof useRelationsPermissionToRoleQuery>;
+export type RelationsPermissionToRoleLazyQueryHookResult = ReturnType<typeof useRelationsPermissionToRoleLazyQuery>;
+export type RelationsPermissionToRoleQueryResult = Apollo.QueryResult<RelationsPermissionToRoleQuery, RelationsPermissionToRoleQueryVariables>;
+export const RolesDocument = gql`
+    query Roles {
+  roles {
+    id
+    name
+    meta
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useRolesQuery__
+ *
+ * To run a query within a React component, call `useRolesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRolesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRolesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRolesQuery(baseOptions?: Apollo.QueryHookOptions<RolesQuery, RolesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RolesQuery, RolesQueryVariables>(RolesDocument, options);
+      }
+export function useRolesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RolesQuery, RolesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RolesQuery, RolesQueryVariables>(RolesDocument, options);
+        }
+export type RolesQueryHookResult = ReturnType<typeof useRolesQuery>;
+export type RolesLazyQueryHookResult = ReturnType<typeof useRolesLazyQuery>;
+export type RolesQueryResult = Apollo.QueryResult<RolesQuery, RolesQueryVariables>;
+export const UserSessionsDocument = gql`
+    query UserSessions($where: UserSessionWhereInput, $skip: Int, $take: Int, $orderBy: [UserSessionOrderByWithRelationInput]) {
   userSessions(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
     id
     user {
@@ -873,16 +1017,16 @@ export const UserSessionListDocument = gql`
     `;
 
 /**
- * __useUserSessionListQuery__
+ * __useUserSessionsQuery__
  *
- * To run a query within a React component, call `useUserSessionListQuery` and pass it any options that fit your needs.
- * When your component renders, `useUserSessionListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useUserSessionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserSessionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUserSessionListQuery({
+ * const { data, loading, error } = useUserSessionsQuery({
  *   variables: {
  *      where: // value for 'where'
  *      skip: // value for 'skip'
@@ -891,19 +1035,19 @@ export const UserSessionListDocument = gql`
  *   },
  * });
  */
-export function useUserSessionListQuery(baseOptions?: Apollo.QueryHookOptions<UserSessionListQuery, UserSessionListQueryVariables>) {
+export function useUserSessionsQuery(baseOptions?: Apollo.QueryHookOptions<UserSessionsQuery, UserSessionsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UserSessionListQuery, UserSessionListQueryVariables>(UserSessionListDocument, options);
+        return Apollo.useQuery<UserSessionsQuery, UserSessionsQueryVariables>(UserSessionsDocument, options);
       }
-export function useUserSessionListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserSessionListQuery, UserSessionListQueryVariables>) {
+export function useUserSessionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserSessionsQuery, UserSessionsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UserSessionListQuery, UserSessionListQueryVariables>(UserSessionListDocument, options);
+          return Apollo.useLazyQuery<UserSessionsQuery, UserSessionsQueryVariables>(UserSessionsDocument, options);
         }
-export type UserSessionListQueryHookResult = ReturnType<typeof useUserSessionListQuery>;
-export type UserSessionListLazyQueryHookResult = ReturnType<typeof useUserSessionListLazyQuery>;
-export type UserSessionListQueryResult = Apollo.QueryResult<UserSessionListQuery, UserSessionListQueryVariables>;
-export const UserListDocument = gql`
-    query UserList($where: UserWhereInput, $skip: Int, $take: Int, $orderBy: [UserOrderByWithRelationInput]) {
+export type UserSessionsQueryHookResult = ReturnType<typeof useUserSessionsQuery>;
+export type UserSessionsLazyQueryHookResult = ReturnType<typeof useUserSessionsLazyQuery>;
+export type UserSessionsQueryResult = Apollo.QueryResult<UserSessionsQuery, UserSessionsQueryVariables>;
+export const UsersDocument = gql`
+    query Users($where: UserWhereInput, $skip: Int, $take: Int, $orderBy: [UserOrderByWithRelationInput]) {
   users(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
     id
     email
@@ -918,16 +1062,16 @@ export const UserListDocument = gql`
     `;
 
 /**
- * __useUserListQuery__
+ * __useUsersQuery__
  *
- * To run a query within a React component, call `useUserListQuery` and pass it any options that fit your needs.
- * When your component renders, `useUserListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUserListQuery({
+ * const { data, loading, error } = useUsersQuery({
  *   variables: {
  *      where: // value for 'where'
  *      skip: // value for 'skip'
@@ -936,14 +1080,14 @@ export const UserListDocument = gql`
  *   },
  * });
  */
-export function useUserListQuery(baseOptions?: Apollo.QueryHookOptions<UserListQuery, UserListQueryVariables>) {
+export function useUsersQuery(baseOptions?: Apollo.QueryHookOptions<UsersQuery, UsersQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UserListQuery, UserListQueryVariables>(UserListDocument, options);
+        return Apollo.useQuery<UsersQuery, UsersQueryVariables>(UsersDocument, options);
       }
-export function useUserListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserListQuery, UserListQueryVariables>) {
+export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsersQuery, UsersQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UserListQuery, UserListQueryVariables>(UserListDocument, options);
+          return Apollo.useLazyQuery<UsersQuery, UsersQueryVariables>(UsersDocument, options);
         }
-export type UserListQueryHookResult = ReturnType<typeof useUserListQuery>;
-export type UserListLazyQueryHookResult = ReturnType<typeof useUserListLazyQuery>;
-export type UserListQueryResult = Apollo.QueryResult<UserListQuery, UserListQueryVariables>;
+export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
+export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
+export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;

@@ -1,4 +1,4 @@
-query UserSessionList(
+query UserSessions(
   $where: UserSessionWhereInput
   $skip: Int
   $take: Int

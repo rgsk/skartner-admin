@@ -1,4 +1,4 @@
-query GreWordShow($where: GreWordWhereInput) {
+query GreWord($where: GreWordWhereInput) {
   greWord(where: $where) {
     id
     cacheWord {

@@ -1,4 +1,4 @@
-query GreWordList(
+query GreWords(
   $where: GreWordWhereInput
   $skip: Int
   $take: Int
