@@ -1,6 +1,0 @@
-mutation UpdatePermission($id: String!, $data: PermissionUpdateInput!) {
-  updatePermission(id: $id, data: $data) {
-    id
-    name
-  }
-}

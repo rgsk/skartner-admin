@@ -1,0 +1,13 @@
+query Role($where: RoleWhereInput) {
+  role(where: $where) {
+    id
+    name
+  }
+}
+
+mutation DeleteRole($id: String!) {
+  deleteRole(id: $id) {
+    id
+    name
+  }
+}

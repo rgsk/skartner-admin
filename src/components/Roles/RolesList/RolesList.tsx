@@ -1,7 +1,7 @@
 import {
-  DeletePermissionDocument,
-  DeletePermissionsDocument,
-  PermissionsDocument,
+  DeleteRoleDocument,
+  DeleteRolesDocument,
+  RolesDocument,
 } from "gql/graphql";
 import {
   BulkDeleteButton,
@@ -13,13 +13,12 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
-
-const PermissionsList = () => {
+const RolesList = () => {
   return (
     <List
       queryOptions={{
         meta: {
-          query: PermissionsDocument,
+          query: RolesDocument,
         },
       }}
       filters={[<TextInput source="name_contains" alwaysOn />]}
@@ -28,7 +27,7 @@ const PermissionsList = () => {
         rowClick="show"
         bulkActionButtons={
           <BulkDeleteButton
-            mutationOptions={{ meta: { mutation: DeletePermissionsDocument } }}
+            mutationOptions={{ meta: { mutation: DeleteRolesDocument } }}
           />
         }
       >
@@ -37,11 +36,11 @@ const PermissionsList = () => {
         <DateField source="createdAt" />
         <EditButton />
         <DeleteButton
-          mutationOptions={{ meta: { mutation: DeletePermissionDocument } }}
+          mutationOptions={{ meta: { mutation: DeleteRoleDocument } }}
         />
       </Datagrid>
     </List>
   );
 };
 
-export default PermissionsList;
+export default RolesList;

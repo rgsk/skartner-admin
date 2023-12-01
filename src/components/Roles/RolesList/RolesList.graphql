@@ -1,0 +1,21 @@
+query Roles(
+  $where: RoleWhereInput
+  $skip: Int
+  $take: Int
+  $orderBy: [RoleOrderByWithRelationInput]
+) {
+  roles(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
+    id
+    name
+    meta
+    createdAt
+    updatedAt
+  }
+  total: rolesCount(where: $where)
+}
+
+mutation DeleteRoles($ids: [String!]!) {
+  deleteRoles(ids: $ids) {
+    count
+  }
+}

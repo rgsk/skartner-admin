@@ -1,6 +1,12 @@
-import RoleList from "components/Roles/RolesList.tsx/RolesList";
+import RolesCreate from "components/Roles/RolesCreate/RolesCreate";
+import RolesEdit from "components/Roles/RolesEdit/RolesEdit";
+import RolesList from "components/Roles/RolesList/RolesList";
+import RolesShow from "components/Roles/RolesShow/RolesShow";
 
 const roles = {
-  list: RoleList,
+  list: RolesList,
+  create: RolesCreate,
+  show: RolesShow,
+  edit: RolesEdit,
 };
 export default roles;

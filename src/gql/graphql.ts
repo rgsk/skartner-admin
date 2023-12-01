@@ -204,6 +204,7 @@ export type Mutation = {
   createGreWordTag: GreWordTag;
   createNotification: Notification;
   createPermission: Permission;
+  createRole: Role;
   createUser: User;
   deleteGptPrompt?: Maybe<GptPrompt>;
   deleteGreWord?: Maybe<GreWord>;
@@ -211,12 +212,15 @@ export type Mutation = {
   deleteGreWordTag: GreWordTag;
   deletePermission?: Maybe<Permission>;
   deletePermissions?: Maybe<BatchPayload>;
+  deleteRole?: Maybe<Role>;
+  deleteRoles?: Maybe<BatchPayload>;
   publish?: Maybe<Post>;
   saveImageToS3?: Maybe<SaveImageToS3Response>;
   updateGptPrompt?: Maybe<GptPrompt>;
   updateGreWord?: Maybe<GreWord>;
   updateGreWordSearchPromptInput?: Maybe<GreWordSearchPromptInput>;
   updatePermission: Permission;
+  updateRole: Role;
   updateUser?: Maybe<User>;
 };
 
@@ -264,6 +268,11 @@ export type MutationCreatePermissionArgs = {
 };
 
 
+export type MutationCreateRoleArgs = {
+  name: Scalars['String'];
+};
+
+
 export type MutationCreateUserArgs = {
   email: Scalars['String'];
   meta?: InputMaybe<UserMetaParsedJsonValueInput>;
@@ -297,6 +306,16 @@ export type MutationDeletePermissionArgs = {
 
 
 export type MutationDeletePermissionsArgs = {
+  ids: Array<Scalars['String']>;
+};
+
+
+export type MutationDeleteRoleArgs = {
+  id: Scalars['String'];
+};
+
+
+export type MutationDeleteRolesArgs = {
   ids: Array<Scalars['String']>;
 };
 
@@ -338,6 +357,12 @@ export type MutationUpdatePermissionArgs = {
 };
 
 
+export type MutationUpdateRoleArgs = {
+  data: RoleUpdateInput;
+  id: Scalars['String'];
+};
+
+
 export type MutationUpdateUserArgs = {
   email?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
@@ -375,6 +400,7 @@ export type PermissionHierarchy = {
 
 export type PermissionOrderByWithRelationInput = {
   createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
 };
 
@@ -384,6 +410,7 @@ export type PermissionUpdateInput = {
 
 export type PermissionWhereInput = {
   id?: InputMaybe<StringFilter>;
+  name?: InputMaybe<StringFilter>;
 };
 
 export type Post = {
@@ -419,7 +446,9 @@ export type Query = {
   relationsPermissionToRole?: Maybe<Array<Maybe<RelationPermissionToRole>>>;
   relationsPermissionToUser?: Maybe<Array<Maybe<RelationPermissionToUser>>>;
   relationsRoleToUser?: Maybe<Array<Maybe<RelationRoleToUser>>>;
+  role?: Maybe<Role>;
   roles?: Maybe<Array<Maybe<Role>>>;
+  rolesCount: Scalars['Int'];
   sendSinglePrompt: SendSinglePromptResponse;
   user?: Maybe<User>;
   userSession?: Maybe<UserSession>;
@@ -504,6 +533,24 @@ export type QueryPermissionsCountArgs = {
 };
 
 
+export type QueryRoleArgs = {
+  where?: InputMaybe<RoleWhereInput>;
+};
+
+
+export type QueryRolesArgs = {
+  orderBy?: InputMaybe<Array<InputMaybe<RoleOrderByWithRelationInput>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RoleWhereInput>;
+};
+
+
+export type QueryRolesCountArgs = {
+  where?: InputMaybe<RoleWhereInput>;
+};
+
+
 export type QuerySendSinglePromptArgs = {
   indexesReturned?: InputMaybe<Array<Scalars['Int']>>;
   prompt: Scalars['String'];
@@ -558,6 +605,11 @@ export type QueryWordsCountForGptPromptsArgs = {
   prompts: Array<Scalars['String']>;
 };
 
+export enum QueryMode {
+  Default = 'default',
+  Insensitive = 'insensitive'
+}
+
 export type RelationPermissionToRole = {
   __typename?: 'RelationPermissionToRole';
   grantedAt: Scalars['String'];
@@ -607,6 +659,21 @@ export type Role = {
   updatedAt: Scalars['String'];
 };
 
+export type RoleOrderByWithRelationInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type RoleUpdateInput = {
+  name?: InputMaybe<Scalars['String']>;
+};
+
+export type RoleWhereInput = {
+  id?: InputMaybe<StringFilter>;
+  name?: InputMaybe<StringFilter>;
+};
+
 export type SaveImageToS3Response = {
   __typename?: 'SaveImageToS3Response';
   s3Url?: Maybe<Scalars['String']>;
@@ -634,6 +701,7 @@ export type StringFilter = {
   in?: InputMaybe<Array<Scalars['String']>>;
   lt?: InputMaybe<Scalars['String']>;
   lte?: InputMaybe<Scalars['String']>;
+  mode?: InputMaybe<QueryMode>;
   not?: InputMaybe<Scalars['String']>;
   notIn?: InputMaybe<Array<Scalars['String']>>;
   startsWith?: InputMaybe<Scalars['String']>;
@@ -779,14 +847,6 @@ export type CreatePermissionMutationVariables = Exact<{
 
 export type CreatePermissionMutation = { __typename?: 'Mutation', createPermission: { __typename?: 'Permission', id: string, name: string } };
 
-export type UpdatePermissionMutationVariables = Exact<{
-  id: Scalars['String'];
-  data: PermissionUpdateInput;
-}>;
-
-
-export type UpdatePermissionMutation = { __typename?: 'Mutation', updatePermission: { __typename?: 'Permission', id: string, name: string } };
-
 export type PermissionsQueryVariables = Exact<{
   where?: InputMaybe<PermissionWhereInput>;
   skip?: InputMaybe<Scalars['Int']>;
@@ -833,10 +893,51 @@ export type RelationsRoleToUserQueryVariables = Exact<{ [key: string]: never; }>
 
 export type RelationsRoleToUserQuery = { __typename?: 'Query', relationsRoleToUser?: Array<{ __typename?: 'RelationRoleToUser', id: string, roleId: string, userId: string, assignerId: string, assignedAt: string, role?: { __typename?: 'Role', id: string, name: string } | null, user?: { __typename?: 'User', email: string } | null, assigner?: { __typename?: 'User', email: string } | null } | null> | null };
 
-export type RolesQueryVariables = Exact<{ [key: string]: never; }>;
+export type CreateRoleMutationVariables = Exact<{
+  name: Scalars['String'];
+}>;
 
 
-export type RolesQuery = { __typename?: 'Query', roles?: Array<{ __typename?: 'Role', id: string, name: string, meta: any, createdAt: string, updatedAt: string } | null> | null };
+export type CreateRoleMutation = { __typename?: 'Mutation', createRole: { __typename?: 'Role', id: string, name: string } };
+
+export type UpdateRoleMutationVariables = Exact<{
+  id: Scalars['String'];
+  data: RoleUpdateInput;
+}>;
+
+
+export type UpdateRoleMutation = { __typename?: 'Mutation', updateRole: { __typename?: 'Role', id: string, name: string } };
+
+export type RolesQueryVariables = Exact<{
+  where?: InputMaybe<RoleWhereInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<InputMaybe<RoleOrderByWithRelationInput>> | InputMaybe<RoleOrderByWithRelationInput>>;
+}>;
+
+
+export type RolesQuery = { __typename?: 'Query', total: number, roles?: Array<{ __typename?: 'Role', id: string, name: string, meta: any, createdAt: string, updatedAt: string } | null> | null };
+
+export type DeleteRolesMutationVariables = Exact<{
+  ids: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+
+export type DeleteRolesMutation = { __typename?: 'Mutation', deleteRoles?: { __typename?: 'BatchPayload', count: number } | null };
+
+export type RoleQueryVariables = Exact<{
+  where?: InputMaybe<RoleWhereInput>;
+}>;
+
+
+export type RoleQuery = { __typename?: 'Query', role?: { __typename?: 'Role', id: string, name: string } | null };
+
+export type DeleteRoleMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type DeleteRoleMutation = { __typename?: 'Mutation', deleteRole?: { __typename?: 'Role', id: string, name: string } | null };
 
 export type UserSessionsQueryVariables = Exact<{
   where?: InputMaybe<UserSessionWhereInput>;
@@ -1025,41 +1126,6 @@ export function useCreatePermissionMutation(baseOptions?: Apollo.MutationHookOpt
 export type CreatePermissionMutationHookResult = ReturnType<typeof useCreatePermissionMutation>;
 export type CreatePermissionMutationResult = Apollo.MutationResult<CreatePermissionMutation>;
 export type CreatePermissionMutationOptions = Apollo.BaseMutationOptions<CreatePermissionMutation, CreatePermissionMutationVariables>;
-export const UpdatePermissionDocument = gql`
-    mutation UpdatePermission($id: String!, $data: PermissionUpdateInput!) {
-  updatePermission(id: $id, data: $data) {
-    id
-    name
-  }
-}
-    `;
-export type UpdatePermissionMutationFn = Apollo.MutationFunction<UpdatePermissionMutation, UpdatePermissionMutationVariables>;
-
-/**
- * __useUpdatePermissionMutation__
- *
- * To run a mutation, you first call `useUpdatePermissionMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdatePermissionMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updatePermissionMutation, { data, loading, error }] = useUpdatePermissionMutation({
- *   variables: {
- *      id: // value for 'id'
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useUpdatePermissionMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePermissionMutation, UpdatePermissionMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdatePermissionMutation, UpdatePermissionMutationVariables>(UpdatePermissionDocument, options);
-      }
-export type UpdatePermissionMutationHookResult = ReturnType<typeof useUpdatePermissionMutation>;
-export type UpdatePermissionMutationResult = Apollo.MutationResult<UpdatePermissionMutation>;
-export type UpdatePermissionMutationOptions = Apollo.BaseMutationOptions<UpdatePermissionMutation, UpdatePermissionMutationVariables>;
 export const PermissionsDocument = gql`
     query Permissions($where: PermissionWhereInput, $skip: Int, $take: Int, $orderBy: [PermissionOrderByWithRelationInput]) {
   permissions(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
@@ -1348,15 +1414,85 @@ export function useRelationsRoleToUserLazyQuery(baseOptions?: Apollo.LazyQueryHo
 export type RelationsRoleToUserQueryHookResult = ReturnType<typeof useRelationsRoleToUserQuery>;
 export type RelationsRoleToUserLazyQueryHookResult = ReturnType<typeof useRelationsRoleToUserLazyQuery>;
 export type RelationsRoleToUserQueryResult = Apollo.QueryResult<RelationsRoleToUserQuery, RelationsRoleToUserQueryVariables>;
+export const CreateRoleDocument = gql`
+    mutation CreateRole($name: String!) {
+  createRole(name: $name) {
+    id
+    name
+  }
+}
+    `;
+export type CreateRoleMutationFn = Apollo.MutationFunction<CreateRoleMutation, CreateRoleMutationVariables>;
+
+/**
+ * __useCreateRoleMutation__
+ *
+ * To run a mutation, you first call `useCreateRoleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRoleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createRoleMutation, { data, loading, error }] = useCreateRoleMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useCreateRoleMutation(baseOptions?: Apollo.MutationHookOptions<CreateRoleMutation, CreateRoleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateRoleMutation, CreateRoleMutationVariables>(CreateRoleDocument, options);
+      }
+export type CreateRoleMutationHookResult = ReturnType<typeof useCreateRoleMutation>;
+export type CreateRoleMutationResult = Apollo.MutationResult<CreateRoleMutation>;
+export type CreateRoleMutationOptions = Apollo.BaseMutationOptions<CreateRoleMutation, CreateRoleMutationVariables>;
+export const UpdateRoleDocument = gql`
+    mutation UpdateRole($id: String!, $data: RoleUpdateInput!) {
+  updateRole(id: $id, data: $data) {
+    id
+    name
+  }
+}
+    `;
+export type UpdateRoleMutationFn = Apollo.MutationFunction<UpdateRoleMutation, UpdateRoleMutationVariables>;
+
+/**
+ * __useUpdateRoleMutation__
+ *
+ * To run a mutation, you first call `useUpdateRoleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRoleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRoleMutation, { data, loading, error }] = useUpdateRoleMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateRoleMutation(baseOptions?: Apollo.MutationHookOptions<UpdateRoleMutation, UpdateRoleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateRoleMutation, UpdateRoleMutationVariables>(UpdateRoleDocument, options);
+      }
+export type UpdateRoleMutationHookResult = ReturnType<typeof useUpdateRoleMutation>;
+export type UpdateRoleMutationResult = Apollo.MutationResult<UpdateRoleMutation>;
+export type UpdateRoleMutationOptions = Apollo.BaseMutationOptions<UpdateRoleMutation, UpdateRoleMutationVariables>;
 export const RolesDocument = gql`
-    query Roles {
-  roles {
+    query Roles($where: RoleWhereInput, $skip: Int, $take: Int, $orderBy: [RoleOrderByWithRelationInput]) {
+  roles(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
     id
     name
     meta
     createdAt
     updatedAt
   }
+  total: rolesCount(where: $where)
 }
     `;
 
@@ -1372,6 +1508,10 @@ export const RolesDocument = gql`
  * @example
  * const { data, loading, error } = useRolesQuery({
  *   variables: {
+ *      where: // value for 'where'
+ *      skip: // value for 'skip'
+ *      take: // value for 'take'
+ *      orderBy: // value for 'orderBy'
  *   },
  * });
  */
@@ -1386,6 +1526,109 @@ export function useRolesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Role
 export type RolesQueryHookResult = ReturnType<typeof useRolesQuery>;
 export type RolesLazyQueryHookResult = ReturnType<typeof useRolesLazyQuery>;
 export type RolesQueryResult = Apollo.QueryResult<RolesQuery, RolesQueryVariables>;
+export const DeleteRolesDocument = gql`
+    mutation DeleteRoles($ids: [String!]!) {
+  deleteRoles(ids: $ids) {
+    count
+  }
+}
+    `;
+export type DeleteRolesMutationFn = Apollo.MutationFunction<DeleteRolesMutation, DeleteRolesMutationVariables>;
+
+/**
+ * __useDeleteRolesMutation__
+ *
+ * To run a mutation, you first call `useDeleteRolesMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRolesMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRolesMutation, { data, loading, error }] = useDeleteRolesMutation({
+ *   variables: {
+ *      ids: // value for 'ids'
+ *   },
+ * });
+ */
+export function useDeleteRolesMutation(baseOptions?: Apollo.MutationHookOptions<DeleteRolesMutation, DeleteRolesMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteRolesMutation, DeleteRolesMutationVariables>(DeleteRolesDocument, options);
+      }
+export type DeleteRolesMutationHookResult = ReturnType<typeof useDeleteRolesMutation>;
+export type DeleteRolesMutationResult = Apollo.MutationResult<DeleteRolesMutation>;
+export type DeleteRolesMutationOptions = Apollo.BaseMutationOptions<DeleteRolesMutation, DeleteRolesMutationVariables>;
+export const RoleDocument = gql`
+    query Role($where: RoleWhereInput) {
+  role(where: $where) {
+    id
+    name
+  }
+}
+    `;
+
+/**
+ * __useRoleQuery__
+ *
+ * To run a query within a React component, call `useRoleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRoleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRoleQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useRoleQuery(baseOptions?: Apollo.QueryHookOptions<RoleQuery, RoleQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RoleQuery, RoleQueryVariables>(RoleDocument, options);
+      }
+export function useRoleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RoleQuery, RoleQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RoleQuery, RoleQueryVariables>(RoleDocument, options);
+        }
+export type RoleQueryHookResult = ReturnType<typeof useRoleQuery>;
+export type RoleLazyQueryHookResult = ReturnType<typeof useRoleLazyQuery>;
+export type RoleQueryResult = Apollo.QueryResult<RoleQuery, RoleQueryVariables>;
+export const DeleteRoleDocument = gql`
+    mutation DeleteRole($id: String!) {
+  deleteRole(id: $id) {
+    id
+    name
+  }
+}
+    `;
+export type DeleteRoleMutationFn = Apollo.MutationFunction<DeleteRoleMutation, DeleteRoleMutationVariables>;
+
+/**
+ * __useDeleteRoleMutation__
+ *
+ * To run a mutation, you first call `useDeleteRoleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRoleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRoleMutation, { data, loading, error }] = useDeleteRoleMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteRoleMutation(baseOptions?: Apollo.MutationHookOptions<DeleteRoleMutation, DeleteRoleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteRoleMutation, DeleteRoleMutationVariables>(DeleteRoleDocument, options);
+      }
+export type DeleteRoleMutationHookResult = ReturnType<typeof useDeleteRoleMutation>;
+export type DeleteRoleMutationResult = Apollo.MutationResult<DeleteRoleMutation>;
+export type DeleteRoleMutationOptions = Apollo.BaseMutationOptions<DeleteRoleMutation, DeleteRoleMutationVariables>;
 export const UserSessionsDocument = gql`
     query UserSessions($where: UserSessionWhereInput, $skip: Int, $take: Int, $orderBy: [UserSessionOrderByWithRelationInput]) {
   userSessions(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
