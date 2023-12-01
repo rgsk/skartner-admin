@@ -719,6 +719,16 @@ export type RelationsPermissionToRoleQueryVariables = Exact<{ [key: string]: nev
 
 export type RelationsPermissionToRoleQuery = { __typename?: 'Query', relationsPermissionToRole?: Array<{ __typename?: 'RelationPermissionToRole', id: string, permissionId: string, roleId: string, granterId: string, isAllowed?: boolean | null, grantedAt: string, permission?: { __typename?: 'Permission', name: string } | null, role?: { __typename?: 'Role', name: string } | null, granter?: { __typename?: 'User', email: string } | null } | null> | null };
 
+export type RelationsPermissionToUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RelationsPermissionToUserQuery = { __typename?: 'Query', relationsPermissionToUser?: Array<{ __typename?: 'RelationPermissionToUser', id: string, userId: string, isAllowed?: boolean | null, grantedAt: string, user?: { __typename?: 'User', email: string } | null, granter?: { __typename?: 'User', email: string } | null, permission?: { __typename?: 'Permission', name: string } | null } | null> | null };
+
+export type RelationsRoleToUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RelationsRoleToUserQuery = { __typename?: 'Query', relationsRoleToUser?: Array<{ __typename?: 'RelationRoleToUser', id: string, roleId: string, userId: string, assignerId: string, assignedAt: string, role?: { __typename?: 'Role', id: string, name: string } | null, user?: { __typename?: 'User', email: string } | null, assigner?: { __typename?: 'User', email: string } | null } | null> | null };
+
 export type RolesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -963,6 +973,100 @@ export function useRelationsPermissionToRoleLazyQuery(baseOptions?: Apollo.LazyQ
 export type RelationsPermissionToRoleQueryHookResult = ReturnType<typeof useRelationsPermissionToRoleQuery>;
 export type RelationsPermissionToRoleLazyQueryHookResult = ReturnType<typeof useRelationsPermissionToRoleLazyQuery>;
 export type RelationsPermissionToRoleQueryResult = Apollo.QueryResult<RelationsPermissionToRoleQuery, RelationsPermissionToRoleQueryVariables>;
+export const RelationsPermissionToUserDocument = gql`
+    query RelationsPermissionToUser {
+  relationsPermissionToUser {
+    id
+    userId
+    user {
+      email
+    }
+    granter {
+      email
+    }
+    isAllowed
+    permission {
+      name
+    }
+    grantedAt
+  }
+}
+    `;
+
+/**
+ * __useRelationsPermissionToUserQuery__
+ *
+ * To run a query within a React component, call `useRelationsPermissionToUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRelationsPermissionToUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRelationsPermissionToUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRelationsPermissionToUserQuery(baseOptions?: Apollo.QueryHookOptions<RelationsPermissionToUserQuery, RelationsPermissionToUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RelationsPermissionToUserQuery, RelationsPermissionToUserQueryVariables>(RelationsPermissionToUserDocument, options);
+      }
+export function useRelationsPermissionToUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RelationsPermissionToUserQuery, RelationsPermissionToUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RelationsPermissionToUserQuery, RelationsPermissionToUserQueryVariables>(RelationsPermissionToUserDocument, options);
+        }
+export type RelationsPermissionToUserQueryHookResult = ReturnType<typeof useRelationsPermissionToUserQuery>;
+export type RelationsPermissionToUserLazyQueryHookResult = ReturnType<typeof useRelationsPermissionToUserLazyQuery>;
+export type RelationsPermissionToUserQueryResult = Apollo.QueryResult<RelationsPermissionToUserQuery, RelationsPermissionToUserQueryVariables>;
+export const RelationsRoleToUserDocument = gql`
+    query RelationsRoleToUser {
+  relationsRoleToUser {
+    id
+    roleId
+    role {
+      id
+      name
+    }
+    userId
+    user {
+      email
+    }
+    assignerId
+    assigner {
+      email
+    }
+    assignedAt
+  }
+}
+    `;
+
+/**
+ * __useRelationsRoleToUserQuery__
+ *
+ * To run a query within a React component, call `useRelationsRoleToUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRelationsRoleToUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRelationsRoleToUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRelationsRoleToUserQuery(baseOptions?: Apollo.QueryHookOptions<RelationsRoleToUserQuery, RelationsRoleToUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RelationsRoleToUserQuery, RelationsRoleToUserQueryVariables>(RelationsRoleToUserDocument, options);
+      }
+export function useRelationsRoleToUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RelationsRoleToUserQuery, RelationsRoleToUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RelationsRoleToUserQuery, RelationsRoleToUserQueryVariables>(RelationsRoleToUserDocument, options);
+        }
+export type RelationsRoleToUserQueryHookResult = ReturnType<typeof useRelationsRoleToUserQuery>;
+export type RelationsRoleToUserLazyQueryHookResult = ReturnType<typeof useRelationsRoleToUserLazyQuery>;
+export type RelationsRoleToUserQueryResult = Apollo.QueryResult<RelationsRoleToUserQuery, RelationsRoleToUserQueryVariables>;
 export const RolesDocument = gql`
     query Roles {
   roles {

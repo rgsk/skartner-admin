@@ -1,0 +1,19 @@
+query RelationsRoleToUser {
+  relationsRoleToUser {
+    id
+    roleId
+    role {
+      id
+      name
+    }
+    userId
+    user {
+      email
+    }
+    assignerId
+    assigner {
+      email
+    }
+    assignedAt
+  }
+}

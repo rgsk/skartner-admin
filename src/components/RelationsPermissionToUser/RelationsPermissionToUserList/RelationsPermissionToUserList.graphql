@@ -1,0 +1,18 @@
+query RelationsPermissionToUser {
+  relationsPermissionToUser {
+    id
+    userId
+    user {
+      email
+    }
+    granter {
+      email
+    }
+    isAllowed
+    permission {
+      name
+    }
+
+    grantedAt
+  }
+}

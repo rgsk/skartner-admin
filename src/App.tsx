@@ -15,6 +15,8 @@ import environmentVars from "lib/environmentVars";
 import { useEffect } from "react";
 import permissions from "resources/permissions";
 import relationsPermissionToRole from "resources/relationsPermissionToRole";
+import relationsPermissionToUser from "resources/relationsPermissionToUser";
+import relationsRoleToUser from "resources/relationsRoleToUser";
 import roles from "resources/roles";
 
 const authProvider = FirebaseAuthProvider(environmentVars.firebaseConfig, {});
@@ -49,6 +51,11 @@ export const App = () => {
               name="relationsPermissionToRole"
               {...relationsPermissionToRole}
             />
+            <Resource
+              name="relationsPermissionToUser"
+              {...relationsPermissionToUser}
+            />
+            <Resource name="relationsRoleToUser" {...relationsRoleToUser} />
           </>
         )}
       </Admin>
