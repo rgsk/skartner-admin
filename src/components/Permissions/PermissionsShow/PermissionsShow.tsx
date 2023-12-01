@@ -1,11 +1,5 @@
 import { DeletePermissionDocument, PermissionDocument } from "gql/graphql";
-import {
-  DeleteButton,
-  EditButton,
-  Show,
-  SimpleShowLayout,
-  TextField,
-} from "react-admin";
+import { DeleteButton, Show, SimpleShowLayout, TextField } from "react-admin";
 
 interface IPermissionsShowProps {}
 const PermissionsShow: React.FC<IPermissionsShowProps> = ({}) => {
@@ -14,7 +8,6 @@ const PermissionsShow: React.FC<IPermissionsShowProps> = ({}) => {
       <SimpleShowLayout>
         <TextField source={"id"} />
         <TextField source={"name"} />
-        <EditButton />
         <DeleteButton
           mutationOptions={{ meta: { mutation: DeletePermissionDocument } }}
         />
