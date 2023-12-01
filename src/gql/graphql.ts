@@ -198,6 +198,7 @@ export type Mutation = {
   createGreWordSearchPromptInput: GreWordSearchPromptInput;
   createGreWordTag: GreWordTag;
   createNotification: Notification;
+  createPermission: Permission;
   createUser: User;
   deleteGptPrompt?: Maybe<GptPrompt>;
   deleteGreWord?: Maybe<GreWord>;
@@ -247,6 +248,11 @@ export type MutationCreateGreWordTagArgs = {
 export type MutationCreateNotificationArgs = {
   message: Scalars['String'];
   userId: Scalars['String'];
+};
+
+
+export type MutationCreatePermissionArgs = {
+  name: Scalars['String'];
 };
 
 
@@ -709,6 +715,13 @@ export type GreWordListReferenceUsersQueryVariables = Exact<{
 
 export type GreWordListReferenceUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string }> };
 
+export type CreatePermissionMutationVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type CreatePermissionMutation = { __typename?: 'Mutation', createPermission: { __typename?: 'Permission', id: string, name: string } };
+
 export type PermissionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -887,6 +900,40 @@ export function useGreWordListReferenceUsersLazyQuery(baseOptions?: Apollo.LazyQ
 export type GreWordListReferenceUsersQueryHookResult = ReturnType<typeof useGreWordListReferenceUsersQuery>;
 export type GreWordListReferenceUsersLazyQueryHookResult = ReturnType<typeof useGreWordListReferenceUsersLazyQuery>;
 export type GreWordListReferenceUsersQueryResult = Apollo.QueryResult<GreWordListReferenceUsersQuery, GreWordListReferenceUsersQueryVariables>;
+export const CreatePermissionDocument = gql`
+    mutation CreatePermission($name: String!) {
+  createPermission(name: $name) {
+    id
+    name
+  }
+}
+    `;
+export type CreatePermissionMutationFn = Apollo.MutationFunction<CreatePermissionMutation, CreatePermissionMutationVariables>;
+
+/**
+ * __useCreatePermissionMutation__
+ *
+ * To run a mutation, you first call `useCreatePermissionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePermissionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPermissionMutation, { data, loading, error }] = useCreatePermissionMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useCreatePermissionMutation(baseOptions?: Apollo.MutationHookOptions<CreatePermissionMutation, CreatePermissionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePermissionMutation, CreatePermissionMutationVariables>(CreatePermissionDocument, options);
+      }
+export type CreatePermissionMutationHookResult = ReturnType<typeof useCreatePermissionMutation>;
+export type CreatePermissionMutationResult = Apollo.MutationResult<CreatePermissionMutation>;
+export type CreatePermissionMutationOptions = Apollo.BaseMutationOptions<CreatePermissionMutation, CreatePermissionMutationVariables>;
 export const PermissionsDocument = gql`
     query Permissions {
   permissions {

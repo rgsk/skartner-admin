@@ -1,6 +1,8 @@
-import PermissionList from "components/Permissions/PermissionsList/PermissionsList";
+import PermissionsCreate from "components/Permissions/PermissionsCreate/PermissionsCreate";
+import PermissionsList from "components/Permissions/PermissionsList/PermissionsList";
 
 const permissions = {
-  list: PermissionList,
+  list: PermissionsList,
+  create: PermissionsCreate,
 };
 export default permissions;

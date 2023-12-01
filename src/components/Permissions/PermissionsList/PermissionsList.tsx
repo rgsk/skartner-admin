@@ -1,6 +1,6 @@
 import { PermissionsDocument } from "gql/graphql";
 import { Datagrid, DateField, List, TextField } from "react-admin";
-const PermissionList = () => {
+const PermissionsList = () => {
   return (
     <List
       queryOptions={{
@@ -18,4 +18,4 @@ const PermissionList = () => {
   );
 };
 
-export default PermissionList;
+export default PermissionsList;

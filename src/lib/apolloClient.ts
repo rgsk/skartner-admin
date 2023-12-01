@@ -65,5 +65,6 @@ const apolloClient = new ApolloClient({
   // this check ensures that websocket connection is not initialized on server side
   link: getSplitLink(),
   cache: new InMemoryCache(),
+  defaultOptions: { query: { fetchPolicy: "network-only" } },
 });
 export default apolloClient;
