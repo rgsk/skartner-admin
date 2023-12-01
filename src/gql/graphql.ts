@@ -373,6 +373,11 @@ export type PermissionHierarchy = {
   parentPermissionId: Scalars['String'];
 };
 
+export type PermissionOrderByWithRelationInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
 export type PermissionUpdateInput = {
   name?: InputMaybe<Scalars['String']>;
 };
@@ -409,6 +414,7 @@ export type Query = {
   permission?: Maybe<Permission>;
   permissionHierarchies?: Maybe<Array<Maybe<PermissionHierarchy>>>;
   permissions?: Maybe<Array<Maybe<Permission>>>;
+  permissionsCount: Scalars['Int'];
   posts?: Maybe<Array<Maybe<Post>>>;
   relationsPermissionToRole?: Maybe<Array<Maybe<RelationPermissionToRole>>>;
   relationsPermissionToUser?: Maybe<Array<Maybe<RelationPermissionToUser>>>;
@@ -481,6 +487,19 @@ export type QueryGreWordsCountArgs = {
 
 
 export type QueryPermissionArgs = {
+  where?: InputMaybe<PermissionWhereInput>;
+};
+
+
+export type QueryPermissionsArgs = {
+  orderBy?: InputMaybe<Array<InputMaybe<PermissionOrderByWithRelationInput>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<PermissionWhereInput>;
+};
+
+
+export type QueryPermissionsCountArgs = {
   where?: InputMaybe<PermissionWhereInput>;
 };
 
@@ -768,10 +787,15 @@ export type UpdatePermissionMutationVariables = Exact<{
 
 export type UpdatePermissionMutation = { __typename?: 'Mutation', updatePermission: { __typename?: 'Permission', id: string, name: string } };
 
-export type PermissionsQueryVariables = Exact<{ [key: string]: never; }>;
+export type PermissionsQueryVariables = Exact<{
+  where?: InputMaybe<PermissionWhereInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<InputMaybe<PermissionOrderByWithRelationInput>> | InputMaybe<PermissionOrderByWithRelationInput>>;
+}>;
 
 
-export type PermissionsQuery = { __typename?: 'Query', permissions?: Array<{ __typename?: 'Permission', id: string, name: string, meta: any, createdAt: string, updatedAt: string } | null> | null };
+export type PermissionsQuery = { __typename?: 'Query', total: number, permissions?: Array<{ __typename?: 'Permission', id: string, name: string, meta: any, createdAt: string, updatedAt: string } | null> | null };
 
 export type DeletePermissionsMutationVariables = Exact<{
   ids: Array<Scalars['String']> | Scalars['String'];
@@ -1037,14 +1061,15 @@ export type UpdatePermissionMutationHookResult = ReturnType<typeof useUpdatePerm
 export type UpdatePermissionMutationResult = Apollo.MutationResult<UpdatePermissionMutation>;
 export type UpdatePermissionMutationOptions = Apollo.BaseMutationOptions<UpdatePermissionMutation, UpdatePermissionMutationVariables>;
 export const PermissionsDocument = gql`
-    query Permissions {
-  permissions {
+    query Permissions($where: PermissionWhereInput, $skip: Int, $take: Int, $orderBy: [PermissionOrderByWithRelationInput]) {
+  permissions(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
     id
     name
     meta
     createdAt
     updatedAt
   }
+  total: permissionsCount(where: $where)
 }
     `;
 
@@ -1060,6 +1085,10 @@ export const PermissionsDocument = gql`
  * @example
  * const { data, loading, error } = usePermissionsQuery({
  *   variables: {
+ *      where: // value for 'where'
+ *      skip: // value for 'skip'
+ *      take: // value for 'take'
+ *      orderBy: // value for 'orderBy'
  *   },
  * });
  */

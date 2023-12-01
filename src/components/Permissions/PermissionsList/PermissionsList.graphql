@@ -1,11 +1,17 @@
-query Permissions {
-  permissions {
+query Permissions(
+  $where: PermissionWhereInput
+  $skip: Int
+  $take: Int
+  $orderBy: [PermissionOrderByWithRelationInput]
+) {
+  permissions(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
     id
     name
     meta
     createdAt
     updatedAt
   }
+  total: permissionsCount(where: $where)
 }
 
 mutation DeletePermissions($ids: [String!]!) {
