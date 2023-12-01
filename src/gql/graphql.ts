@@ -21,6 +21,11 @@ export type AuthenticateResponse = {
   message: Scalars['String'];
 };
 
+export type BatchPayload = {
+  __typename?: 'BatchPayload';
+  count: Scalars['Int'];
+};
+
 export type CachePrompt = {
   __typename?: 'CachePrompt';
   cacheResponses: Array<CacheResponse>;
@@ -204,11 +209,14 @@ export type Mutation = {
   deleteGreWord?: Maybe<GreWord>;
   deleteGreWordSearchPromptInput?: Maybe<GreWordSearchPromptInput>;
   deleteGreWordTag: GreWordTag;
+  deletePermission?: Maybe<Permission>;
+  deletePermissions?: Maybe<BatchPayload>;
   publish?: Maybe<Post>;
   saveImageToS3?: Maybe<SaveImageToS3Response>;
   updateGptPrompt?: Maybe<GptPrompt>;
   updateGreWord?: Maybe<GreWord>;
   updateGreWordSearchPromptInput?: Maybe<GreWordSearchPromptInput>;
+  updatePermission: Permission;
   updateUser?: Maybe<User>;
 };
 
@@ -283,6 +291,16 @@ export type MutationDeleteGreWordTagArgs = {
 };
 
 
+export type MutationDeletePermissionArgs = {
+  id: Scalars['String'];
+};
+
+
+export type MutationDeletePermissionsArgs = {
+  ids: Array<Scalars['String']>;
+};
+
+
 export type MutationPublishArgs = {
   draftId: Scalars['String'];
 };
@@ -311,6 +329,12 @@ export type MutationUpdateGreWordArgs = {
 export type MutationUpdateGreWordSearchPromptInputArgs = {
   id: Scalars['String'];
   text?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationUpdatePermissionArgs = {
+  data: PermissionUpdateInput;
+  id: Scalars['String'];
 };
 
 
@@ -349,6 +373,14 @@ export type PermissionHierarchy = {
   parentPermissionId: Scalars['String'];
 };
 
+export type PermissionUpdateInput = {
+  name?: InputMaybe<Scalars['String']>;
+};
+
+export type PermissionWhereInput = {
+  id?: InputMaybe<StringFilter>;
+};
+
 export type Post = {
   __typename?: 'Post';
   body?: Maybe<Scalars['String']>;
@@ -374,6 +406,7 @@ export type Query = {
   greWords: Array<GreWord>;
   greWordsCount: Scalars['Int'];
   hello: HelloWorld;
+  permission?: Maybe<Permission>;
   permissionHierarchies?: Maybe<Array<Maybe<PermissionHierarchy>>>;
   permissions?: Maybe<Array<Maybe<Permission>>>;
   posts?: Maybe<Array<Maybe<Post>>>;
@@ -444,6 +477,11 @@ export type QueryGreWordsArgs = {
 
 export type QueryGreWordsCountArgs = {
   where?: InputMaybe<GreWordWhereInput>;
+};
+
+
+export type QueryPermissionArgs = {
+  where?: InputMaybe<PermissionWhereInput>;
 };
 
 
@@ -722,10 +760,39 @@ export type CreatePermissionMutationVariables = Exact<{
 
 export type CreatePermissionMutation = { __typename?: 'Mutation', createPermission: { __typename?: 'Permission', id: string, name: string } };
 
+export type UpdatePermissionMutationVariables = Exact<{
+  id: Scalars['String'];
+  data: PermissionUpdateInput;
+}>;
+
+
+export type UpdatePermissionMutation = { __typename?: 'Mutation', updatePermission: { __typename?: 'Permission', id: string, name: string } };
+
 export type PermissionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type PermissionsQuery = { __typename?: 'Query', permissions?: Array<{ __typename?: 'Permission', id: string, name: string, meta: any, createdAt: string, updatedAt: string } | null> | null };
+
+export type DeletePermissionsMutationVariables = Exact<{
+  ids: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+
+export type DeletePermissionsMutation = { __typename?: 'Mutation', deletePermissions?: { __typename?: 'BatchPayload', count: number } | null };
+
+export type PermissionQueryVariables = Exact<{
+  where?: InputMaybe<PermissionWhereInput>;
+}>;
+
+
+export type PermissionQuery = { __typename?: 'Query', permission?: { __typename?: 'Permission', id: string, name: string } | null };
+
+export type DeletePermissionMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type DeletePermissionMutation = { __typename?: 'Mutation', deletePermission?: { __typename?: 'Permission', id: string, name: string } | null };
 
 export type RelationsPermissionToRoleQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -934,6 +1001,41 @@ export function useCreatePermissionMutation(baseOptions?: Apollo.MutationHookOpt
 export type CreatePermissionMutationHookResult = ReturnType<typeof useCreatePermissionMutation>;
 export type CreatePermissionMutationResult = Apollo.MutationResult<CreatePermissionMutation>;
 export type CreatePermissionMutationOptions = Apollo.BaseMutationOptions<CreatePermissionMutation, CreatePermissionMutationVariables>;
+export const UpdatePermissionDocument = gql`
+    mutation UpdatePermission($id: String!, $data: PermissionUpdateInput!) {
+  updatePermission(id: $id, data: $data) {
+    id
+    name
+  }
+}
+    `;
+export type UpdatePermissionMutationFn = Apollo.MutationFunction<UpdatePermissionMutation, UpdatePermissionMutationVariables>;
+
+/**
+ * __useUpdatePermissionMutation__
+ *
+ * To run a mutation, you first call `useUpdatePermissionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePermissionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePermissionMutation, { data, loading, error }] = useUpdatePermissionMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdatePermissionMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePermissionMutation, UpdatePermissionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdatePermissionMutation, UpdatePermissionMutationVariables>(UpdatePermissionDocument, options);
+      }
+export type UpdatePermissionMutationHookResult = ReturnType<typeof useUpdatePermissionMutation>;
+export type UpdatePermissionMutationResult = Apollo.MutationResult<UpdatePermissionMutation>;
+export type UpdatePermissionMutationOptions = Apollo.BaseMutationOptions<UpdatePermissionMutation, UpdatePermissionMutationVariables>;
 export const PermissionsDocument = gql`
     query Permissions {
   permissions {
@@ -972,6 +1074,109 @@ export function usePermissionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type PermissionsQueryHookResult = ReturnType<typeof usePermissionsQuery>;
 export type PermissionsLazyQueryHookResult = ReturnType<typeof usePermissionsLazyQuery>;
 export type PermissionsQueryResult = Apollo.QueryResult<PermissionsQuery, PermissionsQueryVariables>;
+export const DeletePermissionsDocument = gql`
+    mutation DeletePermissions($ids: [String!]!) {
+  deletePermissions(ids: $ids) {
+    count
+  }
+}
+    `;
+export type DeletePermissionsMutationFn = Apollo.MutationFunction<DeletePermissionsMutation, DeletePermissionsMutationVariables>;
+
+/**
+ * __useDeletePermissionsMutation__
+ *
+ * To run a mutation, you first call `useDeletePermissionsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePermissionsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePermissionsMutation, { data, loading, error }] = useDeletePermissionsMutation({
+ *   variables: {
+ *      ids: // value for 'ids'
+ *   },
+ * });
+ */
+export function useDeletePermissionsMutation(baseOptions?: Apollo.MutationHookOptions<DeletePermissionsMutation, DeletePermissionsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeletePermissionsMutation, DeletePermissionsMutationVariables>(DeletePermissionsDocument, options);
+      }
+export type DeletePermissionsMutationHookResult = ReturnType<typeof useDeletePermissionsMutation>;
+export type DeletePermissionsMutationResult = Apollo.MutationResult<DeletePermissionsMutation>;
+export type DeletePermissionsMutationOptions = Apollo.BaseMutationOptions<DeletePermissionsMutation, DeletePermissionsMutationVariables>;
+export const PermissionDocument = gql`
+    query Permission($where: PermissionWhereInput) {
+  permission(where: $where) {
+    id
+    name
+  }
+}
+    `;
+
+/**
+ * __usePermissionQuery__
+ *
+ * To run a query within a React component, call `usePermissionQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePermissionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePermissionQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function usePermissionQuery(baseOptions?: Apollo.QueryHookOptions<PermissionQuery, PermissionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PermissionQuery, PermissionQueryVariables>(PermissionDocument, options);
+      }
+export function usePermissionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PermissionQuery, PermissionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PermissionQuery, PermissionQueryVariables>(PermissionDocument, options);
+        }
+export type PermissionQueryHookResult = ReturnType<typeof usePermissionQuery>;
+export type PermissionLazyQueryHookResult = ReturnType<typeof usePermissionLazyQuery>;
+export type PermissionQueryResult = Apollo.QueryResult<PermissionQuery, PermissionQueryVariables>;
+export const DeletePermissionDocument = gql`
+    mutation DeletePermission($id: String!) {
+  deletePermission(id: $id) {
+    id
+    name
+  }
+}
+    `;
+export type DeletePermissionMutationFn = Apollo.MutationFunction<DeletePermissionMutation, DeletePermissionMutationVariables>;
+
+/**
+ * __useDeletePermissionMutation__
+ *
+ * To run a mutation, you first call `useDeletePermissionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePermissionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePermissionMutation, { data, loading, error }] = useDeletePermissionMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeletePermissionMutation(baseOptions?: Apollo.MutationHookOptions<DeletePermissionMutation, DeletePermissionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeletePermissionMutation, DeletePermissionMutationVariables>(DeletePermissionDocument, options);
+      }
+export type DeletePermissionMutationHookResult = ReturnType<typeof useDeletePermissionMutation>;
+export type DeletePermissionMutationResult = Apollo.MutationResult<DeletePermissionMutation>;
+export type DeletePermissionMutationOptions = Apollo.BaseMutationOptions<DeletePermissionMutation, DeletePermissionMutationVariables>;
 export const RelationsPermissionToRoleDocument = gql`
     query RelationsPermissionToRole {
   relationsPermissionToRole {

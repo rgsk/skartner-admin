@@ -7,3 +7,9 @@ query Permissions {
     updatedAt
   }
 }
+
+mutation DeletePermissions($ids: [String!]!) {
+  deletePermissions(ids: $ids) {
+    count
+  }
+}

@@ -1,5 +1,13 @@
-import { PermissionsDocument } from "gql/graphql";
-import { Datagrid, DateField, List, TextField } from "react-admin";
+import { DeletePermissionsDocument, PermissionsDocument } from "gql/graphql";
+import {
+  BulkDeleteButton,
+  Datagrid,
+  DateField,
+  EditButton,
+  List,
+  TextField,
+} from "react-admin";
+
 const PermissionsList = () => {
   return (
     <List
@@ -9,10 +17,18 @@ const PermissionsList = () => {
         },
       }}
     >
-      <Datagrid>
+      <Datagrid
+        rowClick="show"
+        bulkActionButtons={
+          <BulkDeleteButton
+            mutationOptions={{ meta: { mutation: DeletePermissionsDocument } }}
+          />
+        }
+      >
         <TextField source="id" sortable={false} />
         <TextField source="name" sortable={false} />
         <DateField source="createdAt" />
+        <EditButton />
       </Datagrid>
     </List>
   );
