@@ -12,8 +12,11 @@ function getWhereObject(filter: any) {
       currentOutput[part] = currentOutput[part] || {};
       currentOutput = currentOutput[part];
     }
-
-    currentOutput[parts[lastPartIndex]] = value;
+    const last = parts[lastPartIndex];
+    if (last === "contains") {
+      currentOutput["mode"] = "insensitive";
+    }
+    currentOutput[last] = value;
   }
 
   return output;

@@ -6,6 +6,7 @@ import {
   EditButton,
   List,
   TextField,
+  TextInput,
 } from "react-admin";
 
 const PermissionsList = () => {
@@ -16,6 +17,7 @@ const PermissionsList = () => {
           query: PermissionsDocument,
         },
       }}
+      filters={[<TextInput source="name_contains" alwaysOn />]}
     >
       <Datagrid
         rowClick="show"
