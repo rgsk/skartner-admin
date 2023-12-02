@@ -1,5 +1,15 @@
-query RelationsPermissionToUser {
-  relationsPermissionToUser {
+query RelationsPermissionToUser(
+  $where: RelationPermissionToUserWhereInput
+  $skip: Int
+  $take: Int
+  $orderBy: [RelationPermissionToUserOrderByWithRelationInput]
+) {
+  relationsPermissionToUser(
+    where: $where
+    skip: $skip
+    take: $take
+    orderBy: $orderBy
+  ) {
     id
     userId
     user {
@@ -15,4 +25,6 @@ query RelationsPermissionToUser {
 
     grantedAt
   }
+
+  total: relationsPermissionToUserCount(where: $where)
 }

@@ -18,7 +18,6 @@ function getWhereObject(filter: any) {
     }
     currentOutput[last] = value;
   }
-
   return output;
 }
 const dataProviderUtils = {
