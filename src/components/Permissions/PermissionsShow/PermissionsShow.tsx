@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import {
   DeletePermissionDocument,
   PermissionDocument,
+  RelationsPermissionToRoleDocument,
   RelationsPermissionToUserDocument,
 } from "gql/graphql";
 import {
@@ -31,6 +32,9 @@ const PermissionsShow: React.FC<IPermissionsShowProps> = ({}) => {
         <Box sx={{ mt: 2 }}>
           <PermissionToUser />
         </Box>
+        <Box sx={{ mt: 2 }}>
+          <PermissionToRole />
+        </Box>
       </Show>
     </Box>
   );
@@ -55,6 +59,32 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
       >
         <Datagrid>
           <TextField source="user.email" sortable={false} />
+          <TextField source="granter.email" sortable={false} />
+          <BooleanField source="isAllowed" sortable={false} />
+          <DateField source="grantedAt" />
+        </Datagrid>
+      </List>
+    </Box>
+  );
+};
+
+interface IPermissionToRoleProps {}
+const PermissionToRole: React.FC<IPermissionToRoleProps> = ({}) => {
+  const permission = useRecordContext();
+  return (
+    <Box>
+      <Typography>Relations Permission To Role</Typography>
+      <List
+        queryOptions={{
+          meta: {
+            query: RelationsPermissionToRoleDocument,
+          },
+        }}
+        resource="relationsPermissionToRole"
+        filter={{ permissionId_equals: permission?.id }}
+      >
+        <Datagrid>
+          <TextField source="role.name" sortable={false} />
           <TextField source="granter.email" sortable={false} />
           <BooleanField source="isAllowed" sortable={false} />
           <DateField source="grantedAt" />

@@ -1,5 +1,15 @@
-query RelationsPermissionToRole {
-  relationsPermissionToRole {
+query RelationsPermissionToRole(
+  $where: RelationPermissionToRoleWhereInput
+  $skip: Int
+  $take: Int
+  $orderBy: [RelationPermissionToRoleOrderByWithRelationInput]
+) {
+  relationsPermissionToRole(
+    where: $where
+    skip: $skip
+    take: $take
+    orderBy: $orderBy
+  ) {
     id
     permissionId
     permission {
@@ -16,4 +26,6 @@ query RelationsPermissionToRole {
     isAllowed
     grantedAt
   }
+
+  total: relationsPermissionToRoleCount(where: $where)
 }

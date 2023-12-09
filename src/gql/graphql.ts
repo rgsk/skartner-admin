@@ -444,6 +444,7 @@ export type Query = {
   permissionsCount: Scalars['Int'];
   posts?: Maybe<Array<Maybe<Post>>>;
   relationsPermissionToRole?: Maybe<Array<Maybe<RelationPermissionToRole>>>;
+  relationsPermissionToRoleCount: Scalars['Int'];
   relationsPermissionToUser?: Maybe<Array<Maybe<RelationPermissionToUser>>>;
   relationsPermissionToUserCount: Scalars['Int'];
   relationsRoleToUser?: Maybe<Array<Maybe<RelationRoleToUser>>>;
@@ -531,6 +532,19 @@ export type QueryPermissionsArgs = {
 
 export type QueryPermissionsCountArgs = {
   where?: InputMaybe<PermissionWhereInput>;
+};
+
+
+export type QueryRelationsPermissionToRoleArgs = {
+  orderBy?: InputMaybe<Array<InputMaybe<RelationPermissionToRoleOrderByWithRelationInput>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RelationPermissionToRoleWhereInput>;
+};
+
+
+export type QueryRelationsPermissionToRoleCountArgs = {
+  where?: InputMaybe<RelationPermissionToRoleWhereInput>;
 };
 
 
@@ -635,6 +649,17 @@ export type RelationPermissionToRole = {
   permissionId: Scalars['String'];
   role?: Maybe<Role>;
   roleId: Scalars['String'];
+};
+
+export type RelationPermissionToRoleOrderByWithRelationInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type RelationPermissionToRoleWhereInput = {
+  id?: InputMaybe<StringFilter>;
+  permissionId?: InputMaybe<StringFilter>;
 };
 
 export type RelationPermissionToUser = {
@@ -903,10 +928,15 @@ export type DeletePermissionMutationVariables = Exact<{
 
 export type DeletePermissionMutation = { __typename?: 'Mutation', deletePermission?: { __typename?: 'Permission', id: string, name: string } | null };
 
-export type RelationsPermissionToRoleQueryVariables = Exact<{ [key: string]: never; }>;
+export type RelationsPermissionToRoleQueryVariables = Exact<{
+  where?: InputMaybe<RelationPermissionToRoleWhereInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<InputMaybe<RelationPermissionToRoleOrderByWithRelationInput>> | InputMaybe<RelationPermissionToRoleOrderByWithRelationInput>>;
+}>;
 
 
-export type RelationsPermissionToRoleQuery = { __typename?: 'Query', relationsPermissionToRole?: Array<{ __typename?: 'RelationPermissionToRole', id: string, permissionId: string, roleId: string, granterId: string, isAllowed?: boolean | null, grantedAt: string, permission?: { __typename?: 'Permission', name: string } | null, role?: { __typename?: 'Role', name: string } | null, granter?: { __typename?: 'User', email: string } | null } | null> | null };
+export type RelationsPermissionToRoleQuery = { __typename?: 'Query', total: number, relationsPermissionToRole?: Array<{ __typename?: 'RelationPermissionToRole', id: string, permissionId: string, roleId: string, granterId: string, isAllowed?: boolean | null, grantedAt: string, permission?: { __typename?: 'Permission', name: string } | null, role?: { __typename?: 'Role', name: string } | null, granter?: { __typename?: 'User', email: string } | null } | null> | null };
 
 export type RelationsPermissionToUserQueryVariables = Exact<{
   where?: InputMaybe<RelationPermissionToUserWhereInput>;
@@ -1303,8 +1333,13 @@ export type DeletePermissionMutationHookResult = ReturnType<typeof useDeletePerm
 export type DeletePermissionMutationResult = Apollo.MutationResult<DeletePermissionMutation>;
 export type DeletePermissionMutationOptions = Apollo.BaseMutationOptions<DeletePermissionMutation, DeletePermissionMutationVariables>;
 export const RelationsPermissionToRoleDocument = gql`
-    query RelationsPermissionToRole {
-  relationsPermissionToRole {
+    query RelationsPermissionToRole($where: RelationPermissionToRoleWhereInput, $skip: Int, $take: Int, $orderBy: [RelationPermissionToRoleOrderByWithRelationInput]) {
+  relationsPermissionToRole(
+    where: $where
+    skip: $skip
+    take: $take
+    orderBy: $orderBy
+  ) {
     id
     permissionId
     permission {
@@ -1321,6 +1356,7 @@ export const RelationsPermissionToRoleDocument = gql`
     isAllowed
     grantedAt
   }
+  total: relationsPermissionToRoleCount(where: $where)
 }
     `;
 
@@ -1336,6 +1372,10 @@ export const RelationsPermissionToRoleDocument = gql`
  * @example
  * const { data, loading, error } = useRelationsPermissionToRoleQuery({
  *   variables: {
+ *      where: // value for 'where'
+ *      skip: // value for 'skip'
+ *      take: // value for 'take'
+ *      orderBy: // value for 'orderBy'
  *   },
  * });
  */
