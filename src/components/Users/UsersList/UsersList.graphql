@@ -1,3 +1,12 @@
+fragment UserFields on User {
+  id
+  email
+  meta {
+    defaultGreWordSearchPromptInput
+    showDefaultGreWordSearchPromptInputs
+  }
+  createdAt
+}
 query Users(
   $where: UserWhereInput
   $skip: Int
@@ -5,13 +14,7 @@ query Users(
   $orderBy: [UserOrderByWithRelationInput]
 ) {
   users(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
-    id
-    email
-    meta {
-      defaultGreWordSearchPromptInput
-      showDefaultGreWordSearchPromptInputs
-    }
-    createdAt
+    ...UserFields
   }
   total: usersCount(where: $where)
 }

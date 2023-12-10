@@ -1,0 +1,5 @@
+query User($where: UserWhereInput!) {
+  user(where: $where) {
+    ...UserFields
+  }
+}

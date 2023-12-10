@@ -16,6 +16,7 @@ const RelationsPermissionToUserList = () => {
       }}
     >
       <Datagrid>
+        <TextField source="id" sortable={false} />
         <TextField source="permission.name" sortable={false} />
         <TextField source="user.email" sortable={false} />
         <TextField source="granter.email" sortable={false} />

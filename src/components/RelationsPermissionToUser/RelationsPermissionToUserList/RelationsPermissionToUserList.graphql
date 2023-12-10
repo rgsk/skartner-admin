@@ -1,3 +1,20 @@
+fragment RelationPermissionToUserFields on RelationPermissionToUser {
+  id
+  userId
+  user {
+    email
+  }
+  granter {
+    email
+  }
+  isAllowed
+  permission {
+    name
+  }
+
+  grantedAt
+}
+
 query RelationsPermissionToUser(
   $where: RelationPermissionToUserWhereInput
   $skip: Int
@@ -10,20 +27,7 @@ query RelationsPermissionToUser(
     take: $take
     orderBy: $orderBy
   ) {
-    id
-    userId
-    user {
-      email
-    }
-    granter {
-      email
-    }
-    isAllowed
-    permission {
-      name
-    }
-
-    grantedAt
+    ...RelationPermissionToUserFields
   }
 
   total: relationsPermissionToUserCount(where: $where)

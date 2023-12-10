@@ -3,10 +3,11 @@ import {
   ApolloLink,
   HttpLink,
   InMemoryCache,
-  concat,
+  from,
   split,
 } from "@apollo/client";
 
+import { onError } from "@apollo/client/link/error";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { createClient } from "graphql-ws";
@@ -19,9 +20,19 @@ const httpLink = new HttpLink({
   uri: httpUrl,
 });
 
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors) {
+    console.log("graphQLErrors:", graphQLErrors);
+  }
+
+  if (networkError) {
+    // handle network error
+    console.log("networkError:", networkError);
+  }
+});
+
 const authMiddleware = new ApolloLink((operation, forward) => {
   const token = window.localStorage.getItem("token");
-
   operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
@@ -56,7 +67,7 @@ const getSplitLink = () => {
       );
     },
     wsLink,
-    concat(authMiddleware, httpLink)
+    from([authMiddleware, errorLink, httpLink])
   );
   return splitLink;
 };

@@ -30,6 +30,7 @@ export const App = () => {
       window.localStorage.removeItem("token");
     }
   }, [token]);
+
   return (
     <ApolloProvider client={apolloClient}>
       <Admin

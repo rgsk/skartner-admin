@@ -204,6 +204,7 @@ export type Mutation = {
   createGreWordTag: GreWordTag;
   createNotification: Notification;
   createPermission: Permission;
+  createRelationPermissionToUser: RelationPermissionToUser;
   createRole: Role;
   createUser: User;
   deleteGptPrompt?: Maybe<GptPrompt>;
@@ -220,6 +221,7 @@ export type Mutation = {
   updateGreWord?: Maybe<GreWord>;
   updateGreWordSearchPromptInput?: Maybe<GreWordSearchPromptInput>;
   updatePermission: Permission;
+  updateRelationPermissionToUser: RelationPermissionToUser;
   updateRole: Role;
   updateUser?: Maybe<User>;
 };
@@ -265,6 +267,14 @@ export type MutationCreateNotificationArgs = {
 
 export type MutationCreatePermissionArgs = {
   name: Scalars['String'];
+};
+
+
+export type MutationCreateRelationPermissionToUserArgs = {
+  granterId: Scalars['String'];
+  isAllowed?: InputMaybe<Scalars['Boolean']>;
+  permissionId: Scalars['String'];
+  userId: Scalars['String'];
 };
 
 
@@ -353,6 +363,12 @@ export type MutationUpdateGreWordSearchPromptInputArgs = {
 
 export type MutationUpdatePermissionArgs = {
   data: PermissionUpdateInput;
+  id: Scalars['String'];
+};
+
+
+export type MutationUpdateRelationPermissionToUserArgs = {
+  data: RelationPermissionToUserUpdateInput;
   id: Scalars['String'];
 };
 
@@ -589,7 +605,7 @@ export type QuerySendSinglePromptArgs = {
 
 
 export type QueryUserArgs = {
-  where: UserWhereUniqueInput;
+  where: UserWhereInput;
 };
 
 
@@ -679,6 +695,13 @@ export type RelationPermissionToUserOrderByWithRelationInput = {
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type RelationPermissionToUserUpdateInput = {
+  granterId?: InputMaybe<Scalars['String']>;
+  isAllowed?: InputMaybe<Scalars['Boolean']>;
+  permissionId?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['String']>;
 };
 
 export type RelationPermissionToUserWhereInput = {
@@ -849,11 +872,6 @@ export type UserWhereInput = {
   id?: InputMaybe<StringFilter>;
 };
 
-export type UserWhereUniqueInput = {
-  email?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-};
-
 export type WordAndResponses = {
   __typename?: 'WordAndResponses';
   responses: Array<Maybe<Scalars['String']>>;
@@ -938,6 +956,18 @@ export type RelationsPermissionToRoleQueryVariables = Exact<{
 
 export type RelationsPermissionToRoleQuery = { __typename?: 'Query', total: number, relationsPermissionToRole?: Array<{ __typename?: 'RelationPermissionToRole', id: string, permissionId: string, roleId: string, granterId: string, isAllowed?: boolean | null, grantedAt: string, permission?: { __typename?: 'Permission', name: string } | null, role?: { __typename?: 'Role', name: string } | null, granter?: { __typename?: 'User', email: string } | null } | null> | null };
 
+export type CreateRelationPermissionToUserMutationVariables = Exact<{
+  permissionId: Scalars['String'];
+  userId: Scalars['String'];
+  granterId: Scalars['String'];
+  isAllowed?: InputMaybe<Scalars['Boolean']>;
+}>;
+
+
+export type CreateRelationPermissionToUserMutation = { __typename?: 'Mutation', createRelationPermissionToUser: { __typename?: 'RelationPermissionToUser', id: string, userId: string, isAllowed?: boolean | null, grantedAt: string, user?: { __typename?: 'User', email: string } | null, granter?: { __typename?: 'User', email: string } | null, permission?: { __typename?: 'Permission', name: string } | null } };
+
+export type RelationPermissionToUserFieldsFragment = { __typename?: 'RelationPermissionToUser', id: string, userId: string, isAllowed?: boolean | null, grantedAt: string, user?: { __typename?: 'User', email: string } | null, granter?: { __typename?: 'User', email: string } | null, permission?: { __typename?: 'Permission', name: string } | null };
+
 export type RelationsPermissionToUserQueryVariables = Exact<{
   where?: InputMaybe<RelationPermissionToUserWhereInput>;
   skip?: InputMaybe<Scalars['Int']>;
@@ -1009,6 +1039,8 @@ export type UserSessionsQueryVariables = Exact<{
 
 export type UserSessionsQuery = { __typename?: 'Query', total: number, userSessions: Array<{ __typename?: 'UserSession', id: string, startedAt: string, endedAt?: string | null, duration?: number | null, user: { __typename?: 'User', email: string } }> };
 
+export type UserFieldsFragment = { __typename?: 'User', id: string, email: string, createdAt: string, meta: { __typename?: 'UserMetaParsedJsonValue', defaultGreWordSearchPromptInput?: string | null, showDefaultGreWordSearchPromptInputs?: boolean | null } };
+
 export type UsersQueryVariables = Exact<{
   where?: InputMaybe<UserWhereInput>;
   skip?: InputMaybe<Scalars['Int']>;
@@ -1019,7 +1051,41 @@ export type UsersQueryVariables = Exact<{
 
 export type UsersQuery = { __typename?: 'Query', total: number, users: Array<{ __typename?: 'User', id: string, email: string, createdAt: string, meta: { __typename?: 'UserMetaParsedJsonValue', defaultGreWordSearchPromptInput?: string | null, showDefaultGreWordSearchPromptInputs?: boolean | null } }> };
 
+export type UserQueryVariables = Exact<{
+  where: UserWhereInput;
+}>;
 
+
+export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, email: string, createdAt: string, meta: { __typename?: 'UserMetaParsedJsonValue', defaultGreWordSearchPromptInput?: string | null, showDefaultGreWordSearchPromptInputs?: boolean | null } } | null };
+
+export const RelationPermissionToUserFieldsFragmentDoc = gql`
+    fragment RelationPermissionToUserFields on RelationPermissionToUser {
+  id
+  userId
+  user {
+    email
+  }
+  granter {
+    email
+  }
+  isAllowed
+  permission {
+    name
+  }
+  grantedAt
+}
+    `;
+export const UserFieldsFragmentDoc = gql`
+    fragment UserFields on User {
+  id
+  email
+  meta {
+    defaultGreWordSearchPromptInput
+    showDefaultGreWordSearchPromptInputs
+  }
+  createdAt
+}
+    `;
 export const GreWordDocument = gql`
     query GreWord($where: GreWordWhereInput) {
   greWord(where: $where) {
@@ -1390,6 +1456,47 @@ export function useRelationsPermissionToRoleLazyQuery(baseOptions?: Apollo.LazyQ
 export type RelationsPermissionToRoleQueryHookResult = ReturnType<typeof useRelationsPermissionToRoleQuery>;
 export type RelationsPermissionToRoleLazyQueryHookResult = ReturnType<typeof useRelationsPermissionToRoleLazyQuery>;
 export type RelationsPermissionToRoleQueryResult = Apollo.QueryResult<RelationsPermissionToRoleQuery, RelationsPermissionToRoleQueryVariables>;
+export const CreateRelationPermissionToUserDocument = gql`
+    mutation CreateRelationPermissionToUser($permissionId: String!, $userId: String!, $granterId: String!, $isAllowed: Boolean) {
+  createRelationPermissionToUser(
+    permissionId: $permissionId
+    userId: $userId
+    granterId: $granterId
+    isAllowed: $isAllowed
+  ) {
+    ...RelationPermissionToUserFields
+  }
+}
+    ${RelationPermissionToUserFieldsFragmentDoc}`;
+export type CreateRelationPermissionToUserMutationFn = Apollo.MutationFunction<CreateRelationPermissionToUserMutation, CreateRelationPermissionToUserMutationVariables>;
+
+/**
+ * __useCreateRelationPermissionToUserMutation__
+ *
+ * To run a mutation, you first call `useCreateRelationPermissionToUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRelationPermissionToUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createRelationPermissionToUserMutation, { data, loading, error }] = useCreateRelationPermissionToUserMutation({
+ *   variables: {
+ *      permissionId: // value for 'permissionId'
+ *      userId: // value for 'userId'
+ *      granterId: // value for 'granterId'
+ *      isAllowed: // value for 'isAllowed'
+ *   },
+ * });
+ */
+export function useCreateRelationPermissionToUserMutation(baseOptions?: Apollo.MutationHookOptions<CreateRelationPermissionToUserMutation, CreateRelationPermissionToUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateRelationPermissionToUserMutation, CreateRelationPermissionToUserMutationVariables>(CreateRelationPermissionToUserDocument, options);
+      }
+export type CreateRelationPermissionToUserMutationHookResult = ReturnType<typeof useCreateRelationPermissionToUserMutation>;
+export type CreateRelationPermissionToUserMutationResult = Apollo.MutationResult<CreateRelationPermissionToUserMutation>;
+export type CreateRelationPermissionToUserMutationOptions = Apollo.BaseMutationOptions<CreateRelationPermissionToUserMutation, CreateRelationPermissionToUserMutationVariables>;
 export const RelationsPermissionToUserDocument = gql`
     query RelationsPermissionToUser($where: RelationPermissionToUserWhereInput, $skip: Int, $take: Int, $orderBy: [RelationPermissionToUserOrderByWithRelationInput]) {
   relationsPermissionToUser(
@@ -1398,23 +1505,11 @@ export const RelationsPermissionToUserDocument = gql`
     take: $take
     orderBy: $orderBy
   ) {
-    id
-    userId
-    user {
-      email
-    }
-    granter {
-      email
-    }
-    isAllowed
-    permission {
-      name
-    }
-    grantedAt
+    ...RelationPermissionToUserFields
   }
   total: relationsPermissionToUserCount(where: $where)
 }
-    `;
+    ${RelationPermissionToUserFieldsFragmentDoc}`;
 
 /**
  * __useRelationsPermissionToUserQuery__
@@ -1757,17 +1852,11 @@ export type UserSessionsQueryResult = Apollo.QueryResult<UserSessionsQuery, User
 export const UsersDocument = gql`
     query Users($where: UserWhereInput, $skip: Int, $take: Int, $orderBy: [UserOrderByWithRelationInput]) {
   users(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
-    id
-    email
-    meta {
-      defaultGreWordSearchPromptInput
-      showDefaultGreWordSearchPromptInputs
-    }
-    createdAt
+    ...UserFields
   }
   total: usersCount(where: $where)
 }
-    `;
+    ${UserFieldsFragmentDoc}`;
 
 /**
  * __useUsersQuery__
@@ -1799,3 +1888,38 @@ export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<User
 export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
 export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
 export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;
+export const UserDocument = gql`
+    query User($where: UserWhereInput!) {
+  user(where: $where) {
+    ...UserFields
+  }
+}
+    ${UserFieldsFragmentDoc}`;
+
+/**
+ * __useUserQuery__
+ *
+ * To run a query within a React component, call `useUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useUserQuery(baseOptions: Apollo.QueryHookOptions<UserQuery, UserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserQuery, UserQueryVariables>(UserDocument, options);
+      }
+export function useUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserQuery, UserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, options);
+        }
+export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
+export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
+export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
