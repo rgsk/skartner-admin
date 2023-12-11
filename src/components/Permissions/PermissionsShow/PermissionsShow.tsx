@@ -135,7 +135,11 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
               ...params.InputProps,
               endAdornment: (
                 <>
-                  {false && <CircularProgress size={20} />}
+                  {createRelationPermissionToUserMutationResult.loading && (
+                    <Box sx={{ transform: "translate(0px, -3px)" }}>
+                      <CircularProgress size={20} />
+                    </Box>
+                  )}
                   {params.InputProps.endAdornment}
                 </>
               ),
