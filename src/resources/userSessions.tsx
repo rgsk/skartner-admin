@@ -1,4 +1,4 @@
-import UserSessionsList from "components/UserSessions/UserSessionsList/UserSessionsList";
+import UserSessionsList from 'components/UserSessions/UserSessionsList/UserSessionsList';
 
 const userSessions = {
   list: UserSessionsList,

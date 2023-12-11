@@ -1,5 +1,5 @@
-import { RoleDocument, UpdateRoleDocument } from "gql/graphql";
-import { Edit, SimpleForm, TextInput } from "react-admin";
+import { RoleDocument, UpdateRoleDocument } from 'gql/graphql';
+import { Edit, SimpleForm, TextInput } from 'react-admin';
 
 const RolesEdit = () => {
   return (

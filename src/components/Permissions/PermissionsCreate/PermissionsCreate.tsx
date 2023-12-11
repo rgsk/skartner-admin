@@ -1,5 +1,5 @@
-import { CreatePermissionDocument } from "gql/graphql";
-import { Create, SimpleForm, TextInput } from "react-admin";
+import { CreatePermissionDocument } from 'gql/graphql';
+import { Create, SimpleForm, TextInput } from 'react-admin';
 
 const PermissionsCreate = () => (
   <Create

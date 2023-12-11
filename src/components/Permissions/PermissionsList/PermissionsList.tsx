@@ -2,7 +2,7 @@ import {
   DeletePermissionDocument,
   DeletePermissionsDocument,
   PermissionsDocument,
-} from "gql/graphql";
+} from 'gql/graphql';
 import {
   BulkDeleteButton,
   Datagrid,
@@ -12,7 +12,7 @@ import {
   List,
   TextField,
   TextInput,
-} from "react-admin";
+} from 'react-admin';
 
 const PermissionsList = () => {
   return (

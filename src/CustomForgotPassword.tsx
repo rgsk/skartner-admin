@@ -7,18 +7,18 @@ import {
   DialogTitle,
   Snackbar,
   TextField,
-} from "@mui/material";
-import React from "react";
+} from '@mui/material';
+import React from 'react';
 
-import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 export default function CustomForgotPassword() {
   const [open, setOpen] = React.useState(false);
-  const [email, setEmail] = React.useState("");
+  const [email, setEmail] = React.useState('');
 
   const [toastOpen, setToastOpen] = React.useState(false);
-  const [toastMessage, setToastMessage] = React.useState("");
+  const [toastMessage, setToastMessage] = React.useState('');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -28,12 +28,12 @@ export default function CustomForgotPassword() {
     setOpen(false);
   };
   const handleSubmit = async () => {
-    console.log("sending email to: ", email);
+    console.log('sending email to: ', email);
     try {
       await firebase.auth().sendPasswordResetEmail(email);
       setOpen(false);
       setToastOpen(true);
-      setToastMessage("Password reset email sent!");
+      setToastMessage('Password reset email sent!');
     } catch (error: any) {
       setToastOpen(true);
       setToastMessage(error.message);
@@ -53,16 +53,16 @@ export default function CustomForgotPassword() {
   return (
     <div
       style={{
-        display: "flex",
-        justifyContent: "center",
-        padding: "10px",
-        paddingTop: "0px",
+        display: 'flex',
+        justifyContent: 'center',
+        padding: '10px',
+        paddingTop: '0px',
       }}
     >
       <Button
         variant="contained"
         onClick={handleClickOpen}
-        style={{ width: "100%" }}
+        style={{ width: '100%' }}
       >
         Forgot Password?
       </Button>
@@ -82,7 +82,7 @@ export default function CustomForgotPassword() {
             label="Email"
             type="email"
             variant="outlined"
-            style={{ width: "100%" }}
+            style={{ width: '100%' }}
             onChange={handleOnChange}
           />
         </DialogContent>
@@ -98,8 +98,8 @@ export default function CustomForgotPassword() {
         onClose={handleToastClose}
         autoHideDuration={6000}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
         message={toastMessage}
       ></Snackbar>

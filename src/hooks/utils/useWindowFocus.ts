@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 function useWindowFocus() {
   const [isWindowFocused, setIsWindowFocused] = useState(
-    getInitialFocusState()
+    getInitialFocusState(),
   );
 
   useEffect(() => {
@@ -12,20 +12,20 @@ function useWindowFocus() {
     const onBlur = () => setIsWindowFocused(false);
 
     const handleVisibilityChange = () => {
-      setIsWindowFocused(document.visibilityState === "visible");
+      setIsWindowFocused(document.visibilityState === 'visible');
     };
 
     // this tracks window focus
-    window.addEventListener("focus", onFocus);
-    window.addEventListener("blur", onBlur);
+    window.addEventListener('focus', onFocus);
+    window.addEventListener('blur', onBlur);
 
     // this tracks tab changes
-    document.addEventListener("visibilitychange", handleVisibilityChange);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
-      window.removeEventListener("focus", onFocus);
-      window.removeEventListener("blur", onBlur);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener('focus', onFocus);
+      window.removeEventListener('blur', onBlur);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
 
@@ -34,14 +34,14 @@ function useWindowFocus() {
 
 function getInitialFocusState() {
   return (
-    typeof window !== "undefined" &&
-    document.visibilityState === "visible" &&
+    typeof window !== 'undefined' &&
+    document.visibilityState === 'visible' &&
     hasFocus()
   );
 }
 
 function hasFocus() {
-  return typeof window !== "undefined" && document.hasFocus();
+  return typeof window !== 'undefined' && document.hasFocus();
 }
 
 export default useWindowFocus;

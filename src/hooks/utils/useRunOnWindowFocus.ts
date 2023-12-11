@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import useWindowFocus from "./useWindowFocus";
+import { useEffect, useRef } from 'react';
+import useWindowFocus from './useWindowFocus';
 
 const useRunOnWindowFocus = (cb: () => void) => {
   const { isWindowFocused } = useWindowFocus();

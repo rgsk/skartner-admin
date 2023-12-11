@@ -1,5 +1,5 @@
-import useFirebaseUser from "hooks/useFirebaseUser";
-import useUser from "hooks/useUser";
+import useFirebaseUser from 'hooks/useFirebaseUser';
+import useUser from 'hooks/useUser';
 
 interface IPracticeProps {}
 const Practice: React.FC<IPracticeProps> = ({}) => {

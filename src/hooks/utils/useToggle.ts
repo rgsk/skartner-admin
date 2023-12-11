@@ -1,7 +1,7 @@
-import { Dispatch, SetStateAction, useCallback, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 
 const useToggle = (
-  initialValue = false
+  initialValue = false,
 ): [boolean, () => void, Dispatch<SetStateAction<boolean>>] => {
   const [value, setValue] = useState(initialValue);
   const toggle = useCallback(() => {

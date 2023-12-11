@@ -1,9 +1,9 @@
-import dataProviderUtils from "./dataProviderUtils";
+import dataProviderUtils from './dataProviderUtils';
 
-describe("dataProviderUtils.getWhereObject", () => {
-  it("should convert an input object with underscore-separated keys to an output object with nested objects", () => {
+describe('dataProviderUtils.getWhereObject', () => {
+  it('should convert an input object with underscore-separated keys to an output object with nested objects', () => {
     const input = {
-      spelling_startsWith: "hii",
+      spelling_startsWith: 'hii',
       age_gte: 2,
     };
 
@@ -11,7 +11,7 @@ describe("dataProviderUtils.getWhereObject", () => {
 
     expect(output).toEqual({
       spelling: {
-        startsWith: "hii",
+        startsWith: 'hii',
       },
       age: {
         gte: 2,
@@ -19,9 +19,9 @@ describe("dataProviderUtils.getWhereObject", () => {
     });
   });
 
-  it("should handle input objects with no underscore-separated keys", () => {
+  it('should handle input objects with no underscore-separated keys', () => {
     const input = {
-      name: "John Doe",
+      name: 'John Doe',
       age: 25,
     };
 
@@ -30,9 +30,9 @@ describe("dataProviderUtils.getWhereObject", () => {
     expect(output).toEqual(input);
   });
 
-  it("should handle input objects with multiple underscore-separated keys", () => {
+  it('should handle input objects with multiple underscore-separated keys', () => {
     const input = {
-      nested_key1_key2_key3: "value",
+      nested_key1_key2_key3: 'value',
     };
 
     const output = dataProviderUtils.getWhereObject(input);
@@ -41,16 +41,16 @@ describe("dataProviderUtils.getWhereObject", () => {
       nested: {
         key1: {
           key2: {
-            key3: "value",
+            key3: 'value',
           },
         },
       },
     });
   });
 
-  it("should handle input objects with nested underscore-separated keys", () => {
+  it('should handle input objects with nested underscore-separated keys', () => {
     const input = {
-      parent_key_child_key_grandchild: "value",
+      parent_key_child_key_grandchild: 'value',
     };
 
     const output = dataProviderUtils.getWhereObject(input);
@@ -60,7 +60,7 @@ describe("dataProviderUtils.getWhereObject", () => {
         key: {
           child: {
             key: {
-              grandchild: "value",
+              grandchild: 'value',
             },
           },
         },

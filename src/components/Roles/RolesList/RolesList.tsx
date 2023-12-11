@@ -2,7 +2,7 @@ import {
   DeleteRoleDocument,
   DeleteRolesDocument,
   RolesDocument,
-} from "gql/graphql";
+} from 'gql/graphql';
 import {
   BulkDeleteButton,
   Datagrid,
@@ -12,7 +12,7 @@ import {
   List,
   TextField,
   TextInput,
-} from "react-admin";
+} from 'react-admin';
 const RolesList = () => {
   return (
     <List

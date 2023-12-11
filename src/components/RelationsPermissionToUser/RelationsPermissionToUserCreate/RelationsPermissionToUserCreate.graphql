@@ -13,4 +13,3 @@ mutation CreateRelationPermissionToUser(
     ...RelationPermissionToUserFields
   }
 }
- 

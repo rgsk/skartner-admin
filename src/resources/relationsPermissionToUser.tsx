@@ -1,4 +1,4 @@
-import RelationsPermissionToUserList from "components/RelationsPermissionToUser/RelationsPermissionToUserList/RelationsPermissionToUserList";
+import RelationsPermissionToUserList from 'components/RelationsPermissionToUser/RelationsPermissionToUserList/RelationsPermissionToUserList';
 
 const relationsPermissionToUser = {
   list: RelationsPermissionToUserList,

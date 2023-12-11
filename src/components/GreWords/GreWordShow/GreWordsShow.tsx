@@ -1,13 +1,13 @@
-import { Box, Typography } from "@mui/material";
-import { GreWordDocument, GreWordQuery } from "gql/graphql";
+import { Box, Typography } from '@mui/material';
+import { GreWordDocument, GreWordQuery } from 'gql/graphql';
 import {
   Show,
   SimpleShowLayout,
   TextField,
   useRecordContext,
-} from "react-admin";
+} from 'react-admin';
 
-type GreRecord = Exclude<GreWordQuery["greWord"], undefined | null>;
+type GreRecord = Exclude<GreWordQuery['greWord'], undefined | null>;
 
 const getSource = (v: keyof GreRecord) => {
   return v;
@@ -18,8 +18,8 @@ const GreWordsShow: React.FC<IGreWordShowProps> = ({}) => {
   return (
     <Show queryOptions={{ meta: { query: GreWordDocument } }}>
       <SimpleShowLayout>
-        <TextField source={getSource("id")} />
-        <TextField source={"cacheWord.text"} />
+        <TextField source={getSource('id')} />
+        <TextField source={'cacheWord.text'} />
         <RenderPrompts />
       </SimpleShowLayout>
     </Show>
@@ -48,7 +48,7 @@ const RenderPrompts: React.FC<IRenderPromptsProps> = ({}) => {
               <Typography>Edited Response: </Typography>
               <Typography
                 sx={{
-                  whiteSpace: "pre",
+                  whiteSpace: 'pre',
                 }}
               >
                 {gptPrompt.editedResponse}
@@ -56,7 +56,7 @@ const RenderPrompts: React.FC<IRenderPromptsProps> = ({}) => {
               <Typography>Response: </Typography>
               <Typography
                 sx={{
-                  whiteSpace: "pre",
+                  whiteSpace: 'pre',
                 }}
               >
                 {gptPrompt.cacheResponse.text}

@@ -1,5 +1,5 @@
-import { firebaseApp } from "lib/firebaseApp";
-import { useEffect, useState } from "react";
+import { firebaseApp } from 'lib/firebaseApp';
+import { useEffect, useState } from 'react';
 
 export default function useToken() {
   const [token, setToken] = useState<string | undefined>(undefined);

@@ -4,7 +4,7 @@ import {
   CircularProgress,
   TextField as MuiTextField,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 import {
   DeletePermissionDocument,
   PermissionDocument,
@@ -15,10 +15,10 @@ import {
   useCreateRelationPermissionToUserMutation,
   useRelationsPermissionToUserQuery,
   useUsersQuery,
-} from "gql/graphql";
-import useUser from "hooks/useUser";
-import useToggle from "hooks/utils/useToggle";
-import { useState } from "react";
+} from 'gql/graphql';
+import useUser from 'hooks/useUser';
+import useToggle from 'hooks/utils/useToggle';
+import { useMemo, useState } from 'react';
 import {
   BooleanField,
   Datagrid,
@@ -30,7 +30,7 @@ import {
   TextField,
   useRecordContext,
   useRefresh,
-} from "react-admin";
+} from 'react-admin';
 
 interface IPermissionsShowProps {}
 const PermissionsShow: React.FC<IPermissionsShowProps> = ({}) => {
@@ -38,8 +38,8 @@ const PermissionsShow: React.FC<IPermissionsShowProps> = ({}) => {
     <Box>
       <Show queryOptions={{ meta: { query: PermissionDocument } }}>
         <SimpleShowLayout>
-          <TextField source={"id"} />
-          <TextField source={"name"} />
+          <TextField source={'id'} />
+          <TextField source={'name'} />
           <DeleteButton
             mutationOptions={{ meta: { mutation: DeletePermissionDocument } }}
           />
@@ -59,11 +59,11 @@ export default PermissionsShow;
 
 interface IPermissionToUserProps {}
 const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
-  const permission = useRecordContext() as PermissionQuery["permission"];
+  const permission = useRecordContext() as PermissionQuery['permission'];
   const { user } = useUser();
   const [toggleValue, toggle] = useToggle();
   const refresh = useRefresh();
-  const [userEmailSearchInput, setUserEmailSearchInput] = useState("");
+  const [userEmailSearchInput, setUserEmailSearchInput] = useState('');
   const {
     data: { relationsPermissionToUser } = {},
     refetch: refetchRelationsPermissionToUser,
@@ -107,12 +107,15 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
       }
     }
   };
-  const options =
-    users
-      ?.filter((u) => {
-        return !relationsPermissionToUser?.some((r) => r?.userId === u.id);
-      })
-      ?.map((u) => u.email) ?? [];
+  const options = useMemo(() => {
+    return (
+      users
+        ?.filter((u) => {
+          return !relationsPermissionToUser?.some((r) => r?.userId === u.id);
+        })
+        ?.map((u) => u.email) ?? []
+    );
+  }, [relationsPermissionToUser, users]);
   return (
     <Box>
       <Typography>Relations Permission To User</Typography>
@@ -125,7 +128,7 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
             label="email"
             // error={!!errors.line2}
             // helperText={errors.line2?.message}
-            onChange={(e: any) => {
+            onChange={(e) => {
               setUserEmailSearchInput(e.target.value);
             }}
             InputProps={{
@@ -133,7 +136,7 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
               endAdornment: (
                 <>
                   {createRelationPermissionToUserMutationResult.loading && (
-                    <Box sx={{ transform: "translate(0px, -3px)" }}>
+                    <Box sx={{ transform: 'translate(0px, -3px)' }}>
                       <CircularProgress size={20} />
                     </Box>
                   )}
@@ -147,7 +150,7 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
           if (email) {
             onSelect(email);
             toggle();
-            setUserEmailSearchInput("");
+            setUserEmailSearchInput('');
           }
         }}
       />

@@ -1,5 +1,5 @@
-import { RelationsRoleToUserDocument } from "gql/graphql";
-import { Datagrid, List, TextField } from "react-admin";
+import { RelationsRoleToUserDocument } from 'gql/graphql';
+import { Datagrid, List, TextField } from 'react-admin';
 const RelationsRoleToUserList = () => {
   return (
     <List

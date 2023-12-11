@@ -1,8 +1,8 @@
-import { GaEventType, trackGaEvent } from "./gaAnalytics";
+import { GaEventType, trackGaEvent } from './gaAnalytics';
 
 const eventTracker = {
   loginPageVisited: () => {
-    trackGaEvent(GaEventType.login_page_visited, { name: "mehak" });
+    trackGaEvent(GaEventType.login_page_visited, { name: 'mehak' });
   },
 };
 

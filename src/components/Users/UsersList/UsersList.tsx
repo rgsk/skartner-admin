@@ -1,6 +1,6 @@
-import { Box } from "@mui/material";
-import ServerLinks from "components/ServerLinks";
-import { UsersDocument } from "gql/graphql";
+import { Box } from '@mui/material';
+import ServerLinks from 'components/ServerLinks';
+import { UsersDocument } from 'gql/graphql';
 import {
   BooleanField,
   Datagrid,
@@ -8,7 +8,7 @@ import {
   EmailField,
   List,
   TextField,
-} from "react-admin";
+} from 'react-admin';
 const UsersList = () => {
   return (
     <Box>

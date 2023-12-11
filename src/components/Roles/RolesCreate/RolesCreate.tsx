@@ -1,5 +1,5 @@
-import { CreateRoleDocument } from "gql/graphql";
-import { Create, SimpleForm, TextInput } from "react-admin";
+import { CreateRoleDocument } from 'gql/graphql';
+import { Create, SimpleForm, TextInput } from 'react-admin';
 
 const RolesCreate = () => (
   <Create

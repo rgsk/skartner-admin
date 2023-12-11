@@ -1,4 +1,4 @@
-import UsersList from "components/Users/UsersList/UsersList";
+import UsersList from 'components/Users/UsersList/UsersList';
 
 const users = {
   list: UsersList,

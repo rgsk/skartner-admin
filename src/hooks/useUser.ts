@@ -1,5 +1,5 @@
-import { useUserQuery } from "gql/graphql";
-import useFirebaseUser from "./useFirebaseUser";
+import { useUserQuery } from 'gql/graphql';
+import useFirebaseUser from './useFirebaseUser';
 
 const useUser = () => {
   const { firebaseUser } = useFirebaseUser();

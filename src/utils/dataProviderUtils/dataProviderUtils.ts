@@ -3,7 +3,7 @@ function getWhereObject(filter: any) {
 
   for (const key in filter) {
     const value = filter[key];
-    const parts = key.split("_");
+    const parts = key.split('_');
     const lastPartIndex = parts.length - 1;
 
     let currentOutput = output;
@@ -13,8 +13,8 @@ function getWhereObject(filter: any) {
       currentOutput = currentOutput[part];
     }
     const last = parts[lastPartIndex];
-    if (last === "contains") {
-      currentOutput["mode"] = "insensitive";
+    if (last === 'contains') {
+      currentOutput['mode'] = 'insensitive';
     }
     currentOutput[last] = value;
   }

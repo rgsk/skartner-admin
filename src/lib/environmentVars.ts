@@ -1,4 +1,4 @@
-export type TAppEnvironment = "development" | "staging" | "production";
+export type TAppEnvironment = 'development' | 'staging' | 'production';
 
 const environmentVars = {
   SKARTNER_SERVER: import.meta.env.VITE_SKARTNER_SERVER,

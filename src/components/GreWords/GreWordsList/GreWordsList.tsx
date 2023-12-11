@@ -1,7 +1,7 @@
 import {
   GreWordListReferenceUsersDocument,
   GreWordsDocument,
-} from "gql/graphql";
+} from 'gql/graphql';
 import {
   Datagrid,
   DateField,
@@ -9,7 +9,7 @@ import {
   ReferenceField,
   TextField,
   TextInput,
-} from "react-admin";
+} from 'react-admin';
 
 interface IGreWordListProps {}
 const GreWordsList: React.FC<IGreWordListProps> = ({}) => {

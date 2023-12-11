@@ -1,6 +1,6 @@
-import { DataProvider } from "react-admin";
-import dataProviderUtils from "utils/dataProviderUtils/dataProviderUtils";
-import apolloClient from "./lib/apolloClient";
+import { DataProvider } from 'react-admin';
+import dataProviderUtils from 'utils/dataProviderUtils/dataProviderUtils';
+import apolloClient from './lib/apolloClient';
 
 const getFirstSelection = (document: any) => {
   const firstSelection = document.definitions[0].selectionSet.selections[0];
@@ -24,7 +24,7 @@ function getDifferentKeys(obj1: any, obj2: any) {
 
 export const dataProvider: DataProvider = {
   getList: async (resource, params) => {
-    console.log("getList", { resource, params });
+    console.log('getList', { resource, params });
     const { page, perPage } = params.pagination;
     const { field, order } = params.sort;
     const result = await apolloClient.query({
@@ -47,7 +47,7 @@ export const dataProvider: DataProvider = {
     return returnValue;
   },
   getOne: async (resource, params) => {
-    console.log("getOne", { resource, params });
+    console.log('getOne', { resource, params });
     const result = await apolloClient.query({
       query: params.meta.query,
       variables: {
@@ -64,7 +64,7 @@ export const dataProvider: DataProvider = {
     return returnValue;
   },
   getMany: async (resource, params) => {
-    console.log("getMany", { resource, params });
+    console.log('getMany', { resource, params });
     const result = await apolloClient.query({
       query: params.meta.query,
       variables: {
@@ -81,7 +81,7 @@ export const dataProvider: DataProvider = {
     return returnValue;
   },
   create: async (resource, params) => {
-    console.log("create", { resource, params });
+    console.log('create', { resource, params });
     const result = await apolloClient.mutate({
       mutation: params.meta.mutation,
       variables: params.data,
@@ -92,7 +92,7 @@ export const dataProvider: DataProvider = {
     return returnValue;
   },
   deleteMany: async (resource, params) => {
-    console.log("deleteMany", { resource, params });
+    console.log('deleteMany', { resource, params });
     const result = await apolloClient.mutate({
       mutation: params.meta.mutation,
       variables: {
@@ -105,7 +105,7 @@ export const dataProvider: DataProvider = {
     return returnValue;
   },
   delete: async (resource, params) => {
-    console.log("delete", { resource, params });
+    console.log('delete', { resource, params });
     const result = await apolloClient.mutate({
       mutation: params.meta.mutation,
       variables: {
@@ -118,7 +118,7 @@ export const dataProvider: DataProvider = {
     return returnValue;
   },
   update: async (resource, params) => {
-    console.log("update", { resource, params });
+    console.log('update', { resource, params });
     const data = getDifferentKeys(params.previousData, params.data);
     const result = await apolloClient.mutate({
       mutation: params.meta.mutation,

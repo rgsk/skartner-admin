@@ -1,5 +1,5 @@
-import type { CodegenConfig } from "@graphql-codegen/cli";
-require("dotenv").config();
+import type { CodegenConfig } from '@graphql-codegen/cli';
+require('dotenv').config();
 // above is required if variable is defined in local .env
 // docker env is provisioned without this package too
 
@@ -11,13 +11,13 @@ require("dotenv").config();
 const config: CodegenConfig = {
   overwrite: true,
   schema: `${process.env.VITE_SKARTNER_SERVER}/graphql`,
-  documents: "src/**/*.{graphql,gql}",
+  documents: 'src/**/*.{graphql,gql}',
   generates: {
-    "src/gql/graphql.ts": {
+    'src/gql/graphql.ts': {
       plugins: [
-        "typescript",
-        "typescript-operations",
-        "typescript-react-apollo",
+        'typescript',
+        'typescript-operations',
+        'typescript-react-apollo',
       ],
     },
   },

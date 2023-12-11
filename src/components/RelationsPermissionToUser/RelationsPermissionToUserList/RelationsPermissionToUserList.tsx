@@ -1,11 +1,11 @@
-import { RelationsPermissionToUserDocument } from "gql/graphql";
+import { RelationsPermissionToUserDocument } from 'gql/graphql';
 import {
   BooleanField,
   Datagrid,
   DateField,
   List,
   TextField,
-} from "react-admin";
+} from 'react-admin';
 const RelationsPermissionToUserList = () => {
   return (
     <List
