@@ -6,10 +6,11 @@ import userSessions from "resources/userSessions";
 import users from "resources/users";
 import { dataProvider } from "./dataProvider";
 
-import { ApolloProvider } from "@apollo/client";
+import { ApolloProvider, useApolloClient } from "@apollo/client";
 import CustomLoginPage from "CustomLoginPage";
 import Practice from "components/Practice/Practice";
 import useToken from "hooks/useToken";
+import useRunOnWindowFocus from "hooks/utils/useRunOnWindowFocus";
 import apolloClient from "lib/apolloClient";
 import environmentVars from "lib/environmentVars";
 import { useEffect } from "react";
@@ -33,6 +34,7 @@ export const App = () => {
 
   return (
     <ApolloProvider client={apolloClient}>
+      <GlobalHooksSetter />
       <Admin
         dataProvider={dataProvider}
         loginPage={CustomLoginPage}
@@ -63,3 +65,13 @@ export const App = () => {
     </ApolloProvider>
   );
 };
+
+interface IGlobalHooksSetterProps {}
+const GlobalHooksSetter: React.FC<IGlobalHooksSetterProps> = ({}) => {
+  const client = useApolloClient();
+  useRunOnWindowFocus(() => {
+    client.refetchQueries({ include: "active" });
+  });
+  return null;
+};
+export default GlobalHooksSetter;

@@ -17,7 +17,6 @@ import {
   useUsersQuery,
 } from "gql/graphql";
 import useUser from "hooks/useUser";
-import useRunOnWindowFocus from "hooks/utils/useRunOnWindowFocus";
 import useToggle from "hooks/utils/useToggle";
 import { useState } from "react";
 import {
@@ -83,8 +82,6 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
       },
     },
   });
-
-  useRunOnWindowFocus(refetchRelationsPermissionToUser);
 
   const [
     createRelationPermissionToUserMutation,
