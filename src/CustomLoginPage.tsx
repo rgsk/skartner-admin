@@ -31,7 +31,7 @@ const SignInScreen: React.FC<ISignInScreenProps> = ({}) => {
         signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
       });
     }
-  }, []);
+  }, [navigate]);
   return <div ref={elementRef}></div>;
 };
 

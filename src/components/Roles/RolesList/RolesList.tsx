@@ -21,7 +21,9 @@ const RolesList = () => {
           query: RolesDocument,
         },
       }}
-      filters={[<TextInput source="name_contains" alwaysOn />]}
+      filters={[
+        <TextInput key="name_contains" source="name_contains" alwaysOn />,
+      ]}
     >
       <Datagrid
         rowClick="show"

@@ -25,7 +25,13 @@ const UserSessionsList: React.FC<IUserSessionListProps> = ({}) => {
           query: UserSessionsDocument,
         },
       }}
-      filters={[<TextInput source="user_email_startsWith" alwaysOn />]}
+      filters={[
+        <TextInput
+          key="user_email_startsWith"
+          source="user_email_startsWith"
+          alwaysOn
+        />,
+      ]}
     >
       <Datagrid>
         <TextField source={getSource('id')} />

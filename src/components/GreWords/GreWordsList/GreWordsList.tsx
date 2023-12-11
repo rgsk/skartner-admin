@@ -21,8 +21,16 @@ const GreWordsList: React.FC<IGreWordListProps> = ({}) => {
         },
       }}
       filters={[
-        <TextInput source="cacheWord_text_startsWith" alwaysOn />,
-        <TextInput source="user_email_startsWith" alwaysOn />,
+        <TextInput
+          key="cacheWord_text_startsWith"
+          source="cacheWord_text_startsWith"
+          alwaysOn
+        />,
+        <TextInput
+          key="user_email_startsWith"
+          source="user_email_startsWith"
+          alwaysOn
+        />,
       ]}
     >
       <Datagrid rowClick="show">

@@ -1,11 +1,13 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
-require('dotenv').config();
+import { config as loadEnv } from 'dotenv';
+loadEnv();
+
 // above is required if variable is defined in local .env
 // docker env is provisioned without this package too
 
 // console.log(
-//   "process.env.VITE_SKARTNER_SERVER",
-//   process.env.VITE_SKARTNER_SERVER
+//   'process.env.VITE_SKARTNER_SERVER',
+//   process.env.VITE_SKARTNER_SERVER,
 // );
 
 const config: CodegenConfig = {
