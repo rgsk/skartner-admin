@@ -511,13 +511,13 @@ export type Query = {
   permissions?: Maybe<Array<Maybe<Permission>>>;
   permissionsCount: Scalars['Int'];
   posts?: Maybe<Array<Maybe<Post>>>;
-  relationsPermissionToRole?: Maybe<Array<Maybe<RelationPermissionToRole>>>;
+  relationsPermissionToRole: Array<RelationPermissionToRole>;
   relationsPermissionToRoleCount: Scalars['Int'];
-  relationsPermissionToUser?: Maybe<Array<Maybe<RelationPermissionToUser>>>;
+  relationsPermissionToUser: Array<RelationPermissionToUser>;
   relationsPermissionToUserCount: Scalars['Int'];
   relationsRoleToUser?: Maybe<Array<Maybe<RelationRoleToUser>>>;
   role?: Maybe<Role>;
-  roles?: Maybe<Array<Maybe<Role>>>;
+  roles: Array<Role>;
   rolesCount: Scalars['Int'];
   sendSinglePrompt: SendSinglePromptResponse;
   user?: Maybe<User>;
@@ -1025,7 +1025,7 @@ export type RelationsPermissionToRoleQueryVariables = Exact<{
 }>;
 
 
-export type RelationsPermissionToRoleQuery = { __typename?: 'Query', total: number, relationsPermissionToRole?: Array<{ __typename?: 'RelationPermissionToRole', id: string, permissionId: string, roleId: string, granterId: string, isAllowed?: boolean | null, grantedAt: string, permission?: { __typename?: 'Permission', name: string } | null, role?: { __typename?: 'Role', name: string } | null, granter?: { __typename?: 'User', email: string } | null } | null> | null };
+export type RelationsPermissionToRoleQuery = { __typename?: 'Query', total: number, relationsPermissionToRole: Array<{ __typename?: 'RelationPermissionToRole', id: string, permissionId: string, roleId: string, granterId: string, isAllowed?: boolean | null, grantedAt: string, permission?: { __typename?: 'Permission', name: string } | null, role?: { __typename?: 'Role', name: string } | null, granter?: { __typename?: 'User', email: string } | null }> };
 
 export type DeleteRelationPermissionToRoleMutationVariables = Exact<{
   id: Scalars['String'];
@@ -1061,7 +1061,7 @@ export type RelationsPermissionToUserQueryVariables = Exact<{
 }>;
 
 
-export type RelationsPermissionToUserQuery = { __typename?: 'Query', total: number, relationsPermissionToUser?: Array<{ __typename?: 'RelationPermissionToUser', id: string, userId: string, isAllowed?: boolean | null, grantedAt: string, user?: { __typename?: 'User', email: string } | null, granter?: { __typename?: 'User', email: string } | null, permission?: { __typename?: 'Permission', name: string } | null } | null> | null };
+export type RelationsPermissionToUserQuery = { __typename?: 'Query', total: number, relationsPermissionToUser: Array<{ __typename?: 'RelationPermissionToUser', id: string, userId: string, isAllowed?: boolean | null, grantedAt: string, user?: { __typename?: 'User', email: string } | null, granter?: { __typename?: 'User', email: string } | null, permission?: { __typename?: 'Permission', name: string } | null }> };
 
 export type DeleteRelationPermissionToUserMutationVariables = Exact<{
   id: Scalars['String'];
@@ -1121,7 +1121,7 @@ export type RolesQueryVariables = Exact<{
 }>;
 
 
-export type RolesQuery = { __typename?: 'Query', total: number, roles?: Array<{ __typename?: 'Role', id: string, name: string, meta: any, createdAt: string, updatedAt: string } | null> | null };
+export type RolesQuery = { __typename?: 'Query', total: number, roles: Array<{ __typename?: 'Role', id: string, name: string, meta: any, createdAt: string, updatedAt: string }> };
 
 export type DeleteRolesMutationVariables = Exact<{
   ids: Array<Scalars['String']> | Scalars['String'];

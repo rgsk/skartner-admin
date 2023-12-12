@@ -12,9 +12,13 @@ import {
   PermissionDocument,
   PermissionQuery,
   RelationsPermissionToRoleDocument,
+  RelationsPermissionToRoleQuery,
   RelationsPermissionToUserDocument,
+  RelationsPermissionToUserQuery,
   RolesDocument,
+  RolesQuery,
   UsersDocument,
+  UsersQuery,
   useCreateRelationPermissionToRoleMutation,
   useCreateRelationPermissionToUserMutation,
 } from 'gql/graphql';
@@ -68,24 +72,26 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
 
   const [userEmailSearchInput, setUserEmailSearchInput] = useState('');
 
-  const { data: relationsPermissionToUser } = useGetList(
-    Resources.relationsPermissionToUser,
+  const { data: relationsPermissionToUser } = useGetList<
+    RelationsPermissionToUserQuery['relationsPermissionToUser'][number]
+  >(Resources.relationsPermissionToUser, {
+    meta: {
+      query: RelationsPermissionToUserDocument,
+    },
+    filter: {
+      permissionId_equals: permission?.id,
+    },
+  });
+
+  const { data: users } = useGetList<UsersQuery['users'][number]>(
+    Resources.users,
     {
-      meta: {
-        query: RelationsPermissionToUserDocument,
-      },
+      meta: { query: UsersDocument },
       filter: {
-        permissionId_equals: permission?.id,
+        email_contains: userEmailSearchInput,
       },
     },
   );
-
-  const { data: users } = useGetList(Resources.users, {
-    meta: { query: UsersDocument },
-    filter: {
-      email_contains: userEmailSearchInput,
-    },
-  });
 
   const locationObject = useLocation();
 
@@ -116,7 +122,7 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
     return (
       users
         ?.filter((u) => {
-          return !relationsPermissionToUser?.some((r) => r?.userId === u.id);
+          return !relationsPermissionToUser?.some((r) => r.userId === u.id);
         })
         ?.map((u) => u.email) ?? []
     );
@@ -180,24 +186,26 @@ const PermissionToRole: React.FC<IPermissionToRoleProps> = ({}) => {
   const { user } = useUser();
   const refresh = useRefresh();
 
-  const { data: relationsPermissionToRole } = useGetList(
-    Resources.relationsPermissionToRole,
+  const { data: relationsPermissionToRole } = useGetList<
+    RelationsPermissionToRoleQuery['relationsPermissionToRole'][number]
+  >(Resources.relationsPermissionToRole, {
+    meta: {
+      query: RelationsPermissionToRoleDocument,
+    },
+    filter: {
+      permissionId_equals: permission?.id,
+    },
+  });
+
+  const { data: roles } = useGetList<RolesQuery['roles'][number]>(
+    Resources.roles,
     {
-      meta: {
-        query: RelationsPermissionToRoleDocument,
-      },
+      meta: { query: RolesDocument },
       filter: {
-        permissionId_equals: permission?.id,
+        name_contains: roleNameInput,
       },
     },
   );
-
-  const { data: roles } = useGetList(Resources.roles, {
-    meta: { query: RolesDocument },
-    filter: {
-      name_contains: roleNameInput,
-    },
-  });
 
   const [
     createRelationPermissionToRoleMutation,
@@ -208,7 +216,7 @@ const PermissionToRole: React.FC<IPermissionToRoleProps> = ({}) => {
       roles
         ?.filter((role) => {
           return !relationsPermissionToRole?.some(
-            (relation) => relation?.role.name === role.name,
+            (relation) => relation.role?.name === role.name,
           );
         })
         ?.map((role) => role.name) ?? []
