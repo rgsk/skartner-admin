@@ -1,0 +1,15 @@
+mutation CreateRelationPermissionToRole(
+  $permissionId: String!
+  $roleId: String!
+  $granterId: String!
+  $isAllowed: Boolean
+) {
+  createRelationPermissionToRole(
+    permissionId: $permissionId
+    roleId: $roleId
+    granterId: $granterId
+    isAllowed: $isAllowed
+  ) {
+    ...RelationPermissionToRoleFields
+  }
+}

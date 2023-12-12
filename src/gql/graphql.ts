@@ -204,6 +204,7 @@ export type Mutation = {
   createGreWordTag: GreWordTag;
   createNotification: Notification;
   createPermission: Permission;
+  createRelationPermissionToRole: RelationPermissionToRole;
   createRelationPermissionToUser: RelationPermissionToUser;
   createRole: Role;
   createUser: User;
@@ -215,8 +216,10 @@ export type Mutation = {
   deletePermissions?: Maybe<BatchPayload>;
   deleteRelationPermissionToRole?: Maybe<RelationPermissionToRole>;
   deleteRelationPermissionToUser?: Maybe<RelationPermissionToUser>;
+  deleteRelationRoleToUser?: Maybe<RelationRoleToUser>;
   deleteRelationsPermissionToRole?: Maybe<BatchPayload>;
   deleteRelationsPermissionToUser?: Maybe<BatchPayload>;
+  deleteRelationsRoleToUser?: Maybe<BatchPayload>;
   deleteRole?: Maybe<Role>;
   deleteRoles?: Maybe<BatchPayload>;
   publish?: Maybe<Post>;
@@ -225,6 +228,7 @@ export type Mutation = {
   updateGreWord?: Maybe<GreWord>;
   updateGreWordSearchPromptInput?: Maybe<GreWordSearchPromptInput>;
   updatePermission: Permission;
+  updateRelationPermissionToRole: RelationPermissionToRole;
   updateRelationPermissionToUser: RelationPermissionToUser;
   updateRole: Role;
   updateUser?: Maybe<User>;
@@ -271,6 +275,14 @@ export type MutationCreateNotificationArgs = {
 
 export type MutationCreatePermissionArgs = {
   name: Scalars['String'];
+};
+
+
+export type MutationCreateRelationPermissionToRoleArgs = {
+  granterId: Scalars['String'];
+  isAllowed?: InputMaybe<Scalars['Boolean']>;
+  permissionId: Scalars['String'];
+  roleId: Scalars['String'];
 };
 
 
@@ -334,12 +346,22 @@ export type MutationDeleteRelationPermissionToUserArgs = {
 };
 
 
+export type MutationDeleteRelationRoleToUserArgs = {
+  id: Scalars['String'];
+};
+
+
 export type MutationDeleteRelationsPermissionToRoleArgs = {
   ids: Array<Scalars['String']>;
 };
 
 
 export type MutationDeleteRelationsPermissionToUserArgs = {
+  ids: Array<Scalars['String']>;
+};
+
+
+export type MutationDeleteRelationsRoleToUserArgs = {
   ids: Array<Scalars['String']>;
 };
 
@@ -387,6 +409,12 @@ export type MutationUpdateGreWordSearchPromptInputArgs = {
 
 export type MutationUpdatePermissionArgs = {
   data: PermissionUpdateInput;
+  id: Scalars['String'];
+};
+
+
+export type MutationUpdateRelationPermissionToRoleArgs = {
+  data: RelationPermissionToRoleUpdateInput;
   id: Scalars['String'];
 };
 
@@ -697,6 +725,13 @@ export type RelationPermissionToRoleOrderByWithRelationInput = {
   updatedAt?: InputMaybe<SortOrder>;
 };
 
+export type RelationPermissionToRoleUpdateInput = {
+  granterId?: InputMaybe<Scalars['String']>;
+  isAllowed?: InputMaybe<Scalars['Boolean']>;
+  permissionId?: InputMaybe<Scalars['String']>;
+  roleId?: InputMaybe<Scalars['String']>;
+};
+
 export type RelationPermissionToRoleWhereInput = {
   id?: InputMaybe<StringFilter>;
   permissionId?: InputMaybe<StringFilter>;
@@ -970,6 +1005,16 @@ export type DeletePermissionMutationVariables = Exact<{
 
 export type DeletePermissionMutation = { __typename?: 'Mutation', deletePermission?: { __typename?: 'Permission', id: string, name: string } | null };
 
+export type CreateRelationPermissionToRoleMutationVariables = Exact<{
+  permissionId: Scalars['String'];
+  roleId: Scalars['String'];
+  granterId: Scalars['String'];
+  isAllowed?: InputMaybe<Scalars['Boolean']>;
+}>;
+
+
+export type CreateRelationPermissionToRoleMutation = { __typename?: 'Mutation', createRelationPermissionToRole: { __typename?: 'RelationPermissionToRole', id: string, permissionId: string, roleId: string, granterId: string, isAllowed?: boolean | null, grantedAt: string, permission?: { __typename?: 'Permission', name: string } | null, role?: { __typename?: 'Role', name: string } | null, granter?: { __typename?: 'User', email: string } | null } };
+
 export type RelationPermissionToRoleFieldsFragment = { __typename?: 'RelationPermissionToRole', id: string, permissionId: string, roleId: string, granterId: string, isAllowed?: boolean | null, grantedAt: string, permission?: { __typename?: 'Permission', name: string } | null, role?: { __typename?: 'Role', name: string } | null, granter?: { __typename?: 'User', email: string } | null };
 
 export type RelationsPermissionToRoleQueryVariables = Exact<{
@@ -1032,10 +1077,26 @@ export type DeleteRelationsPermissionToUserMutationVariables = Exact<{
 
 export type DeleteRelationsPermissionToUserMutation = { __typename?: 'Mutation', deleteRelationsPermissionToUser?: { __typename?: 'BatchPayload', count: number } | null };
 
+export type RelationRoleToUserFieldsFragment = { __typename?: 'RelationRoleToUser', id: string, roleId: string, userId: string, assignerId: string, assignedAt: string, role?: { __typename?: 'Role', id: string, name: string } | null, user?: { __typename?: 'User', email: string } | null, assigner?: { __typename?: 'User', email: string } | null };
+
 export type RelationsRoleToUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type RelationsRoleToUserQuery = { __typename?: 'Query', relationsRoleToUser?: Array<{ __typename?: 'RelationRoleToUser', id: string, roleId: string, userId: string, assignerId: string, assignedAt: string, role?: { __typename?: 'Role', id: string, name: string } | null, user?: { __typename?: 'User', email: string } | null, assigner?: { __typename?: 'User', email: string } | null } | null> | null };
+
+export type DeleteRelationRoleToUserMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type DeleteRelationRoleToUserMutation = { __typename?: 'Mutation', deleteRelationRoleToUser?: { __typename?: 'RelationRoleToUser', id: string, roleId: string, userId: string, assignerId: string, assignedAt: string, role?: { __typename?: 'Role', id: string, name: string } | null, user?: { __typename?: 'User', email: string } | null, assigner?: { __typename?: 'User', email: string } | null } | null };
+
+export type DeleteRelationsRoleToUserMutationVariables = Exact<{
+  ids: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+
+export type DeleteRelationsRoleToUserMutation = { __typename?: 'Mutation', deleteRelationsRoleToUser?: { __typename?: 'BatchPayload', count: number } | null };
 
 export type CreateRoleMutationVariables = Exact<{
   name: Scalars['String'];
@@ -1146,6 +1207,25 @@ export const RelationPermissionToUserFieldsFragmentDoc = gql`
     name
   }
   grantedAt
+}
+    `;
+export const RelationRoleToUserFieldsFragmentDoc = gql`
+    fragment RelationRoleToUserFields on RelationRoleToUser {
+  id
+  roleId
+  role {
+    id
+    name
+  }
+  userId
+  user {
+    email
+  }
+  assignerId
+  assigner {
+    email
+  }
+  assignedAt
 }
     `;
 export const UserFieldsFragmentDoc = gql`
@@ -1471,6 +1551,47 @@ export function useDeletePermissionMutation(baseOptions?: Apollo.MutationHookOpt
 export type DeletePermissionMutationHookResult = ReturnType<typeof useDeletePermissionMutation>;
 export type DeletePermissionMutationResult = Apollo.MutationResult<DeletePermissionMutation>;
 export type DeletePermissionMutationOptions = Apollo.BaseMutationOptions<DeletePermissionMutation, DeletePermissionMutationVariables>;
+export const CreateRelationPermissionToRoleDocument = gql`
+    mutation CreateRelationPermissionToRole($permissionId: String!, $roleId: String!, $granterId: String!, $isAllowed: Boolean) {
+  createRelationPermissionToRole(
+    permissionId: $permissionId
+    roleId: $roleId
+    granterId: $granterId
+    isAllowed: $isAllowed
+  ) {
+    ...RelationPermissionToRoleFields
+  }
+}
+    ${RelationPermissionToRoleFieldsFragmentDoc}`;
+export type CreateRelationPermissionToRoleMutationFn = Apollo.MutationFunction<CreateRelationPermissionToRoleMutation, CreateRelationPermissionToRoleMutationVariables>;
+
+/**
+ * __useCreateRelationPermissionToRoleMutation__
+ *
+ * To run a mutation, you first call `useCreateRelationPermissionToRoleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRelationPermissionToRoleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createRelationPermissionToRoleMutation, { data, loading, error }] = useCreateRelationPermissionToRoleMutation({
+ *   variables: {
+ *      permissionId: // value for 'permissionId'
+ *      roleId: // value for 'roleId'
+ *      granterId: // value for 'granterId'
+ *      isAllowed: // value for 'isAllowed'
+ *   },
+ * });
+ */
+export function useCreateRelationPermissionToRoleMutation(baseOptions?: Apollo.MutationHookOptions<CreateRelationPermissionToRoleMutation, CreateRelationPermissionToRoleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateRelationPermissionToRoleMutation, CreateRelationPermissionToRoleMutationVariables>(CreateRelationPermissionToRoleDocument, options);
+      }
+export type CreateRelationPermissionToRoleMutationHookResult = ReturnType<typeof useCreateRelationPermissionToRoleMutation>;
+export type CreateRelationPermissionToRoleMutationResult = Apollo.MutationResult<CreateRelationPermissionToRoleMutation>;
+export type CreateRelationPermissionToRoleMutationOptions = Apollo.BaseMutationOptions<CreateRelationPermissionToRoleMutation, CreateRelationPermissionToRoleMutationVariables>;
 export const RelationsPermissionToRoleDocument = gql`
     query RelationsPermissionToRole($where: RelationPermissionToRoleWhereInput, $skip: Int, $take: Int, $orderBy: [RelationPermissionToRoleOrderByWithRelationInput]) {
   relationsPermissionToRole(
@@ -1735,24 +1856,10 @@ export type DeleteRelationsPermissionToUserMutationOptions = Apollo.BaseMutation
 export const RelationsRoleToUserDocument = gql`
     query RelationsRoleToUser {
   relationsRoleToUser {
-    id
-    roleId
-    role {
-      id
-      name
-    }
-    userId
-    user {
-      email
-    }
-    assignerId
-    assigner {
-      email
-    }
-    assignedAt
+    ...RelationRoleToUserFields
   }
 }
-    `;
+    ${RelationRoleToUserFieldsFragmentDoc}`;
 
 /**
  * __useRelationsRoleToUserQuery__
@@ -1780,6 +1887,72 @@ export function useRelationsRoleToUserLazyQuery(baseOptions?: Apollo.LazyQueryHo
 export type RelationsRoleToUserQueryHookResult = ReturnType<typeof useRelationsRoleToUserQuery>;
 export type RelationsRoleToUserLazyQueryHookResult = ReturnType<typeof useRelationsRoleToUserLazyQuery>;
 export type RelationsRoleToUserQueryResult = Apollo.QueryResult<RelationsRoleToUserQuery, RelationsRoleToUserQueryVariables>;
+export const DeleteRelationRoleToUserDocument = gql`
+    mutation DeleteRelationRoleToUser($id: String!) {
+  deleteRelationRoleToUser(id: $id) {
+    ...RelationRoleToUserFields
+  }
+}
+    ${RelationRoleToUserFieldsFragmentDoc}`;
+export type DeleteRelationRoleToUserMutationFn = Apollo.MutationFunction<DeleteRelationRoleToUserMutation, DeleteRelationRoleToUserMutationVariables>;
+
+/**
+ * __useDeleteRelationRoleToUserMutation__
+ *
+ * To run a mutation, you first call `useDeleteRelationRoleToUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRelationRoleToUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRelationRoleToUserMutation, { data, loading, error }] = useDeleteRelationRoleToUserMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteRelationRoleToUserMutation(baseOptions?: Apollo.MutationHookOptions<DeleteRelationRoleToUserMutation, DeleteRelationRoleToUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteRelationRoleToUserMutation, DeleteRelationRoleToUserMutationVariables>(DeleteRelationRoleToUserDocument, options);
+      }
+export type DeleteRelationRoleToUserMutationHookResult = ReturnType<typeof useDeleteRelationRoleToUserMutation>;
+export type DeleteRelationRoleToUserMutationResult = Apollo.MutationResult<DeleteRelationRoleToUserMutation>;
+export type DeleteRelationRoleToUserMutationOptions = Apollo.BaseMutationOptions<DeleteRelationRoleToUserMutation, DeleteRelationRoleToUserMutationVariables>;
+export const DeleteRelationsRoleToUserDocument = gql`
+    mutation DeleteRelationsRoleToUser($ids: [String!]!) {
+  deleteRelationsRoleToUser(ids: $ids) {
+    count
+  }
+}
+    `;
+export type DeleteRelationsRoleToUserMutationFn = Apollo.MutationFunction<DeleteRelationsRoleToUserMutation, DeleteRelationsRoleToUserMutationVariables>;
+
+/**
+ * __useDeleteRelationsRoleToUserMutation__
+ *
+ * To run a mutation, you first call `useDeleteRelationsRoleToUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRelationsRoleToUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRelationsRoleToUserMutation, { data, loading, error }] = useDeleteRelationsRoleToUserMutation({
+ *   variables: {
+ *      ids: // value for 'ids'
+ *   },
+ * });
+ */
+export function useDeleteRelationsRoleToUserMutation(baseOptions?: Apollo.MutationHookOptions<DeleteRelationsRoleToUserMutation, DeleteRelationsRoleToUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteRelationsRoleToUserMutation, DeleteRelationsRoleToUserMutationVariables>(DeleteRelationsRoleToUserDocument, options);
+      }
+export type DeleteRelationsRoleToUserMutationHookResult = ReturnType<typeof useDeleteRelationsRoleToUserMutation>;
+export type DeleteRelationsRoleToUserMutationResult = Apollo.MutationResult<DeleteRelationsRoleToUserMutation>;
+export type DeleteRelationsRoleToUserMutationOptions = Apollo.BaseMutationOptions<DeleteRelationsRoleToUserMutation, DeleteRelationsRoleToUserMutationVariables>;
 export const CreateRoleDocument = gql`
     mutation CreateRole($name: String!) {
   createRole(name: $name) {

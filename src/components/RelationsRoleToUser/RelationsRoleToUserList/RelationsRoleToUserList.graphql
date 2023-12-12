@@ -1,19 +1,35 @@
+fragment RelationRoleToUserFields on RelationRoleToUser {
+  id
+  roleId
+  role {
+    id
+    name
+  }
+  userId
+  user {
+    email
+  }
+  assignerId
+  assigner {
+    email
+  }
+  assignedAt
+}
+
 query RelationsRoleToUser {
   relationsRoleToUser {
-    id
-    roleId
-    role {
-      id
-      name
-    }
-    userId
-    user {
-      email
-    }
-    assignerId
-    assigner {
-      email
-    }
-    assignedAt
+    ...RelationRoleToUserFields
+  }
+}
+
+mutation DeleteRelationRoleToUser($id: String!) {
+  deleteRelationRoleToUser(id: $id) {
+    ...RelationRoleToUserFields
+  }
+}
+
+mutation DeleteRelationsRoleToUser($ids: [String!]!) {
+  deleteRelationsRoleToUser(ids: $ids) {
+    count
   }
 }
