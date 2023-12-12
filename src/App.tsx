@@ -8,6 +8,7 @@ import { dataProvider } from './dataProvider';
 
 import { ApolloProvider, useApolloClient } from '@apollo/client';
 import CustomLoginPage from 'CustomLoginPage';
+import Resources from 'Resources';
 import Practice from 'components/Practice/Practice';
 import useToken from 'hooks/useToken';
 import useRunOnWindowFocus from 'hooks/utils/useRunOnWindowFocus';
@@ -45,20 +46,23 @@ export const App = () => {
         </CustomRoutes>
         {tokenLoading ? null : (
           <>
-            <Resource name="users" {...users} />
-            <Resource name="greWords" {...greWords} />
-            <Resource name="userSessions" {...userSessions} />
-            <Resource name="permissions" {...permissions} />
-            <Resource name="roles" {...roles} />
+            <Resource name={Resources.users} {...users} />
+            <Resource name={Resources.greWords} {...greWords} />
+            <Resource name={Resources.userSessions} {...userSessions} />
+            <Resource name={Resources.permissions} {...permissions} />
+            <Resource name={Resources.roles} {...roles} />
             <Resource
-              name="relationsPermissionToRole"
+              name={Resources.relationsPermissionToRole}
               {...relationsPermissionToRole}
             />
             <Resource
-              name="relationsPermissionToUser"
+              name={Resources.relationsPermissionToUser}
               {...relationsPermissionToUser}
             />
-            <Resource name="relationsRoleToUser" {...relationsRoleToUser} />
+            <Resource
+              name={Resources.relationsRoleToUser}
+              {...relationsRoleToUser}
+            />
           </>
         )}
       </Admin>

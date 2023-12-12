@@ -5,22 +5,26 @@ import {
   TextField as MuiTextField,
   Typography,
 } from '@mui/material';
+import Resources from 'Resources';
+import { useLocation } from 'react-router-dom';
+
 import {
   DeletePermissionDocument,
+  DeleteRelationPermissionToUserDocument,
+  DeleteRelationsPermissionToUserDocument,
   PermissionDocument,
   PermissionQuery,
-  QueryMode,
   RelationsPermissionToRoleDocument,
   RelationsPermissionToUserDocument,
+  UsersDocument,
   useCreateRelationPermissionToUserMutation,
-  useRelationsPermissionToUserQuery,
-  useUsersQuery,
 } from 'gql/graphql';
 import useUser from 'hooks/useUser';
 import useToggle from 'hooks/utils/useToggle';
 import { useMemo, useState } from 'react';
 import {
   BooleanField,
+  BulkDeleteButton,
   Datagrid,
   DateField,
   DeleteButton,
@@ -28,6 +32,7 @@ import {
   Show,
   SimpleShowLayout,
   TextField,
+  useGetList,
   useRecordContext,
   useRefresh,
 } from 'react-admin';
@@ -63,25 +68,29 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
   const { user } = useUser();
   const [toggleValue, toggle] = useToggle();
   const refresh = useRefresh();
-  const [userEmailSearchInput, setUserEmailSearchInput] = useState('');
-  const {
-    data: { relationsPermissionToUser } = {},
-    refetch: refetchRelationsPermissionToUser,
-  } = useRelationsPermissionToUserQuery({
-    variables: { where: { permissionId: { equals: permission?.id } } },
-    skip: !permission,
-  });
 
-  const { data: { users } = {} } = useUsersQuery({
-    variables: {
-      where: {
-        email: {
-          contains: userEmailSearchInput,
-          mode: QueryMode.Insensitive,
-        },
+  const [userEmailSearchInput, setUserEmailSearchInput] = useState('');
+
+  const { data: relationsPermissionToUser } = useGetList(
+    Resources.relationsPermissionToUser,
+    {
+      meta: {
+        query: RelationsPermissionToUserDocument,
+      },
+      filter: {
+        permissionId_equals: permission?.id,
       },
     },
+  );
+
+  const { data: users } = useGetList(Resources.users, {
+    meta: { query: UsersDocument },
+    filter: {
+      email_contains: userEmailSearchInput,
+    },
   });
+
+  const location = useLocation();
 
   const [
     createRelationPermissionToUserMutation,
@@ -101,7 +110,6 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
           },
           onCompleted: () => {
             refresh();
-            refetchRelationsPermissionToUser();
           },
         });
       }
@@ -160,14 +168,30 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
             query: RelationsPermissionToUserDocument,
           },
         }}
-        resource="relationsPermissionToUser"
+        resource={Resources.relationsPermissionToUser}
         filter={{ permissionId_equals: permission?.id }}
       >
-        <Datagrid>
+        <Datagrid
+          bulkActionButtons={
+            <BulkDeleteButton
+              mutationOptions={{
+                meta: { mutation: DeleteRelationsPermissionToUserDocument },
+              }}
+            />
+          }
+        >
           <TextField source="user.email" sortable={false} />
           <TextField source="granter.email" sortable={false} />
           <BooleanField source="isAllowed" sortable={false} />
           <DateField source="grantedAt" />
+          <DeleteButton
+            mutationOptions={{
+              meta: { mutation: DeleteRelationPermissionToUserDocument },
+            }}
+            redirect={() => {
+              return location.pathname.slice(1);
+            }}
+          />
         </Datagrid>
       </List>
     </Box>
