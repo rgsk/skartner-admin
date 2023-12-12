@@ -1,16 +1,13 @@
-import {
-  Autocomplete,
-  Box,
-  CircularProgress,
-  TextField as MuiTextField,
-  Typography,
-} from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Resources from 'Resources';
 import { useLocation } from 'react-router-dom';
 
+import CustomAutocomplete from 'components/Custom/CustomAutocomplete';
 import {
   DeletePermissionDocument,
+  DeleteRelationPermissionToRoleDocument,
   DeleteRelationPermissionToUserDocument,
+  DeleteRelationsPermissionToRoleDocument,
   DeleteRelationsPermissionToUserDocument,
   PermissionDocument,
   PermissionQuery,
@@ -20,7 +17,6 @@ import {
   useCreateRelationPermissionToUserMutation,
 } from 'gql/graphql';
 import useUser from 'hooks/useUser';
-import useToggle from 'hooks/utils/useToggle';
 import { useMemo, useState } from 'react';
 import {
   BooleanField,
@@ -66,7 +62,6 @@ interface IPermissionToUserProps {}
 const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
   const permission = useRecordContext() as PermissionQuery['permission'];
   const { user } = useUser();
-  const [toggleValue, toggle] = useToggle();
   const refresh = useRefresh();
 
   const [userEmailSearchInput, setUserEmailSearchInput] = useState('');
@@ -90,7 +85,7 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
     },
   });
 
-  const location = useLocation();
+  const locationObject = useLocation();
 
   const [
     createRelationPermissionToUserMutation,
@@ -127,41 +122,18 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
   return (
     <Box>
       <Typography>Relations Permission To User</Typography>
-      <Autocomplete
+      <CustomAutocomplete
+        label="email"
         options={options}
-        key={`${toggleValue}`}
-        renderInput={(params) => (
-          <MuiTextField
-            {...params}
-            label="email"
-            // error={!!errors.line2}
-            // helperText={errors.line2?.message}
-            onChange={(e) => {
-              setUserEmailSearchInput(e.target.value);
-            }}
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <>
-                  {createRelationPermissionToUserMutationResult.loading && (
-                    <Box sx={{ transform: 'translate(0px, -3px)' }}>
-                      <CircularProgress size={20} />
-                    </Box>
-                  )}
-                  {params.InputProps.endAdornment}
-                </>
-              ),
-            }}
-          />
-        )}
-        onChange={(event, email) => {
-          if (email) {
-            onSelect(email);
-            toggle();
-            setUserEmailSearchInput('');
-          }
+        onChange={(value) => {
+          setUserEmailSearchInput(value);
         }}
-      />
+        onSelect={(option) => {
+          onSelect(option);
+        }}
+        loading={createRelationPermissionToUserMutationResult.loading}
+      ></CustomAutocomplete>
+
       <List
         queryOptions={{
           meta: {
@@ -189,7 +161,7 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
               meta: { mutation: DeleteRelationPermissionToUserDocument },
             }}
             redirect={() => {
-              return location.pathname.slice(1);
+              return locationObject.pathname.slice(1);
             }}
           />
         </Datagrid>
@@ -201,6 +173,8 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
 interface IPermissionToRoleProps {}
 const PermissionToRole: React.FC<IPermissionToRoleProps> = ({}) => {
   const permission = useRecordContext();
+  const locationObject = useLocation();
+
   return (
     <Box>
       <Typography>Relations Permission To Role</Typography>
@@ -213,11 +187,27 @@ const PermissionToRole: React.FC<IPermissionToRoleProps> = ({}) => {
         resource="relationsPermissionToRole"
         filter={{ permissionId_equals: permission?.id }}
       >
-        <Datagrid>
+        <Datagrid
+          bulkActionButtons={
+            <BulkDeleteButton
+              mutationOptions={{
+                meta: { mutation: DeleteRelationsPermissionToRoleDocument },
+              }}
+            />
+          }
+        >
           <TextField source="role.name" sortable={false} />
           <TextField source="granter.email" sortable={false} />
           <BooleanField source="isAllowed" sortable={false} />
           <DateField source="grantedAt" />
+          <DeleteButton
+            mutationOptions={{
+              meta: { mutation: DeleteRelationPermissionToRoleDocument },
+            }}
+            redirect={() => {
+              return locationObject.pathname.slice(1);
+            }}
+          />
         </Datagrid>
       </List>
     </Box>
