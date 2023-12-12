@@ -2,7 +2,7 @@
   "name": "skartner-admin",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"yarn codegen:watch\" \"vite\"",
+    "dev": "concurrently \"yarn codegen:watch\" \"vite --port 4173\"",
     "build": "vite build",
     "serve": "vite preview",
     "type-check": "tsc --noEmit",
