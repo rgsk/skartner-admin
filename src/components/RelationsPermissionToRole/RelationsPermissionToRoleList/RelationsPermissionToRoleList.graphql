@@ -1,3 +1,21 @@
+fragment RelationPermissionToRoleFields on RelationPermissionToRole {
+  id
+  permissionId
+  permission {
+    name
+  }
+  roleId
+  role {
+    name
+  }
+  granterId
+  granter {
+    email
+  }
+  isAllowed
+  grantedAt
+}
+
 query RelationsPermissionToRole(
   $where: RelationPermissionToRoleWhereInput
   $skip: Int
@@ -10,22 +28,20 @@ query RelationsPermissionToRole(
     take: $take
     orderBy: $orderBy
   ) {
-    id
-    permissionId
-    permission {
-      name
-    }
-    roleId
-    role {
-      name
-    }
-    granterId
-    granter {
-      email
-    }
-    isAllowed
-    grantedAt
+    ...RelationPermissionToRoleFields
   }
 
   total: relationsPermissionToRoleCount(where: $where)
+}
+
+mutation DeleteRelationPermissionToRole($id: String!) {
+  deleteRelationPermissionToRole(id: $id) {
+    ...RelationPermissionToRoleFields
+  }
+}
+
+mutation DeleteRelationsPermissionToRole($ids: [String!]!) {
+  deleteRelationsPermissionToRole(ids: $ids) {
+    count
+  }
 }

@@ -32,3 +32,15 @@ query RelationsPermissionToUser(
 
   total: relationsPermissionToUserCount(where: $where)
 }
+
+mutation DeleteRelationPermissionToUser($id: String!) {
+  deleteRelationPermissionToUser(id: $id) {
+    ...RelationPermissionToUserFields
+  }
+}
+
+mutation DeleteRelationsPermissionToUser($ids: [String!]!) {
+  deleteRelationsPermissionToUser(ids: $ids) {
+    count
+  }
+}
