@@ -1,0 +1,5 @@
+query RelationPermissionToRole($where: RelationPermissionToRoleWhereInput!) {
+  relationPermissionToRole(where: $where) {
+    ...RelationPermissionToRoleFields
+  }
+}

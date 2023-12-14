@@ -14,7 +14,7 @@ function getDifferentKeys(obj1: any, obj2: any) {
   const result: any = {};
 
   for (const key in obj2) {
-    if (obj1[key] !== obj2[key]) {
+    if (JSON.stringify(obj1[key]) !== JSON.stringify(obj2[key])) {
       result[key] = obj2[key];
     }
   }
