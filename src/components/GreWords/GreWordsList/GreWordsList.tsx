@@ -7,6 +7,7 @@ import {
   DateField,
   List,
   ReferenceField,
+  ShowButton,
   TextField,
   TextInput,
 } from 'react-admin';
@@ -33,7 +34,7 @@ const GreWordsList: React.FC<IGreWordListProps> = ({}) => {
         />,
       ]}
     >
-      <Datagrid rowClick="show">
+      <Datagrid>
         <TextField source="id" sortable={false}></TextField>
         <TextField source="cacheWord.text" sortable={false}></TextField>
         <ReferenceField
@@ -50,6 +51,7 @@ const GreWordsList: React.FC<IGreWordListProps> = ({}) => {
           <TextField source="email" />
         </ReferenceField>
         <DateField source="updatedAt" />
+        <ShowButton />
       </Datagrid>
     </List>
   );

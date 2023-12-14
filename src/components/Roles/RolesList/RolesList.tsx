@@ -10,6 +10,7 @@ import {
   DeleteButton,
   EditButton,
   List,
+  ShowButton,
   TextField,
   TextInput,
 } from 'react-admin';
@@ -26,7 +27,6 @@ const RolesList = () => {
       ]}
     >
       <Datagrid
-        rowClick="show"
         bulkActionButtons={
           <BulkDeleteButton
             mutationOptions={{ meta: { mutation: DeleteRolesDocument } }}
@@ -36,6 +36,7 @@ const RolesList = () => {
         <TextField source="id" sortable={false} />
         <TextField source="name" sortable={false} />
         <DateField source="createdAt" />
+        <ShowButton />
         <EditButton />
         <DeleteButton
           mutationOptions={{ meta: { mutation: DeleteRoleDocument } }}
