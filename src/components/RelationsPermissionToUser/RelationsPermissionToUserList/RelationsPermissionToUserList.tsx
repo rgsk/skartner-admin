@@ -9,7 +9,9 @@ import {
   Datagrid,
   DateField,
   DeleteButton,
+  EditButton,
   List,
+  ShowButton,
   TextField,
 } from 'react-admin';
 const RelationsPermissionToUserList = () => {
@@ -36,6 +38,8 @@ const RelationsPermissionToUserList = () => {
         <TextField source="granter.email" sortable={false} />
         <BooleanField source="isAllowed" sortable={false} />
         <DateField source="grantedAt" />
+        <ShowButton />
+        <EditButton />
         <DeleteButton
           mutationOptions={{
             meta: { mutation: DeleteRelationPermissionToUserDocument },

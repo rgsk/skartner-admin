@@ -8,10 +8,10 @@ fragment RelationPermissionToUserFields on RelationPermissionToUser {
     email
   }
   isAllowed
+  permissionId
   permission {
     name
   }
-
   grantedAt
 }
 

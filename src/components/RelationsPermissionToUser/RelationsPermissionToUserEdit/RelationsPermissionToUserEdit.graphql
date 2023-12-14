@@ -1,0 +1,8 @@
+mutation UpdateRelationPermissionToUser(
+  $id: String!
+  $data: RelationPermissionToUserUpdateInput!
+) {
+  updateRelationPermissionToUser(id: $id, data: $data) {
+    ...RelationPermissionToUserFields
+  }
+}

@@ -512,6 +512,7 @@ export type Query = {
   permissionsCount: Scalars['Int'];
   posts?: Maybe<Array<Maybe<Post>>>;
   relationPermissionToRole?: Maybe<RelationPermissionToRole>;
+  relationPermissionToUser?: Maybe<RelationPermissionToUser>;
   relationsPermissionToRole: Array<RelationPermissionToRole>;
   relationsPermissionToRoleCount: Scalars['Int'];
   relationsPermissionToUser: Array<RelationPermissionToUser>;
@@ -606,6 +607,11 @@ export type QueryPermissionsCountArgs = {
 
 export type QueryRelationPermissionToRoleArgs = {
   where: RelationPermissionToRoleWhereInput;
+};
+
+
+export type QueryRelationPermissionToUserArgs = {
+  where: RelationPermissionToUserWhereInput;
 };
 
 
@@ -1070,9 +1076,17 @@ export type CreateRelationPermissionToUserMutationVariables = Exact<{
 }>;
 
 
-export type CreateRelationPermissionToUserMutation = { __typename?: 'Mutation', createRelationPermissionToUser: { __typename?: 'RelationPermissionToUser', id: string, userId: string, isAllowed?: boolean | null, grantedAt: string, user?: { __typename?: 'User', email: string } | null, granter?: { __typename?: 'User', email: string } | null, permission?: { __typename?: 'Permission', name: string } | null } };
+export type CreateRelationPermissionToUserMutation = { __typename?: 'Mutation', createRelationPermissionToUser: { __typename?: 'RelationPermissionToUser', id: string, userId: string, isAllowed?: boolean | null, permissionId: string, grantedAt: string, user?: { __typename?: 'User', email: string } | null, granter?: { __typename?: 'User', email: string } | null, permission?: { __typename?: 'Permission', name: string } | null } };
 
-export type RelationPermissionToUserFieldsFragment = { __typename?: 'RelationPermissionToUser', id: string, userId: string, isAllowed?: boolean | null, grantedAt: string, user?: { __typename?: 'User', email: string } | null, granter?: { __typename?: 'User', email: string } | null, permission?: { __typename?: 'Permission', name: string } | null };
+export type UpdateRelationPermissionToUserMutationVariables = Exact<{
+  id: Scalars['String'];
+  data: RelationPermissionToUserUpdateInput;
+}>;
+
+
+export type UpdateRelationPermissionToUserMutation = { __typename?: 'Mutation', updateRelationPermissionToUser: { __typename?: 'RelationPermissionToUser', id: string, userId: string, isAllowed?: boolean | null, permissionId: string, grantedAt: string, user?: { __typename?: 'User', email: string } | null, granter?: { __typename?: 'User', email: string } | null, permission?: { __typename?: 'Permission', name: string } | null } };
+
+export type RelationPermissionToUserFieldsFragment = { __typename?: 'RelationPermissionToUser', id: string, userId: string, isAllowed?: boolean | null, permissionId: string, grantedAt: string, user?: { __typename?: 'User', email: string } | null, granter?: { __typename?: 'User', email: string } | null, permission?: { __typename?: 'Permission', name: string } | null };
 
 export type RelationsPermissionToUserQueryVariables = Exact<{
   where?: InputMaybe<RelationPermissionToUserWhereInput>;
@@ -1082,14 +1096,14 @@ export type RelationsPermissionToUserQueryVariables = Exact<{
 }>;
 
 
-export type RelationsPermissionToUserQuery = { __typename?: 'Query', total: number, relationsPermissionToUser: Array<{ __typename?: 'RelationPermissionToUser', id: string, userId: string, isAllowed?: boolean | null, grantedAt: string, user?: { __typename?: 'User', email: string } | null, granter?: { __typename?: 'User', email: string } | null, permission?: { __typename?: 'Permission', name: string } | null }> };
+export type RelationsPermissionToUserQuery = { __typename?: 'Query', total: number, relationsPermissionToUser: Array<{ __typename?: 'RelationPermissionToUser', id: string, userId: string, isAllowed?: boolean | null, permissionId: string, grantedAt: string, user?: { __typename?: 'User', email: string } | null, granter?: { __typename?: 'User', email: string } | null, permission?: { __typename?: 'Permission', name: string } | null }> };
 
 export type DeleteRelationPermissionToUserMutationVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type DeleteRelationPermissionToUserMutation = { __typename?: 'Mutation', deleteRelationPermissionToUser?: { __typename?: 'RelationPermissionToUser', id: string, userId: string, isAllowed?: boolean | null, grantedAt: string, user?: { __typename?: 'User', email: string } | null, granter?: { __typename?: 'User', email: string } | null, permission?: { __typename?: 'Permission', name: string } | null } | null };
+export type DeleteRelationPermissionToUserMutation = { __typename?: 'Mutation', deleteRelationPermissionToUser?: { __typename?: 'RelationPermissionToUser', id: string, userId: string, isAllowed?: boolean | null, permissionId: string, grantedAt: string, user?: { __typename?: 'User', email: string } | null, granter?: { __typename?: 'User', email: string } | null, permission?: { __typename?: 'Permission', name: string } | null } | null };
 
 export type DeleteRelationsPermissionToUserMutationVariables = Exact<{
   ids: Array<Scalars['String']> | Scalars['String'];
@@ -1097,6 +1111,13 @@ export type DeleteRelationsPermissionToUserMutationVariables = Exact<{
 
 
 export type DeleteRelationsPermissionToUserMutation = { __typename?: 'Mutation', deleteRelationsPermissionToUser?: { __typename?: 'BatchPayload', count: number } | null };
+
+export type RelationPermissionToUserQueryVariables = Exact<{
+  where: RelationPermissionToUserWhereInput;
+}>;
+
+
+export type RelationPermissionToUserQuery = { __typename?: 'Query', relationPermissionToUser?: { __typename?: 'RelationPermissionToUser', id: string, userId: string, isAllowed?: boolean | null, permissionId: string, grantedAt: string, user?: { __typename?: 'User', email: string } | null, granter?: { __typename?: 'User', email: string } | null, permission?: { __typename?: 'Permission', name: string } | null } | null };
 
 export type RelationRoleToUserFieldsFragment = { __typename?: 'RelationRoleToUser', id: string, roleId: string, userId: string, assignerId: string, assignedAt: string, role?: { __typename?: 'Role', id: string, name: string } | null, user?: { __typename?: 'User', email: string } | null, assigner?: { __typename?: 'User', email: string } | null };
 
@@ -1224,6 +1245,7 @@ export const RelationPermissionToUserFieldsFragmentDoc = gql`
     email
   }
   isAllowed
+  permissionId
   permission {
     name
   }
@@ -1833,6 +1855,40 @@ export function useCreateRelationPermissionToUserMutation(baseOptions?: Apollo.M
 export type CreateRelationPermissionToUserMutationHookResult = ReturnType<typeof useCreateRelationPermissionToUserMutation>;
 export type CreateRelationPermissionToUserMutationResult = Apollo.MutationResult<CreateRelationPermissionToUserMutation>;
 export type CreateRelationPermissionToUserMutationOptions = Apollo.BaseMutationOptions<CreateRelationPermissionToUserMutation, CreateRelationPermissionToUserMutationVariables>;
+export const UpdateRelationPermissionToUserDocument = gql`
+    mutation UpdateRelationPermissionToUser($id: String!, $data: RelationPermissionToUserUpdateInput!) {
+  updateRelationPermissionToUser(id: $id, data: $data) {
+    ...RelationPermissionToUserFields
+  }
+}
+    ${RelationPermissionToUserFieldsFragmentDoc}`;
+export type UpdateRelationPermissionToUserMutationFn = Apollo.MutationFunction<UpdateRelationPermissionToUserMutation, UpdateRelationPermissionToUserMutationVariables>;
+
+/**
+ * __useUpdateRelationPermissionToUserMutation__
+ *
+ * To run a mutation, you first call `useUpdateRelationPermissionToUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRelationPermissionToUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRelationPermissionToUserMutation, { data, loading, error }] = useUpdateRelationPermissionToUserMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateRelationPermissionToUserMutation(baseOptions?: Apollo.MutationHookOptions<UpdateRelationPermissionToUserMutation, UpdateRelationPermissionToUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateRelationPermissionToUserMutation, UpdateRelationPermissionToUserMutationVariables>(UpdateRelationPermissionToUserDocument, options);
+      }
+export type UpdateRelationPermissionToUserMutationHookResult = ReturnType<typeof useUpdateRelationPermissionToUserMutation>;
+export type UpdateRelationPermissionToUserMutationResult = Apollo.MutationResult<UpdateRelationPermissionToUserMutation>;
+export type UpdateRelationPermissionToUserMutationOptions = Apollo.BaseMutationOptions<UpdateRelationPermissionToUserMutation, UpdateRelationPermissionToUserMutationVariables>;
 export const RelationsPermissionToUserDocument = gql`
     query RelationsPermissionToUser($where: RelationPermissionToUserWhereInput, $skip: Int, $take: Int, $orderBy: [RelationPermissionToUserOrderByWithRelationInput]) {
   relationsPermissionToUser(
@@ -1943,6 +1999,41 @@ export function useDeleteRelationsPermissionToUserMutation(baseOptions?: Apollo.
 export type DeleteRelationsPermissionToUserMutationHookResult = ReturnType<typeof useDeleteRelationsPermissionToUserMutation>;
 export type DeleteRelationsPermissionToUserMutationResult = Apollo.MutationResult<DeleteRelationsPermissionToUserMutation>;
 export type DeleteRelationsPermissionToUserMutationOptions = Apollo.BaseMutationOptions<DeleteRelationsPermissionToUserMutation, DeleteRelationsPermissionToUserMutationVariables>;
+export const RelationPermissionToUserDocument = gql`
+    query RelationPermissionToUser($where: RelationPermissionToUserWhereInput!) {
+  relationPermissionToUser(where: $where) {
+    ...RelationPermissionToUserFields
+  }
+}
+    ${RelationPermissionToUserFieldsFragmentDoc}`;
+
+/**
+ * __useRelationPermissionToUserQuery__
+ *
+ * To run a query within a React component, call `useRelationPermissionToUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRelationPermissionToUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRelationPermissionToUserQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useRelationPermissionToUserQuery(baseOptions: Apollo.QueryHookOptions<RelationPermissionToUserQuery, RelationPermissionToUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RelationPermissionToUserQuery, RelationPermissionToUserQueryVariables>(RelationPermissionToUserDocument, options);
+      }
+export function useRelationPermissionToUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RelationPermissionToUserQuery, RelationPermissionToUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RelationPermissionToUserQuery, RelationPermissionToUserQueryVariables>(RelationPermissionToUserDocument, options);
+        }
+export type RelationPermissionToUserQueryHookResult = ReturnType<typeof useRelationPermissionToUserQuery>;
+export type RelationPermissionToUserLazyQueryHookResult = ReturnType<typeof useRelationPermissionToUserLazyQuery>;
+export type RelationPermissionToUserQueryResult = Apollo.QueryResult<RelationPermissionToUserQuery, RelationPermissionToUserQueryVariables>;
 export const RelationsRoleToUserDocument = gql`
     query RelationsRoleToUser {
   relationsRoleToUser {

@@ -1,6 +1,12 @@
+import RelationsPermissionToUserCreate from 'components/RelationsPermissionToUser/RelationsPermissionToUserCreate/RelationsPermissionToUserCreate';
+import RelationsPermissionToUserEdit from 'components/RelationsPermissionToUser/RelationsPermissionToUserEdit/RelationsPermissionToUserEdit';
 import RelationsPermissionToUserList from 'components/RelationsPermissionToUser/RelationsPermissionToUserList/RelationsPermissionToUserList';
+import RelationsPermissionToUserShow from 'components/RelationsPermissionToUser/RelationsPermissionToUserShow/RelationsPermissionToUserShow';
 
 const relationsPermissionToUser = {
   list: RelationsPermissionToUserList,
+  show: RelationsPermissionToUserShow,
+  create: RelationsPermissionToUserCreate,
+  edit: RelationsPermissionToUserEdit,
 };
 export default relationsPermissionToUser;
