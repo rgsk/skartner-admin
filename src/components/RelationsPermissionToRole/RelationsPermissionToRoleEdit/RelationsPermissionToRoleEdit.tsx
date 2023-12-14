@@ -50,6 +50,7 @@ export const RelationsPermissionToRoleForm: React.FC<
           filterToQuery={(searchText) => {
             return { name_contains: searchText };
           }}
+          isRequired
         />
       </ReferenceInput>
       <ReferenceInput
@@ -63,6 +64,7 @@ export const RelationsPermissionToRoleForm: React.FC<
           filterToQuery={(searchText) => {
             return { name_contains: searchText };
           }}
+          isRequired
         />
       </ReferenceInput>
       <NullableBooleanInput source="isAllowed"></NullableBooleanInput>
