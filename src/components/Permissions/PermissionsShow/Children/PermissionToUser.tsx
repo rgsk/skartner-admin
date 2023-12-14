@@ -1,11 +1,9 @@
 import { Box, Typography } from '@mui/material';
 import Resources from 'Resources';
-import { useLocation } from 'react-router-dom';
 
 import CustomAutocomplete from 'components/Custom/CustomAutocomplete';
+import RelationsPermissionToUserList from 'components/RelationsPermissionToUser/RelationsPermissionToUserList/RelationsPermissionToUserList';
 import {
-  DeleteRelationPermissionToUserDocument,
-  DeleteRelationsPermissionToUserDocument,
   PermissionQuery,
   RelationsPermissionToUserDocument,
   RelationsPermissionToUserQuery,
@@ -15,18 +13,7 @@ import {
 } from 'gql/graphql';
 import useUser from 'hooks/useUser';
 import { useMemo, useState } from 'react';
-import {
-  BooleanField,
-  BulkDeleteButton,
-  Datagrid,
-  DateField,
-  DeleteButton,
-  List,
-  TextField,
-  useGetList,
-  useRecordContext,
-  useRefresh,
-} from 'react-admin';
+import { useGetList, useRecordContext, useRefresh } from 'react-admin';
 
 interface IPermissionToUserProps {}
 const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
@@ -56,8 +43,6 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
       },
     },
   );
-
-  const locationObject = useLocation();
 
   const [
     createRelationPermissionToUserMutation,
@@ -105,39 +90,9 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
         }}
         loading={createRelationPermissionToUserMutationResult.loading}
       ></CustomAutocomplete>
-
-      <List
-        queryOptions={{
-          meta: {
-            query: RelationsPermissionToUserDocument,
-          },
-        }}
-        resource={Resources.relationsPermissionToUser}
+      <RelationsPermissionToUserList
         filter={{ permissionId_equals: permission?.id }}
-      >
-        <Datagrid
-          bulkActionButtons={
-            <BulkDeleteButton
-              mutationOptions={{
-                meta: { mutation: DeleteRelationsPermissionToUserDocument },
-              }}
-            />
-          }
-        >
-          <TextField source="user.email" sortable={false} />
-          <TextField source="granter.email" sortable={false} />
-          <BooleanField source="isAllowed" sortable={false} />
-          <DateField source="grantedAt" />
-          <DeleteButton
-            mutationOptions={{
-              meta: { mutation: DeleteRelationPermissionToUserDocument },
-            }}
-            redirect={() => {
-              return locationObject.pathname.slice(1);
-            }}
-          />
-        </Datagrid>
-      </List>
+      />
     </Box>
   );
 };

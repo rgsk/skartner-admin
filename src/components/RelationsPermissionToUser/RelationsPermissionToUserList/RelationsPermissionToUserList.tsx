@@ -1,3 +1,4 @@
+import Resources from 'Resources';
 import {
   DeleteRelationPermissionToUserDocument,
   DeleteRelationsPermissionToUserDocument,
@@ -10,18 +11,26 @@ import {
   DateField,
   DeleteButton,
   EditButton,
+  FilterPayload,
   List,
   ShowButton,
   TextField,
 } from 'react-admin';
-const RelationsPermissionToUserList = () => {
+interface IRelationsPermissionToUserListProps {
+  filter?: FilterPayload;
+}
+const RelationsPermissionToUserList: React.FC<
+  IRelationsPermissionToUserListProps
+> = ({ filter }) => {
   return (
     <List
+      resource={Resources.relationsPermissionToUser}
       queryOptions={{
         meta: {
           query: RelationsPermissionToUserDocument,
         },
       }}
+      filter={filter}
     >
       <Datagrid
         bulkActionButtons={

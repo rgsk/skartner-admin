@@ -3,9 +3,8 @@ import Resources from 'Resources';
 import { useLocation } from 'react-router-dom';
 
 import CustomAutocomplete from 'components/Custom/CustomAutocomplete';
+import RelationsPermissionToRoleList from 'components/RelationsPermissionToRole/RelationsPermissionToRoleList/RelationsPermissionToRoleList';
 import {
-  DeleteRelationPermissionToRoleDocument,
-  DeleteRelationsPermissionToRoleDocument,
   PermissionQuery,
   RelationsPermissionToRoleDocument,
   RelationsPermissionToRoleQuery,
@@ -15,18 +14,7 @@ import {
 } from 'gql/graphql';
 import useUser from 'hooks/useUser';
 import { useMemo, useState } from 'react';
-import {
-  BooleanField,
-  BulkDeleteButton,
-  Datagrid,
-  DateField,
-  DeleteButton,
-  List,
-  TextField,
-  useGetList,
-  useRecordContext,
-  useRefresh,
-} from 'react-admin';
+import { useGetList, useRecordContext, useRefresh } from 'react-admin';
 
 interface IPermissionToRoleProps {}
 const PermissionToRole: React.FC<IPermissionToRoleProps> = ({}) => {
@@ -108,38 +96,9 @@ const PermissionToRole: React.FC<IPermissionToRoleProps> = ({}) => {
         loading={createRelationPermissionToRoleMutationResult.loading}
       ></CustomAutocomplete>
 
-      <List
-        queryOptions={{
-          meta: {
-            query: RelationsPermissionToRoleDocument,
-          },
-        }}
-        resource="relationsPermissionToRole"
+      <RelationsPermissionToRoleList
         filter={{ permissionId_equals: permission?.id }}
-      >
-        <Datagrid
-          bulkActionButtons={
-            <BulkDeleteButton
-              mutationOptions={{
-                meta: { mutation: DeleteRelationsPermissionToRoleDocument },
-              }}
-            />
-          }
-        >
-          <TextField source="role.name" sortable={false} />
-          <TextField source="granter.email" sortable={false} />
-          <BooleanField source="isAllowed" sortable={false} />
-          <DateField source="grantedAt" />
-          <DeleteButton
-            mutationOptions={{
-              meta: { mutation: DeleteRelationPermissionToRoleDocument },
-            }}
-            redirect={() => {
-              return locationObject.pathname.slice(1);
-            }}
-          />
-        </Datagrid>
-      </List>
+      />
     </Box>
   );
 };

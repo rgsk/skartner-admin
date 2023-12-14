@@ -1,3 +1,4 @@
+import Resources from 'Resources';
 import {
   DeleteRelationPermissionToRoleDocument,
   DeleteRelationsPermissionToRoleDocument,
@@ -10,11 +11,18 @@ import {
   DateField,
   DeleteButton,
   EditButton,
+  FilterPayload,
   List,
   ShowButton,
   TextField,
 } from 'react-admin';
-const RelationsPermissionToRoleList = () => {
+
+interface IRelationsPermissionToRoleListProps {
+  filter?: FilterPayload;
+}
+const RelationsPermissionToRoleList: React.FC<
+  IRelationsPermissionToRoleListProps
+> = ({ filter }) => {
   return (
     <List
       queryOptions={{
@@ -22,6 +30,8 @@ const RelationsPermissionToRoleList = () => {
           query: RelationsPermissionToRoleDocument,
         },
       }}
+      filter={filter}
+      resource={Resources.relationsPermissionToRole}
     >
       <Datagrid
         bulkActionButtons={
