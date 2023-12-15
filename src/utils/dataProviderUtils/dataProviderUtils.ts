@@ -16,7 +16,11 @@ function getWhereObject(filter: any) {
     if (last === 'contains') {
       currentOutput['mode'] = 'insensitive';
     }
-    currentOutput[last] = value;
+    if (typeof value === 'object') {
+      currentOutput[last] = getWhereObject(value);
+    } else {
+      currentOutput[last] = value;
+    }
   }
   return output;
 }

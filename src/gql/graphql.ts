@@ -523,7 +523,7 @@ export type Query = {
   hello: HelloWorld;
   permission?: Maybe<Permission>;
   permissionHierarchies?: Maybe<Array<Maybe<PermissionHierarchy>>>;
-  permissions?: Maybe<Array<Maybe<Permission>>>;
+  permissions: Array<Permission>;
   permissionsCount: Scalars['Int'];
   posts?: Maybe<Array<Maybe<Post>>>;
   relationPermissionToRole?: Maybe<RelationPermissionToRole>;
@@ -768,6 +768,7 @@ export type RelationPermissionToRoleUpdateInput = {
 export type RelationPermissionToRoleWhereInput = {
   id?: InputMaybe<StringFilter>;
   permissionId?: InputMaybe<StringFilter>;
+  roleId?: InputMaybe<StringFilter>;
 };
 
 export type RelationPermissionToUser = {
@@ -1018,7 +1019,7 @@ export type PermissionsQueryVariables = Exact<{
 }>;
 
 
-export type PermissionsQuery = { __typename?: 'Query', total: number, permissions?: Array<{ __typename?: 'Permission', id: string, name: string, meta: any, createdAt: string, updatedAt: string } | null> | null };
+export type PermissionsQuery = { __typename?: 'Query', total: number, permissions: Array<{ __typename?: 'Permission', id: string, name: string, meta: any, createdAt: string, updatedAt: string }> };
 
 export type DeletePermissionsMutationVariables = Exact<{
   ids: Array<Scalars['String']> | Scalars['String'];
