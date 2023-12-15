@@ -1196,7 +1196,7 @@ export type CreateRelationRoleToUserMutationVariables = Exact<{
 export type CreateRelationRoleToUserMutation = { __typename?: 'Mutation', createRelationRoleToUser: { __typename?: 'RelationRoleToUser', id: string, roleId: string, userId: string, assignerId: string, assignedAt: string, role?: { __typename?: 'Role', id: string, name: string } | null, user?: { __typename?: 'User', email: string } | null, assigner?: { __typename?: 'User', email: string } | null } };
 
 export type UpdateRelationRoleToUserMutationVariables = Exact<{
-  updateRelationRoleToUserId: Scalars['String'];
+  id: Scalars['String'];
   data: RelationRoleToUserUpdateInput;
 }>;
 
@@ -2298,8 +2298,8 @@ export type CreateRelationRoleToUserMutationHookResult = ReturnType<typeof useCr
 export type CreateRelationRoleToUserMutationResult = Apollo.MutationResult<CreateRelationRoleToUserMutation>;
 export type CreateRelationRoleToUserMutationOptions = Apollo.BaseMutationOptions<CreateRelationRoleToUserMutation, CreateRelationRoleToUserMutationVariables>;
 export const UpdateRelationRoleToUserDocument = gql`
-    mutation UpdateRelationRoleToUser($updateRelationRoleToUserId: String!, $data: RelationRoleToUserUpdateInput!) {
-  updateRelationRoleToUser(id: $updateRelationRoleToUserId, data: $data) {
+    mutation UpdateRelationRoleToUser($id: String!, $data: RelationRoleToUserUpdateInput!) {
+  updateRelationRoleToUser(id: $id, data: $data) {
     ...RelationRoleToUserFields
   }
 }
@@ -2319,7 +2319,7 @@ export type UpdateRelationRoleToUserMutationFn = Apollo.MutationFunction<UpdateR
  * @example
  * const [updateRelationRoleToUserMutation, { data, loading, error }] = useUpdateRelationRoleToUserMutation({
  *   variables: {
- *      updateRelationRoleToUserId: // value for 'updateRelationRoleToUserId'
+ *      id: // value for 'id'
  *      data: // value for 'data'
  *   },
  * });

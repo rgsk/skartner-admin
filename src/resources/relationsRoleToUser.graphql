@@ -54,10 +54,10 @@ mutation CreateRelationRoleToUser(
 }
 
 mutation UpdateRelationRoleToUser(
-  $updateRelationRoleToUserId: String!
+  $id: String!
   $data: RelationRoleToUserUpdateInput!
 ) {
-  updateRelationRoleToUser(id: $updateRelationRoleToUserId, data: $data) {
+  updateRelationRoleToUser(id: $id, data: $data) {
     ...RelationRoleToUserFields
   }
 }

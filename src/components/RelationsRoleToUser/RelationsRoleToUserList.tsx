@@ -1,4 +1,5 @@
-import { Datagrid, DeleteButton, List, TextField } from 'react-admin';
+import ShowEditDeleteButtons from 'components/Custom/ShowEditDeleteButtons';
+import { Datagrid, List, TextField } from 'react-admin';
 const RelationsRoleToUserList = () => {
   return (
     <List>
@@ -7,7 +8,7 @@ const RelationsRoleToUserList = () => {
         <TextField source="user.email" sortable={false} />
         <TextField source="assigner.email" sortable={false} />
         <TextField source="assignedAt" sortable={false} />
-        <DeleteButton />
+        <ShowEditDeleteButtons />
       </Datagrid>
     </List>
   );
