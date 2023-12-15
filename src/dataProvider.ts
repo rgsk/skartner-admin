@@ -1,3 +1,4 @@
+import fetcher from 'fetcher';
 import { DataProvider } from 'react-admin';
 import dataProviderUtils from 'utils/dataProviderUtils/dataProviderUtils';
 import apolloClient from './lib/apolloClient';
@@ -129,6 +130,30 @@ export const dataProvider: DataProvider = {
     });
     const returnValue = {
       data: result.data[getFirstSelection(params.meta.mutation)],
+    };
+    return returnValue;
+  },
+  getManyReference: async (resource, params) => {
+    console.log('getManyReference', { resource, params });
+    const { page, perPage } = params.pagination;
+    const { field, order } = params.sort;
+    params.filter[`${params.target}_equals`] = params.id;
+    const result = await apolloClient.query({
+      query: fetcher[resource].list,
+      variables: {
+        skip: (page - 1) * perPage,
+        take: perPage,
+        where: dataProviderUtils.getWhereObject(params.filter),
+        orderBy: [
+          {
+            [field]: order.toLowerCase(),
+          },
+        ],
+      },
+    });
+    const returnValue = {
+      data: result.data[getFirstSelection(fetcher[resource].list)],
+      total: result.data.total,
     };
     return returnValue;
   },

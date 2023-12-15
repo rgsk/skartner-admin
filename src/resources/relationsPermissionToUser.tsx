@@ -2,6 +2,12 @@ import RelationsPermissionToUserCreate from 'components/RelationsPermissionToUse
 import RelationsPermissionToUserEdit from 'components/RelationsPermissionToUser/RelationsPermissionToUserEdit/RelationsPermissionToUserEdit';
 import RelationsPermissionToUserList from 'components/RelationsPermissionToUser/RelationsPermissionToUserList/RelationsPermissionToUserList';
 import RelationsPermissionToUserShow from 'components/RelationsPermissionToUser/RelationsPermissionToUserShow/RelationsPermissionToUserShow';
+import {
+  CreateRelationPermissionToUserDocument,
+  RelationPermissionToUserDocument,
+  RelationsPermissionToUserDocument,
+  UpdateRelationPermissionToUserDocument,
+} from 'gql/graphql';
 
 const relationsPermissionToUser = {
   list: RelationsPermissionToUserList,
@@ -10,3 +16,10 @@ const relationsPermissionToUser = {
   edit: RelationsPermissionToUserEdit,
 };
 export default relationsPermissionToUser;
+
+export const relationsPermissionToUserGraphql = {
+  list: RelationsPermissionToUserDocument,
+  show: RelationPermissionToUserDocument,
+  create: CreateRelationPermissionToUserDocument,
+  edit: UpdateRelationPermissionToUserDocument,
+};

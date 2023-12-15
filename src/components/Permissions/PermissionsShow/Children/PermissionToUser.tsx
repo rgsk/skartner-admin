@@ -2,7 +2,6 @@ import { Box, Typography } from '@mui/material';
 import Resources from 'Resources';
 
 import CustomAutocomplete from 'components/Custom/CustomAutocomplete';
-import RelationsPermissionToUserList from 'components/RelationsPermissionToUser/RelationsPermissionToUserList/RelationsPermissionToUserList';
 import {
   PermissionQuery,
   RelationsPermissionToUserDocument,
@@ -13,7 +12,19 @@ import {
 } from 'gql/graphql';
 import useUser from 'hooks/useUser';
 import { useMemo, useState } from 'react';
-import { useGetList, useRecordContext, useRefresh } from 'react-admin';
+import {
+  BooleanField,
+  Datagrid,
+  DateField,
+  DeleteButton,
+  EditButton,
+  ReferenceManyField,
+  ShowButton,
+  TextField,
+  useGetList,
+  useRecordContext,
+  useRefresh,
+} from 'react-admin';
 
 interface IPermissionToUserProps {}
 const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
@@ -90,9 +101,22 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
         }}
         loading={createRelationPermissionToUserMutationResult.loading}
       ></CustomAutocomplete>
-      <RelationsPermissionToUserList
-        filter={{ permissionId_equals: permission?.id }}
-      />
+
+      <ReferenceManyField
+        reference={Resources.relationsPermissionToUser}
+        target="permissionId"
+      >
+        <Datagrid>
+          <TextField source="id" sortable={false} />
+          <TextField source="user.email" sortable={false} />
+          <TextField source="granter.email" sortable={false} />
+          <BooleanField source="isAllowed" sortable={false} />
+          <DateField source="grantedAt" />
+          <ShowButton />
+          <EditButton />
+          <DeleteButton />
+        </Datagrid>
+      </ReferenceManyField>
     </Box>
   );
 };
