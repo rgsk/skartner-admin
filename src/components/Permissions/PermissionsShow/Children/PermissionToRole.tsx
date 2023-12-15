@@ -1,9 +1,8 @@
 import { Box, Typography } from '@mui/material';
 import Resources from 'Resources';
-import { useLocation } from 'react-router-dom';
 
 import CustomAutocomplete from 'components/Custom/CustomAutocomplete';
-import RelationsPermissionToRoleList from 'components/RelationsPermissionToRole/RelationsPermissionToRoleList';
+import DeleteButtonWithCurrentPathRedirect from 'components/Custom/DeleteButtonWithCurrentPathRedirect';
 import {
   PermissionQuery,
   RelationsPermissionToRoleDocument,
@@ -14,12 +13,22 @@ import {
 } from 'gql/graphql';
 import useUser from 'hooks/useUser';
 import { useMemo, useState } from 'react';
-import { useGetList, useRecordContext, useRefresh } from 'react-admin';
+import {
+  BooleanField,
+  Datagrid,
+  DateField,
+  EditButton,
+  ReferenceManyField,
+  ShowButton,
+  TextField,
+  useGetList,
+  useRecordContext,
+  useRefresh,
+} from 'react-admin';
 
 interface IPermissionToRoleProps {}
 const PermissionToRole: React.FC<IPermissionToRoleProps> = ({}) => {
   const permission = useRecordContext() as PermissionQuery['permission'];
-  const locationObject = useLocation();
   const [roleNameInput, setRoleNameInput] = useState('');
   const { user } = useUser();
   const refresh = useRefresh();
@@ -96,9 +105,20 @@ const PermissionToRole: React.FC<IPermissionToRoleProps> = ({}) => {
         loading={createRelationPermissionToRoleMutationResult.loading}
       ></CustomAutocomplete>
 
-      <RelationsPermissionToRoleList
-        filter={{ permissionId_equals: permission?.id }}
-      />
+      <ReferenceManyField
+        reference={Resources.relationsPermissionToRole}
+        target="permissionId"
+      >
+        <Datagrid>
+          <TextField source="role.name" sortable={false} />
+          <TextField source="granter.email" sortable={false} />
+          <BooleanField source="isAllowed" sortable={false} />
+          <DateField source="grantedAt" />
+          <ShowButton />
+          <EditButton />
+          <DeleteButtonWithCurrentPathRedirect />
+        </Datagrid>
+      </ReferenceManyField>
     </Box>
   );
 };

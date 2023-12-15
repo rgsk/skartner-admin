@@ -1,24 +1,19 @@
-import Resources from 'Resources';
-
 import {
   BooleanField,
   Datagrid,
   DateField,
   EditButton,
-  FilterPayload,
   List,
   ShowButton,
   TextField,
 } from 'react-admin';
 
-interface IRelationsPermissionToRoleListProps {
-  filter?: FilterPayload;
-}
+interface IRelationsPermissionToRoleListProps {}
 const RelationsPermissionToRoleList: React.FC<
   IRelationsPermissionToRoleListProps
-> = ({ filter }) => {
+> = ({}) => {
   return (
-    <List filter={filter} resource={Resources.relationsPermissionToRole}>
+    <List>
       <Datagrid>
         <TextField source="permission.name" sortable={false} />
         <TextField source="role.name" sortable={false} />

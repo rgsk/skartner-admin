@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material';
 import Resources from 'Resources';
 
 import CustomAutocomplete from 'components/Custom/CustomAutocomplete';
+import DeleteButtonWithCurrentPathRedirect from 'components/Custom/DeleteButtonWithCurrentPathRedirect';
 import {
   PermissionQuery,
   RelationsPermissionToUserDocument,
@@ -16,7 +17,6 @@ import {
   BooleanField,
   Datagrid,
   DateField,
-  DeleteButton,
   EditButton,
   ReferenceManyField,
   ShowButton,
@@ -25,7 +25,6 @@ import {
   useRecordContext,
   useRefresh,
 } from 'react-admin';
-
 interface IPermissionToUserProps {}
 const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
   const permission = useRecordContext() as PermissionQuery['permission'];
@@ -114,7 +113,7 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
           <DateField source="grantedAt" />
           <ShowButton />
           <EditButton />
-          <DeleteButton />
+          <DeleteButtonWithCurrentPathRedirect />
         </Datagrid>
       </ReferenceManyField>
     </Box>
