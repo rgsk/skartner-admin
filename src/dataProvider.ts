@@ -45,6 +45,9 @@ export const dataProvider: DataProvider = {
         ],
       },
     });
+    if (typeof result.data.total !== 'number') {
+      throw new Error(`total not fetched for getList ${resource}`);
+    }
     const returnValue = {
       data: result.data[getFirstSelection(query)],
       total: result.data.total,

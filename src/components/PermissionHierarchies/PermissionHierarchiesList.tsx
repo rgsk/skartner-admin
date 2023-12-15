@@ -1,4 +1,4 @@
-import { Datagrid, DateField, List, TextField } from 'react-admin';
+import { Datagrid, DateField, List, ShowButton, TextField } from 'react-admin';
 
 const PermissionHierarchiesList = () => {
   return (
@@ -8,6 +8,7 @@ const PermissionHierarchiesList = () => {
         <TextField source="parentPermission.name" sortable={false} />
         <TextField source="childPermission.name" sortable={false} />
         <DateField source="createdAt" showTime />
+        <ShowButton />
       </Datagrid>
     </List>
   );

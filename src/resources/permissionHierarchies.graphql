@@ -25,4 +25,12 @@ query PermissionHierarchies(
   ) {
     ...PermissionHierarchyFields
   }
+
+  total: permissionHierarchiesCount(where: $where)
+}
+
+query PermissionHierarchy($where: PermissionHierarchyWhereInput) {
+  permissionHierarchy(where: $where) {
+    ...PermissionHierarchyFields
+  }
 }
