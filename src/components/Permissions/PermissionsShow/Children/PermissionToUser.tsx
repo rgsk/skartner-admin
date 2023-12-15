@@ -5,9 +5,7 @@ import CustomAutocomplete from 'components/Custom/CustomAutocomplete';
 import DeleteButtonWithCurrentPathRedirect from 'components/Custom/DeleteButtonWithCurrentPathRedirect';
 import {
   PermissionQuery,
-  RelationsPermissionToUserDocument,
   RelationsPermissionToUserQuery,
-  UsersDocument,
   UsersQuery,
   useCreateRelationPermissionToUserMutation,
 } from 'gql/graphql';
@@ -36,9 +34,6 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
   const { data: relationsPermissionToUser } = useGetList<
     RelationsPermissionToUserQuery['relationsPermissionToUser'][number]
   >(Resources.relationsPermissionToUser, {
-    meta: {
-      query: RelationsPermissionToUserDocument,
-    },
     filter: {
       permissionId_equals: permission?.id,
     },
@@ -47,7 +42,6 @@ const PermissionToUser: React.FC<IPermissionToUserProps> = ({}) => {
   const { data: users } = useGetList<UsersQuery['users'][number]>(
     Resources.users,
     {
-      meta: { query: UsersDocument },
       filter: {
         email_contains: userEmailSearchInput,
       },

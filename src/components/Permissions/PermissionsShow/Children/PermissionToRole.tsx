@@ -5,9 +5,7 @@ import CustomAutocomplete from 'components/Custom/CustomAutocomplete';
 import DeleteButtonWithCurrentPathRedirect from 'components/Custom/DeleteButtonWithCurrentPathRedirect';
 import {
   PermissionQuery,
-  RelationsPermissionToRoleDocument,
   RelationsPermissionToRoleQuery,
-  RolesDocument,
   RolesQuery,
   useCreateRelationPermissionToRoleMutation,
 } from 'gql/graphql';
@@ -36,9 +34,6 @@ const PermissionToRole: React.FC<IPermissionToRoleProps> = ({}) => {
   const { data: relationsPermissionToRole } = useGetList<
     RelationsPermissionToRoleQuery['relationsPermissionToRole'][number]
   >(Resources.relationsPermissionToRole, {
-    meta: {
-      query: RelationsPermissionToRoleDocument,
-    },
     filter: {
       permissionId_equals: permission?.id,
     },
@@ -47,7 +42,6 @@ const PermissionToRole: React.FC<IPermissionToRoleProps> = ({}) => {
   const { data: roles } = useGetList<RolesQuery['roles'][number]>(
     Resources.roles,
     {
-      meta: { query: RolesDocument },
       filter: {
         name_contains: roleNameInput,
       },
