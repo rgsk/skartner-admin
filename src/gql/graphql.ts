@@ -481,6 +481,17 @@ export type PermissionHierarchy = {
   parentPermissionId: Scalars['String'];
 };
 
+export type PermissionHierarchyOrderByWithRelationInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+};
+
+export type PermissionHierarchyWhereInput = {
+  childPermissionId?: InputMaybe<StringFilter>;
+  id?: InputMaybe<StringFilter>;
+  parentPermissionId?: InputMaybe<StringFilter>;
+};
+
 export type PermissionOrderByWithRelationInput = {
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
@@ -605,6 +616,14 @@ export type QueryGreWordsCountArgs = {
 
 export type QueryPermissionArgs = {
   where?: InputMaybe<PermissionWhereInput>;
+};
+
+
+export type QueryPermissionHierarchiesArgs = {
+  orderBy?: InputMaybe<Array<InputMaybe<PermissionHierarchyOrderByWithRelationInput>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<PermissionHierarchyWhereInput>;
 };
 
 
@@ -1009,6 +1028,18 @@ export type GreWordQueryVariables = Exact<{
 
 export type GreWordQuery = { __typename?: 'Query', greWord?: { __typename?: 'GreWord', id: string, userId?: string | null, updatedAt: string, gptPrompts: Array<{ __typename?: 'GptPrompt', id: string, editedResponse?: string | null, greWordId?: string | null, cacheResponse: { __typename?: 'CacheResponse', text: string, cachePrompt: { __typename?: 'CachePrompt', text: string }, cacheWord: { __typename?: 'CacheWord', text: string } } }>, cacheWord: { __typename?: 'CacheWord', text: string } } | null };
 
+export type PermissionHierarchyFieldsFragment = { __typename?: 'PermissionHierarchy', id: string, parentPermissionId: string, childPermissionId: string, createdAt: string, parentPermission?: { __typename?: 'Permission', name: string } | null, childPermission?: { __typename?: 'Permission', name: string } | null };
+
+export type PermissionHierarchiesQueryVariables = Exact<{
+  where?: InputMaybe<PermissionHierarchyWhereInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<InputMaybe<PermissionHierarchyOrderByWithRelationInput>> | InputMaybe<PermissionHierarchyOrderByWithRelationInput>>;
+}>;
+
+
+export type PermissionHierarchiesQuery = { __typename?: 'Query', permissionHierarchies?: Array<{ __typename?: 'PermissionHierarchy', id: string, parentPermissionId: string, childPermissionId: string, createdAt: string, parentPermission?: { __typename?: 'Permission', name: string } | null, childPermission?: { __typename?: 'Permission', name: string } | null } | null> | null };
+
 export type PermissionFieldsFragment = { __typename?: 'Permission', id: string, name: string, meta: any, createdAt: string, updatedAt: string };
 
 export type PermissionsQueryVariables = Exact<{
@@ -1293,6 +1324,20 @@ export const GreWordFieldsFragmentDoc = gql`
   updatedAt
 }
     `;
+export const PermissionHierarchyFieldsFragmentDoc = gql`
+    fragment PermissionHierarchyFields on PermissionHierarchy {
+  id
+  parentPermissionId
+  parentPermission {
+    name
+  }
+  childPermissionId
+  childPermission {
+    name
+  }
+  createdAt
+}
+    `;
 export const PermissionFieldsFragmentDoc = gql`
     fragment PermissionFields on Permission {
   id
@@ -1477,6 +1522,49 @@ export function useGreWordLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Gr
 export type GreWordQueryHookResult = ReturnType<typeof useGreWordQuery>;
 export type GreWordLazyQueryHookResult = ReturnType<typeof useGreWordLazyQuery>;
 export type GreWordQueryResult = Apollo.QueryResult<GreWordQuery, GreWordQueryVariables>;
+export const PermissionHierarchiesDocument = gql`
+    query PermissionHierarchies($where: PermissionHierarchyWhereInput, $skip: Int, $take: Int, $orderBy: [PermissionHierarchyOrderByWithRelationInput]) {
+  permissionHierarchies(
+    where: $where
+    skip: $skip
+    take: $take
+    orderBy: $orderBy
+  ) {
+    ...PermissionHierarchyFields
+  }
+}
+    ${PermissionHierarchyFieldsFragmentDoc}`;
+
+/**
+ * __usePermissionHierarchiesQuery__
+ *
+ * To run a query within a React component, call `usePermissionHierarchiesQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePermissionHierarchiesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePermissionHierarchiesQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *      skip: // value for 'skip'
+ *      take: // value for 'take'
+ *      orderBy: // value for 'orderBy'
+ *   },
+ * });
+ */
+export function usePermissionHierarchiesQuery(baseOptions?: Apollo.QueryHookOptions<PermissionHierarchiesQuery, PermissionHierarchiesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PermissionHierarchiesQuery, PermissionHierarchiesQueryVariables>(PermissionHierarchiesDocument, options);
+      }
+export function usePermissionHierarchiesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PermissionHierarchiesQuery, PermissionHierarchiesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PermissionHierarchiesQuery, PermissionHierarchiesQueryVariables>(PermissionHierarchiesDocument, options);
+        }
+export type PermissionHierarchiesQueryHookResult = ReturnType<typeof usePermissionHierarchiesQuery>;
+export type PermissionHierarchiesLazyQueryHookResult = ReturnType<typeof usePermissionHierarchiesLazyQuery>;
+export type PermissionHierarchiesQueryResult = Apollo.QueryResult<PermissionHierarchiesQuery, PermissionHierarchiesQueryVariables>;
 export const PermissionsDocument = gql`
     query Permissions($where: PermissionWhereInput, $skip: Int, $take: Int, $orderBy: [PermissionOrderByWithRelationInput]) {
   permissions(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {

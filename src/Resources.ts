@@ -7,5 +7,6 @@ enum Resources {
   relationsPermissionToRole = 'relationsPermissionToRole',
   relationsPermissionToUser = 'relationsPermissionToUser',
   relationsRoleToUser = 'relationsRoleToUser',
+  permissionHierarchies = 'permissionHierarchies',
 }
 export default Resources;

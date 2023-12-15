@@ -1,6 +1,7 @@
 import Resources from 'Resources';
 import { DocumentNode } from 'graphql';
 import { greWordsFetcher } from 'resources/greWords';
+import { permissionHierarchiesFetcher } from 'resources/permissionHierarchies';
 import { permissionsFetcher } from 'resources/permissions';
 import { relationsPermissionToRoleFetcher } from 'resources/relationsPermissionToRole';
 import { relationsPermissionToUserFetcher } from 'resources/relationsPermissionToUser';
@@ -27,5 +28,6 @@ const fetcher: Record<string, Partial<Fetcher>> = {
   [Resources.users]: usersFetcher,
   [Resources.userSessions]: userSessionsFetcher,
   [Resources.relationsRoleToUser]: relationsRoleToUserFetcher,
+  [Resources.permissionHierarchies]: permissionHierarchiesFetcher,
 };
 export default fetcher;

@@ -1,0 +1,28 @@
+fragment PermissionHierarchyFields on PermissionHierarchy {
+  id
+  parentPermissionId
+  parentPermission {
+    name
+  }
+  childPermissionId
+  childPermission {
+    name
+  }
+  createdAt
+}
+
+query PermissionHierarchies(
+  $where: PermissionHierarchyWhereInput
+  $skip: Int
+  $take: Int
+  $orderBy: [PermissionHierarchyOrderByWithRelationInput]
+) {
+  permissionHierarchies(
+    where: $where
+    skip: $skip
+    take: $take
+    orderBy: $orderBy
+  ) {
+    ...PermissionHierarchyFields
+  }
+}

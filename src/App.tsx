@@ -15,6 +15,7 @@ import useRunOnWindowFocus from 'hooks/utils/useRunOnWindowFocus';
 import apolloClient from 'lib/apolloClient';
 import environmentVars from 'lib/environmentVars';
 import { useEffect } from 'react';
+import permissionHierarchies from 'resources/permissionHierarchies';
 import permissions from 'resources/permissions';
 import relationsPermissionToRole from 'resources/relationsPermissionToRole';
 import relationsPermissionToUser from 'resources/relationsPermissionToUser';
@@ -62,6 +63,10 @@ export const App = () => {
             <Resource
               name={Resources.relationsRoleToUser}
               {...relationsRoleToUser}
+            />
+            <Resource
+              name={Resources.permissionHierarchies}
+              {...permissionHierarchies}
             />
           </>
         )}

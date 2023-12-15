@@ -26,7 +26,7 @@ function getDifferentKeys(obj1: any, obj2: any) {
 export const dataProvider: DataProvider = {
   getList: async (resource, params) => {
     console.log('getList', { resource, params });
-    const query = fetcher[resource].list;
+    const query = fetcher[resource]?.list;
     if (!query) {
       throw new Error(`list fetcher not defined for ${resource}`);
     }
@@ -53,7 +53,7 @@ export const dataProvider: DataProvider = {
   },
   getOne: async (resource, params) => {
     console.log('getOne', { resource, params });
-    const query = fetcher[resource].one;
+    const query = fetcher[resource]?.one;
     if (!query) {
       throw new Error(`one fetcher not defined for ${resource}`);
     }
@@ -74,7 +74,7 @@ export const dataProvider: DataProvider = {
   },
   getMany: async (resource, params) => {
     console.log('getMany', { resource, params });
-    const query = fetcher[resource].list;
+    const query = fetcher[resource]?.list;
     if (!query) {
       throw new Error(`list fetcher not defined for ${resource}`);
     }
@@ -95,7 +95,7 @@ export const dataProvider: DataProvider = {
   },
   create: async (resource, params) => {
     console.log('create', { resource, params });
-    const mutation = fetcher[resource].create;
+    const mutation = fetcher[resource]?.create;
     if (!mutation) {
       throw new Error(`create fetcher not defined for ${resource}`);
     }
@@ -110,7 +110,7 @@ export const dataProvider: DataProvider = {
   },
   deleteMany: async (resource, params) => {
     console.log('deleteMany', { resource, params });
-    const mutation = fetcher[resource].deleteMany;
+    const mutation = fetcher[resource]?.deleteMany;
     if (!mutation) {
       throw new Error(`deleteMany fetcher not defined for ${resource}`);
     }
@@ -127,7 +127,7 @@ export const dataProvider: DataProvider = {
   },
   delete: async (resource, params) => {
     console.log('delete', { resource, params });
-    const mutation = fetcher[resource].delete;
+    const mutation = fetcher[resource]?.delete;
     if (!mutation) {
       throw new Error(`delete fetcher not defined for ${resource}`);
     }
@@ -145,7 +145,7 @@ export const dataProvider: DataProvider = {
   update: async (resource, params) => {
     console.log('update', { resource, params });
     const data = getDifferentKeys(params.previousData, params.data);
-    const mutation = fetcher[resource].update;
+    const mutation = fetcher[resource]?.update;
     if (!mutation) {
       throw new Error(`update fetcher not defined for ${resource}`);
     }
@@ -163,7 +163,7 @@ export const dataProvider: DataProvider = {
   },
   getManyReference: async (resource, params) => {
     console.log('getManyReference', { resource, params });
-    const query = fetcher[resource].list;
+    const query = fetcher[resource]?.list;
     if (!query) {
       throw new Error(`list fetcher not defined for ${resource}`);
     }
