@@ -1,8 +1,8 @@
 import { ResourceType } from 'ResourceType';
-import PermissionsCreate from 'components/Permissions/PermissionsCreate/PermissionsCreate';
-import PermissionsList from 'components/Permissions/PermissionsList/PermissionsList';
+import PermissionsCreate from 'components/Permissions/PermissionsCreate';
+import PermissionsList from 'components/Permissions/PermissionsList';
 import PermissionsShow from 'components/Permissions/PermissionsShow/PermissionsShow';
-import PermissionsEdit from 'components/Roles/RolesEdit/RolesEdit';
+import PermissionsEdit from 'components/Roles/RolesEdit';
 import { Fetcher } from 'fetcher';
 import {
   CreatePermissionDocument,

@@ -1,6 +1,6 @@
 import { CreateRelationPermissionToRoleDocument } from 'gql/graphql';
 import { Create } from 'react-admin';
-import { RelationsPermissionToRoleForm } from '../RelationsPermissionToRoleEdit/RelationsPermissionToRoleEdit';
+import { RelationsPermissionToRoleForm } from './RelationsPermissionToRoleEdit';
 
 const RelationsPermissionToRoleCreate = () => {
   return (

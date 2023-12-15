@@ -1,8 +1,8 @@
 import { ResourceType } from 'ResourceType';
-import RelationsPermissionToRoleCreate from 'components/RelationsPermissionToRole/RelationsPermissionToRoleCreate/RelationsPermissionToRoleCreate';
-import RelationsPermissionToRoleEdit from 'components/RelationsPermissionToRole/RelationsPermissionToRoleEdit/RelationsPermissionToRoleEdit';
-import RelationsPermissionToRoleList from 'components/RelationsPermissionToRole/RelationsPermissionToRoleList/RelationsPermissionToRoleList';
-import RelationsPermissionToRoleShow from 'components/RelationsPermissionToRole/RelationsPermissionToRoleShow/RelationsPermissionToRoleShow';
+import RelationsPermissionToRoleCreate from 'components/RelationsPermissionToRole/RelationsPermissionToRoleCreate';
+import RelationsPermissionToRoleEdit from 'components/RelationsPermissionToRole/RelationsPermissionToRoleEdit';
+import RelationsPermissionToRoleList from 'components/RelationsPermissionToRole/RelationsPermissionToRoleList';
+import RelationsPermissionToRoleShow from 'components/RelationsPermissionToRole/RelationsPermissionToRoleShow';
 import { Fetcher } from 'fetcher';
 import {
   CreateRelationPermissionToRoleDocument,

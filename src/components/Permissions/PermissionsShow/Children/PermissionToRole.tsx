@@ -3,7 +3,7 @@ import Resources from 'Resources';
 import { useLocation } from 'react-router-dom';
 
 import CustomAutocomplete from 'components/Custom/CustomAutocomplete';
-import RelationsPermissionToRoleList from 'components/RelationsPermissionToRole/RelationsPermissionToRoleList/RelationsPermissionToRoleList';
+import RelationsPermissionToRoleList from 'components/RelationsPermissionToRole/RelationsPermissionToRoleList';
 import {
   PermissionQuery,
   RelationsPermissionToRoleDocument,

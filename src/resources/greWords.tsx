@@ -1,6 +1,6 @@
 import { ResourceType } from 'ResourceType';
-import GreWordsShow from 'components/GreWords/GreWordShow/GreWordsShow';
-import GreWordsList from 'components/GreWords/GreWordsList/GreWordsList';
+import GreWordsList from 'components/GreWords/GreWordsList';
+import GreWordsShow from 'components/GreWords/GreWordsShow';
 import { Fetcher } from 'fetcher';
 import { GreWordDocument, GreWordsDocument } from 'gql/graphql';
 

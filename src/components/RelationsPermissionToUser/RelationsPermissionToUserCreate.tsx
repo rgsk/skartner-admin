@@ -1,6 +1,6 @@
 import { CreateRelationPermissionToUserDocument } from 'gql/graphql';
 import { Create } from 'react-admin';
-import { RelationsPermissionToUserForm } from '../RelationsPermissionToUserEdit/RelationsPermissionToUserEdit';
+import { RelationsPermissionToUserForm } from './RelationsPermissionToUserEdit';
 
 const RelationsPermissionToUserCreate = () => {
   return (

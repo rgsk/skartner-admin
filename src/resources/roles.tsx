@@ -1,7 +1,7 @@
-import RolesCreate from 'components/Roles/RolesCreate/RolesCreate';
-import RolesEdit from 'components/Roles/RolesEdit/RolesEdit';
-import RolesList from 'components/Roles/RolesList/RolesList';
-import RolesShow from 'components/Roles/RolesShow/RolesShow';
+import RolesCreate from 'components/Roles/RolesCreate';
+import RolesEdit from 'components/Roles/RolesEdit';
+import RolesList from 'components/Roles/RolesList';
+import RolesShow from 'components/Roles/RolesShow';
 import { Fetcher } from 'fetcher';
 import {
   CreateRoleDocument,

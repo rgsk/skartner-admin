@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { GreWordDocument, GreWordQuery } from 'gql/graphql';
+import { GreWordQuery } from 'gql/graphql';
 import {
   Show,
   SimpleShowLayout,
@@ -9,16 +9,12 @@ import {
 
 type GreRecord = Exclude<GreWordQuery['greWord'], undefined | null>;
 
-const getSource = (v: keyof GreRecord) => {
-  return v;
-};
-
 interface IGreWordShowProps {}
 const GreWordsShow: React.FC<IGreWordShowProps> = ({}) => {
   return (
-    <Show queryOptions={{ meta: { query: GreWordDocument } }}>
+    <Show>
       <SimpleShowLayout>
-        <TextField source={getSource('id')} />
+        <TextField source={'id'} />
         <TextField source={'cacheWord.text'} />
         <RenderPrompts />
       </SimpleShowLayout>
