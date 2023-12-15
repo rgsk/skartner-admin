@@ -1,10 +1,9 @@
+import ShowEditDeleteButtons from 'components/Custom/ShowEditDeleteButtons';
 import {
   BooleanField,
   Datagrid,
   DateField,
-  EditButton,
   List,
-  ShowButton,
   TextField,
 } from 'react-admin';
 
@@ -20,8 +19,7 @@ const RelationsPermissionToRoleList: React.FC<
         <TextField source="granter.email" sortable={false} />
         <BooleanField source="isAllowed" sortable={false} />
         <DateField source="grantedAt" />
-        <ShowButton />
-        <EditButton />
+        <ShowEditDeleteButtons />
       </Datagrid>
     </List>
   );
