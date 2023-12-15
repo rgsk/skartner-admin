@@ -26,10 +26,14 @@ function getDifferentKeys(obj1: any, obj2: any) {
 export const dataProvider: DataProvider = {
   getList: async (resource, params) => {
     console.log('getList', { resource, params });
+    const query = fetcher[resource].list;
+    if (!query) {
+      throw new Error(`list fetcher not defined for ${resource}`);
+    }
     const { page, perPage } = params.pagination;
     const { field, order } = params.sort;
     const result = await apolloClient.query({
-      query: fetcher[resource].list,
+      query: query,
       variables: {
         skip: (page - 1) * perPage,
         take: perPage,
@@ -42,15 +46,19 @@ export const dataProvider: DataProvider = {
       },
     });
     const returnValue = {
-      data: result.data[getFirstSelection(fetcher[resource].list)],
+      data: result.data[getFirstSelection(query)],
       total: result.data.total,
     };
     return returnValue;
   },
   getOne: async (resource, params) => {
     console.log('getOne', { resource, params });
+    const query = fetcher[resource].one;
+    if (!query) {
+      throw new Error(`one fetcher not defined for ${resource}`);
+    }
     const result = await apolloClient.query({
-      query: fetcher[resource].one,
+      query: query,
       variables: {
         where: {
           id: {
@@ -60,14 +68,18 @@ export const dataProvider: DataProvider = {
       },
     });
     const returnValue = {
-      data: result.data[getFirstSelection(fetcher[resource].one)],
+      data: result.data[getFirstSelection(query)],
     };
     return returnValue;
   },
   getMany: async (resource, params) => {
     console.log('getMany', { resource, params });
+    const query = fetcher[resource].list;
+    if (!query) {
+      throw new Error(`list fetcher not defined for ${resource}`);
+    }
     const result = await apolloClient.query({
-      query: fetcher[resource].list,
+      query: query,
       variables: {
         where: {
           id: {
@@ -77,25 +89,33 @@ export const dataProvider: DataProvider = {
       },
     });
     const returnValue = {
-      data: result.data[getFirstSelection(fetcher[resource].list)],
+      data: result.data[getFirstSelection(query)],
     };
     return returnValue;
   },
   create: async (resource, params) => {
     console.log('create', { resource, params });
+    const mutation = fetcher[resource].create;
+    if (!mutation) {
+      throw new Error(`create fetcher not defined for ${resource}`);
+    }
     const result = await apolloClient.mutate({
-      mutation: fetcher[resource].create,
+      mutation: mutation,
       variables: params.data,
     });
     const returnValue = {
-      data: result.data[getFirstSelection(fetcher[resource].create)],
+      data: result.data[getFirstSelection(mutation)],
     };
     return returnValue;
   },
   deleteMany: async (resource, params) => {
     console.log('deleteMany', { resource, params });
+    const mutation = fetcher[resource].deleteMany;
+    if (!mutation) {
+      throw new Error(`deleteMany fetcher not defined for ${resource}`);
+    }
     const result = await apolloClient.mutate({
-      mutation: fetcher[resource].deleteMany,
+      mutation: mutation,
       variables: {
         ids: params.ids,
       },
@@ -107,39 +127,51 @@ export const dataProvider: DataProvider = {
   },
   delete: async (resource, params) => {
     console.log('delete', { resource, params });
+    const mutation = fetcher[resource].delete;
+    if (!mutation) {
+      throw new Error(`delete fetcher not defined for ${resource}`);
+    }
     const result = await apolloClient.mutate({
-      mutation: fetcher[resource].delete,
+      mutation: mutation,
       variables: {
         id: params.id,
       },
     });
     const returnValue = {
-      data: result.data[getFirstSelection(fetcher[resource].delete)],
+      data: result.data[getFirstSelection(mutation)],
     };
     return returnValue;
   },
   update: async (resource, params) => {
     console.log('update', { resource, params });
     const data = getDifferentKeys(params.previousData, params.data);
+    const mutation = fetcher[resource].update;
+    if (!mutation) {
+      throw new Error(`update fetcher not defined for ${resource}`);
+    }
     const result = await apolloClient.mutate({
-      mutation: fetcher[resource].update,
+      mutation: mutation,
       variables: {
         id: params.id,
         data: data,
       },
     });
     const returnValue = {
-      data: result.data[getFirstSelection(fetcher[resource].update)],
+      data: result.data[getFirstSelection(mutation)],
     };
     return returnValue;
   },
   getManyReference: async (resource, params) => {
     console.log('getManyReference', { resource, params });
+    const query = fetcher[resource].list;
+    if (!query) {
+      throw new Error(`list fetcher not defined for ${resource}`);
+    }
     const { page, perPage } = params.pagination;
     const { field, order } = params.sort;
     params.filter[`${params.target}_equals`] = params.id;
     const result = await apolloClient.query({
-      query: fetcher[resource].list,
+      query: query,
       variables: {
         skip: (page - 1) * perPage,
         take: perPage,
@@ -152,8 +184,16 @@ export const dataProvider: DataProvider = {
       },
     });
     const returnValue = {
-      data: result.data[getFirstSelection(fetcher[resource].list)],
+      data: result.data[getFirstSelection(query)],
       total: result.data.total,
+    };
+    return returnValue;
+  },
+  updateMany: async (resource, params) => {
+    console.log('updateMany', { resource, params });
+    throw new Error('updateMany not implemented');
+    const returnValue = {
+      data: params.ids,
     };
     return returnValue;
   },
