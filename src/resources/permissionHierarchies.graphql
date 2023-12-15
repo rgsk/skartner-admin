@@ -34,3 +34,36 @@ query PermissionHierarchy($where: PermissionHierarchyWhereInput) {
     ...PermissionHierarchyFields
   }
 }
+
+mutation DeletePermissionHierarchies($ids: [String!]!) {
+  deletePermissionHierarchies(ids: $ids) {
+    count
+  }
+}
+
+mutation DeletePermissionHierarchy($id: String!) {
+  deletePermissionHierarchy(id: $id) {
+    ...PermissionHierarchyFields
+  }
+}
+
+mutation CreatePermissionHierarchy(
+  $parentPermissionId: String!
+  $childPermissionId: String!
+) {
+  createPermissionHierarchy(
+    parentPermissionId: $parentPermissionId
+    childPermissionId: $childPermissionId
+  ) {
+    ...PermissionHierarchyFields
+  }
+}
+
+mutation UpdatePermissionHierarchy(
+  $id: String!
+  $data: PermissionHierarchyUpdateInput!
+) {
+  updatePermissionHierarchy(id: $id, data: $data) {
+    ...PermissionHierarchyFields
+  }
+}

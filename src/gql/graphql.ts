@@ -204,6 +204,7 @@ export type Mutation = {
   createGreWordTag: GreWordTag;
   createNotification: Notification;
   createPermission: Permission;
+  createPermissionHierarchy: PermissionHierarchy;
   createRelationPermissionToRole: RelationPermissionToRole;
   createRelationPermissionToUser: RelationPermissionToUser;
   createRelationRoleToUser: RelationRoleToUser;
@@ -214,6 +215,8 @@ export type Mutation = {
   deleteGreWordSearchPromptInput?: Maybe<GreWordSearchPromptInput>;
   deleteGreWordTag: GreWordTag;
   deletePermission?: Maybe<Permission>;
+  deletePermissionHierarchies?: Maybe<BatchPayload>;
+  deletePermissionHierarchy?: Maybe<PermissionHierarchy>;
   deletePermissions?: Maybe<BatchPayload>;
   deleteRelationPermissionToRole?: Maybe<RelationPermissionToRole>;
   deleteRelationPermissionToUser?: Maybe<RelationPermissionToUser>;
@@ -229,6 +232,7 @@ export type Mutation = {
   updateGreWord?: Maybe<GreWord>;
   updateGreWordSearchPromptInput?: Maybe<GreWordSearchPromptInput>;
   updatePermission: Permission;
+  updatePermissionHierarchy?: Maybe<PermissionHierarchy>;
   updateRelationPermissionToRole: RelationPermissionToRole;
   updateRelationPermissionToUser: RelationPermissionToUser;
   updateRelationRoleToUser: RelationRoleToUser;
@@ -277,6 +281,12 @@ export type MutationCreateNotificationArgs = {
 
 export type MutationCreatePermissionArgs = {
   name: Scalars['String'];
+};
+
+
+export type MutationCreatePermissionHierarchyArgs = {
+  childPermissionId: Scalars['String'];
+  parentPermissionId: Scalars['String'];
 };
 
 
@@ -336,6 +346,16 @@ export type MutationDeleteGreWordTagArgs = {
 
 
 export type MutationDeletePermissionArgs = {
+  id: Scalars['String'];
+};
+
+
+export type MutationDeletePermissionHierarchiesArgs = {
+  ids: Array<Scalars['String']>;
+};
+
+
+export type MutationDeletePermissionHierarchyArgs = {
   id: Scalars['String'];
 };
 
@@ -422,6 +442,12 @@ export type MutationUpdatePermissionArgs = {
 };
 
 
+export type MutationUpdatePermissionHierarchyArgs = {
+  data: PermissionHierarchyUpdateInput;
+  id: Scalars['String'];
+};
+
+
 export type MutationUpdateRelationPermissionToRoleArgs = {
   data: RelationPermissionToRoleUpdateInput;
   id: Scalars['String'];
@@ -484,6 +510,11 @@ export type PermissionHierarchy = {
 export type PermissionHierarchyOrderByWithRelationInput = {
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+};
+
+export type PermissionHierarchyUpdateInput = {
+  childPermissionId?: InputMaybe<Scalars['String']>;
+  parentPermissionId?: InputMaybe<Scalars['String']>;
 };
 
 export type PermissionHierarchyWhereInput = {
@@ -1059,6 +1090,36 @@ export type PermissionHierarchyQueryVariables = Exact<{
 
 export type PermissionHierarchyQuery = { __typename?: 'Query', permissionHierarchy?: { __typename?: 'PermissionHierarchy', id: string, parentPermissionId: string, childPermissionId: string, createdAt: string, parentPermission?: { __typename?: 'Permission', name: string } | null, childPermission?: { __typename?: 'Permission', name: string } | null } | null };
 
+export type DeletePermissionHierarchiesMutationVariables = Exact<{
+  ids: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+
+export type DeletePermissionHierarchiesMutation = { __typename?: 'Mutation', deletePermissionHierarchies?: { __typename?: 'BatchPayload', count: number } | null };
+
+export type DeletePermissionHierarchyMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type DeletePermissionHierarchyMutation = { __typename?: 'Mutation', deletePermissionHierarchy?: { __typename?: 'PermissionHierarchy', id: string, parentPermissionId: string, childPermissionId: string, createdAt: string, parentPermission?: { __typename?: 'Permission', name: string } | null, childPermission?: { __typename?: 'Permission', name: string } | null } | null };
+
+export type CreatePermissionHierarchyMutationVariables = Exact<{
+  parentPermissionId: Scalars['String'];
+  childPermissionId: Scalars['String'];
+}>;
+
+
+export type CreatePermissionHierarchyMutation = { __typename?: 'Mutation', createPermissionHierarchy: { __typename?: 'PermissionHierarchy', id: string, parentPermissionId: string, childPermissionId: string, createdAt: string, parentPermission?: { __typename?: 'Permission', name: string } | null, childPermission?: { __typename?: 'Permission', name: string } | null } };
+
+export type UpdatePermissionHierarchyMutationVariables = Exact<{
+  id: Scalars['String'];
+  data: PermissionHierarchyUpdateInput;
+}>;
+
+
+export type UpdatePermissionHierarchyMutation = { __typename?: 'Mutation', updatePermissionHierarchy?: { __typename?: 'PermissionHierarchy', id: string, parentPermissionId: string, childPermissionId: string, createdAt: string, parentPermission?: { __typename?: 'Permission', name: string } | null, childPermission?: { __typename?: 'Permission', name: string } | null } | null };
+
 export type PermissionFieldsFragment = { __typename?: 'Permission', id: string, name: string, meta: any, createdAt: string, updatedAt: string };
 
 export type PermissionsQueryVariables = Exact<{
@@ -1620,6 +1681,143 @@ export function usePermissionHierarchyLazyQuery(baseOptions?: Apollo.LazyQueryHo
 export type PermissionHierarchyQueryHookResult = ReturnType<typeof usePermissionHierarchyQuery>;
 export type PermissionHierarchyLazyQueryHookResult = ReturnType<typeof usePermissionHierarchyLazyQuery>;
 export type PermissionHierarchyQueryResult = Apollo.QueryResult<PermissionHierarchyQuery, PermissionHierarchyQueryVariables>;
+export const DeletePermissionHierarchiesDocument = gql`
+    mutation DeletePermissionHierarchies($ids: [String!]!) {
+  deletePermissionHierarchies(ids: $ids) {
+    count
+  }
+}
+    `;
+export type DeletePermissionHierarchiesMutationFn = Apollo.MutationFunction<DeletePermissionHierarchiesMutation, DeletePermissionHierarchiesMutationVariables>;
+
+/**
+ * __useDeletePermissionHierarchiesMutation__
+ *
+ * To run a mutation, you first call `useDeletePermissionHierarchiesMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePermissionHierarchiesMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePermissionHierarchiesMutation, { data, loading, error }] = useDeletePermissionHierarchiesMutation({
+ *   variables: {
+ *      ids: // value for 'ids'
+ *   },
+ * });
+ */
+export function useDeletePermissionHierarchiesMutation(baseOptions?: Apollo.MutationHookOptions<DeletePermissionHierarchiesMutation, DeletePermissionHierarchiesMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeletePermissionHierarchiesMutation, DeletePermissionHierarchiesMutationVariables>(DeletePermissionHierarchiesDocument, options);
+      }
+export type DeletePermissionHierarchiesMutationHookResult = ReturnType<typeof useDeletePermissionHierarchiesMutation>;
+export type DeletePermissionHierarchiesMutationResult = Apollo.MutationResult<DeletePermissionHierarchiesMutation>;
+export type DeletePermissionHierarchiesMutationOptions = Apollo.BaseMutationOptions<DeletePermissionHierarchiesMutation, DeletePermissionHierarchiesMutationVariables>;
+export const DeletePermissionHierarchyDocument = gql`
+    mutation DeletePermissionHierarchy($id: String!) {
+  deletePermissionHierarchy(id: $id) {
+    ...PermissionHierarchyFields
+  }
+}
+    ${PermissionHierarchyFieldsFragmentDoc}`;
+export type DeletePermissionHierarchyMutationFn = Apollo.MutationFunction<DeletePermissionHierarchyMutation, DeletePermissionHierarchyMutationVariables>;
+
+/**
+ * __useDeletePermissionHierarchyMutation__
+ *
+ * To run a mutation, you first call `useDeletePermissionHierarchyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePermissionHierarchyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePermissionHierarchyMutation, { data, loading, error }] = useDeletePermissionHierarchyMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeletePermissionHierarchyMutation(baseOptions?: Apollo.MutationHookOptions<DeletePermissionHierarchyMutation, DeletePermissionHierarchyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeletePermissionHierarchyMutation, DeletePermissionHierarchyMutationVariables>(DeletePermissionHierarchyDocument, options);
+      }
+export type DeletePermissionHierarchyMutationHookResult = ReturnType<typeof useDeletePermissionHierarchyMutation>;
+export type DeletePermissionHierarchyMutationResult = Apollo.MutationResult<DeletePermissionHierarchyMutation>;
+export type DeletePermissionHierarchyMutationOptions = Apollo.BaseMutationOptions<DeletePermissionHierarchyMutation, DeletePermissionHierarchyMutationVariables>;
+export const CreatePermissionHierarchyDocument = gql`
+    mutation CreatePermissionHierarchy($parentPermissionId: String!, $childPermissionId: String!) {
+  createPermissionHierarchy(
+    parentPermissionId: $parentPermissionId
+    childPermissionId: $childPermissionId
+  ) {
+    ...PermissionHierarchyFields
+  }
+}
+    ${PermissionHierarchyFieldsFragmentDoc}`;
+export type CreatePermissionHierarchyMutationFn = Apollo.MutationFunction<CreatePermissionHierarchyMutation, CreatePermissionHierarchyMutationVariables>;
+
+/**
+ * __useCreatePermissionHierarchyMutation__
+ *
+ * To run a mutation, you first call `useCreatePermissionHierarchyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePermissionHierarchyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPermissionHierarchyMutation, { data, loading, error }] = useCreatePermissionHierarchyMutation({
+ *   variables: {
+ *      parentPermissionId: // value for 'parentPermissionId'
+ *      childPermissionId: // value for 'childPermissionId'
+ *   },
+ * });
+ */
+export function useCreatePermissionHierarchyMutation(baseOptions?: Apollo.MutationHookOptions<CreatePermissionHierarchyMutation, CreatePermissionHierarchyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePermissionHierarchyMutation, CreatePermissionHierarchyMutationVariables>(CreatePermissionHierarchyDocument, options);
+      }
+export type CreatePermissionHierarchyMutationHookResult = ReturnType<typeof useCreatePermissionHierarchyMutation>;
+export type CreatePermissionHierarchyMutationResult = Apollo.MutationResult<CreatePermissionHierarchyMutation>;
+export type CreatePermissionHierarchyMutationOptions = Apollo.BaseMutationOptions<CreatePermissionHierarchyMutation, CreatePermissionHierarchyMutationVariables>;
+export const UpdatePermissionHierarchyDocument = gql`
+    mutation UpdatePermissionHierarchy($id: String!, $data: PermissionHierarchyUpdateInput!) {
+  updatePermissionHierarchy(id: $id, data: $data) {
+    ...PermissionHierarchyFields
+  }
+}
+    ${PermissionHierarchyFieldsFragmentDoc}`;
+export type UpdatePermissionHierarchyMutationFn = Apollo.MutationFunction<UpdatePermissionHierarchyMutation, UpdatePermissionHierarchyMutationVariables>;
+
+/**
+ * __useUpdatePermissionHierarchyMutation__
+ *
+ * To run a mutation, you first call `useUpdatePermissionHierarchyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePermissionHierarchyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePermissionHierarchyMutation, { data, loading, error }] = useUpdatePermissionHierarchyMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdatePermissionHierarchyMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePermissionHierarchyMutation, UpdatePermissionHierarchyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdatePermissionHierarchyMutation, UpdatePermissionHierarchyMutationVariables>(UpdatePermissionHierarchyDocument, options);
+      }
+export type UpdatePermissionHierarchyMutationHookResult = ReturnType<typeof useUpdatePermissionHierarchyMutation>;
+export type UpdatePermissionHierarchyMutationResult = Apollo.MutationResult<UpdatePermissionHierarchyMutation>;
+export type UpdatePermissionHierarchyMutationOptions = Apollo.BaseMutationOptions<UpdatePermissionHierarchyMutation, UpdatePermissionHierarchyMutationVariables>;
 export const PermissionsDocument = gql`
     query Permissions($where: PermissionWhereInput, $skip: Int, $take: Int, $orderBy: [PermissionOrderByWithRelationInput]) {
   permissions(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
