@@ -1,9 +1,4 @@
 import {
-  DeleteRoleDocument,
-  DeleteRolesDocument,
-  RolesDocument,
-} from 'gql/graphql';
-import {
   BulkDeleteButton,
   Datagrid,
   DateField,
@@ -17,30 +12,17 @@ import {
 const RolesList = () => {
   return (
     <List
-      queryOptions={{
-        meta: {
-          query: RolesDocument,
-        },
-      }}
       filters={[
         <TextInput key="name_contains" source="name_contains" alwaysOn />,
       ]}
     >
-      <Datagrid
-        bulkActionButtons={
-          <BulkDeleteButton
-            mutationOptions={{ meta: { mutation: DeleteRolesDocument } }}
-          />
-        }
-      >
+      <Datagrid bulkActionButtons={<BulkDeleteButton />}>
         <TextField source="id" sortable={false} />
         <TextField source="name" sortable={false} />
         <DateField source="createdAt" />
         <ShowButton />
         <EditButton />
-        <DeleteButton
-          mutationOptions={{ meta: { mutation: DeleteRoleDocument } }}
-        />
+        <DeleteButton />
       </Datagrid>
     </List>
   );

@@ -1,12 +1,8 @@
-import { RoleDocument, UpdateRoleDocument } from 'gql/graphql';
 import { Edit, SimpleForm, TextInput } from 'react-admin';
 
 const RolesEdit = () => {
   return (
-    <Edit
-      queryOptions={{ meta: { query: RoleDocument } }}
-      mutationOptions={{ meta: { mutation: UpdateRoleDocument } }}
-    >
+    <Edit>
       <SimpleForm>
         <TextInput source="name" />
       </SimpleForm>

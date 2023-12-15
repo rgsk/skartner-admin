@@ -1,15 +1,19 @@
+import { ResourceType } from 'ResourceType';
 import RelationsPermissionToUserCreate from 'components/RelationsPermissionToUser/RelationsPermissionToUserCreate/RelationsPermissionToUserCreate';
 import RelationsPermissionToUserEdit from 'components/RelationsPermissionToUser/RelationsPermissionToUserEdit/RelationsPermissionToUserEdit';
 import RelationsPermissionToUserList from 'components/RelationsPermissionToUser/RelationsPermissionToUserList/RelationsPermissionToUserList';
 import RelationsPermissionToUserShow from 'components/RelationsPermissionToUser/RelationsPermissionToUserShow/RelationsPermissionToUserShow';
+import { Fetcher } from 'fetcher';
 import {
   CreateRelationPermissionToUserDocument,
+  DeleteRelationPermissionToUserDocument,
+  DeleteRelationsPermissionToUserDocument,
   RelationPermissionToUserDocument,
   RelationsPermissionToUserDocument,
   UpdateRelationPermissionToUserDocument,
 } from 'gql/graphql';
 
-const relationsPermissionToUser = {
+const relationsPermissionToUser: ResourceType = {
   list: RelationsPermissionToUserList,
   show: RelationsPermissionToUserShow,
   create: RelationsPermissionToUserCreate,
@@ -17,9 +21,11 @@ const relationsPermissionToUser = {
 };
 export default relationsPermissionToUser;
 
-export const relationsPermissionToUserGraphql = {
+export const relationsPermissionToUserFetcher: Fetcher = {
   list: RelationsPermissionToUserDocument,
-  show: RelationPermissionToUserDocument,
+  one: RelationPermissionToUserDocument,
   create: CreateRelationPermissionToUserDocument,
-  edit: UpdateRelationPermissionToUserDocument,
+  update: UpdateRelationPermissionToUserDocument,
+  delete: DeleteRelationPermissionToUserDocument,
+  deleteMany: DeleteRelationsPermissionToUserDocument,
 };

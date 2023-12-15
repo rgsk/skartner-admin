@@ -29,7 +29,7 @@ export const dataProvider: DataProvider = {
     const { page, perPage } = params.pagination;
     const { field, order } = params.sort;
     const result = await apolloClient.query({
-      query: params.meta.query,
+      query: fetcher[resource].list,
       variables: {
         skip: (page - 1) * perPage,
         take: perPage,
@@ -42,7 +42,7 @@ export const dataProvider: DataProvider = {
       },
     });
     const returnValue = {
-      data: result.data[getFirstSelection(params.meta.query)],
+      data: result.data[getFirstSelection(fetcher[resource].list)],
       total: result.data.total,
     };
     return returnValue;
@@ -50,7 +50,7 @@ export const dataProvider: DataProvider = {
   getOne: async (resource, params) => {
     console.log('getOne', { resource, params });
     const result = await apolloClient.query({
-      query: params.meta.query,
+      query: fetcher[resource].one,
       variables: {
         where: {
           id: {
@@ -60,14 +60,14 @@ export const dataProvider: DataProvider = {
       },
     });
     const returnValue = {
-      data: result.data[getFirstSelection(params.meta.query)],
+      data: result.data[getFirstSelection(fetcher[resource].one)],
     };
     return returnValue;
   },
   getMany: async (resource, params) => {
     console.log('getMany', { resource, params });
     const result = await apolloClient.query({
-      query: params.meta.query,
+      query: fetcher[resource].list,
       variables: {
         where: {
           id: {
@@ -77,25 +77,25 @@ export const dataProvider: DataProvider = {
       },
     });
     const returnValue = {
-      data: result.data[getFirstSelection(params.meta.query)],
+      data: result.data[getFirstSelection(fetcher[resource].list)],
     };
     return returnValue;
   },
   create: async (resource, params) => {
     console.log('create', { resource, params });
     const result = await apolloClient.mutate({
-      mutation: params.meta.mutation,
+      mutation: fetcher[resource].create,
       variables: params.data,
     });
     const returnValue = {
-      data: result.data[getFirstSelection(params.meta.mutation)],
+      data: result.data[getFirstSelection(fetcher[resource].create)],
     };
     return returnValue;
   },
   deleteMany: async (resource, params) => {
     console.log('deleteMany', { resource, params });
     const result = await apolloClient.mutate({
-      mutation: params.meta.mutation,
+      mutation: fetcher[resource].deleteMany,
       variables: {
         ids: params.ids,
       },
@@ -108,13 +108,13 @@ export const dataProvider: DataProvider = {
   delete: async (resource, params) => {
     console.log('delete', { resource, params });
     const result = await apolloClient.mutate({
-      mutation: params.meta.mutation,
+      mutation: fetcher[resource].delete,
       variables: {
         id: params.id,
       },
     });
     const returnValue = {
-      data: result.data[getFirstSelection(params.meta.mutation)],
+      data: result.data[getFirstSelection(fetcher[resource].delete)],
     };
     return returnValue;
   },
@@ -122,14 +122,14 @@ export const dataProvider: DataProvider = {
     console.log('update', { resource, params });
     const data = getDifferentKeys(params.previousData, params.data);
     const result = await apolloClient.mutate({
-      mutation: params.meta.mutation,
+      mutation: fetcher[resource].update,
       variables: {
         id: params.id,
         data: data,
       },
     });
     const returnValue = {
-      data: result.data[getFirstSelection(params.meta.mutation)],
+      data: result.data[getFirstSelection(fetcher[resource].update)],
     };
     return returnValue;
   },

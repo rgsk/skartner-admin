@@ -1,0 +1,49 @@
+fragment RoleFields on Role {
+  id
+  name
+  meta
+  createdAt
+  updatedAt
+}
+
+query Roles(
+  $where: RoleWhereInput
+  $skip: Int
+  $take: Int
+  $orderBy: [RoleOrderByWithRelationInput]
+) {
+  roles(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
+    ...RoleFields
+  }
+  total: rolesCount(where: $where)
+}
+
+mutation DeleteRoles($ids: [String!]!) {
+  deleteRoles(ids: $ids) {
+    count
+  }
+}
+
+query Role($where: RoleWhereInput) {
+  role(where: $where) {
+    ...RoleFields
+  }
+}
+
+mutation DeleteRole($id: String!) {
+  deleteRole(id: $id) {
+    ...RoleFields
+  }
+}
+
+mutation UpdateRole($id: String!, $data: RoleUpdateInput!) {
+  updateRole(id: $id, data: $data) {
+    ...RoleFields
+  }
+}
+
+mutation CreateRole($name: String!) {
+  createRole(name: $name) {
+    ...RoleFields
+  }
+}

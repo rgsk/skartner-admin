@@ -1,3 +1,13 @@
+fragment UserSessionFields on UserSession {
+  id
+  user {
+    email
+  }
+  startedAt
+  endedAt
+  duration
+}
+
 query UserSessions(
   $where: UserSessionWhereInput
   $skip: Int
@@ -5,13 +15,7 @@ query UserSessions(
   $orderBy: [UserSessionOrderByWithRelationInput]
 ) {
   userSessions(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
-    id
-    user {
-      email
-    }
-    startedAt
-    endedAt
-    duration
+    ...UserSessionFields
   }
   total: userSessionsCount(where: $where)
 }

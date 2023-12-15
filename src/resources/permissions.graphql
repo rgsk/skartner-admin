@@ -1,0 +1,49 @@
+fragment PermissionFields on Permission {
+  id
+  name
+  meta
+  createdAt
+  updatedAt
+}
+
+query Permissions(
+  $where: PermissionWhereInput
+  $skip: Int
+  $take: Int
+  $orderBy: [PermissionOrderByWithRelationInput]
+) {
+  permissions(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
+    ...PermissionFields
+  }
+  total: permissionsCount(where: $where)
+}
+
+mutation DeletePermissions($ids: [String!]!) {
+  deletePermissions(ids: $ids) {
+    count
+  }
+}
+
+query Permission($where: PermissionWhereInput) {
+  permission(where: $where) {
+    ...PermissionFields
+  }
+}
+
+mutation DeletePermission($id: String!) {
+  deletePermission(id: $id) {
+    ...PermissionFields
+  }
+}
+
+mutation CreatePermission($name: String!) {
+  createPermission(name: $name) {
+    ...PermissionFields
+  }
+}
+
+mutation UpdatePermission($id: String!, $data: PermissionUpdateInput!) {
+  updatePermission(id: $id, data: $data) {
+    ...PermissionFields
+  }
+}

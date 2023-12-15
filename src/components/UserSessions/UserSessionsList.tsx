@@ -1,4 +1,4 @@
-import { UserSessionsDocument, UserSessionsQuery } from 'gql/graphql';
+import { UserSessionsQuery } from 'gql/graphql';
 import { getSourceValidator } from 'lib/graphqlUtils';
 import {
   Datagrid,
@@ -20,11 +20,6 @@ interface IUserSessionListProps {}
 const UserSessionsList: React.FC<IUserSessionListProps> = ({}) => {
   return (
     <List
-      queryOptions={{
-        meta: {
-          query: UserSessionsDocument,
-        },
-      }}
       filters={[
         <TextInput
           key="user_email_startsWith"

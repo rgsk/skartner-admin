@@ -1,6 +1,0 @@
-mutation UpdateRole($id: String!, $data: RoleUpdateInput!) {
-  updateRole(id: $id, data: $data) {
-    id
-    name
-  }
-}

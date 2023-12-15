@@ -1,8 +1,4 @@
 import {
-  GreWordListReferenceUsersDocument,
-  GreWordsDocument,
-} from 'gql/graphql';
-import {
   Datagrid,
   DateField,
   List,
@@ -16,11 +12,6 @@ interface IGreWordListProps {}
 const GreWordsList: React.FC<IGreWordListProps> = ({}) => {
   return (
     <List
-      queryOptions={{
-        meta: {
-          query: GreWordsDocument,
-        },
-      }}
       filters={[
         <TextInput
           key="cacheWord_text_startsWith"
@@ -41,11 +32,6 @@ const GreWordsList: React.FC<IGreWordListProps> = ({}) => {
           label="User"
           source="userId"
           reference="users"
-          queryOptions={{
-            meta: {
-              query: GreWordListReferenceUsersDocument,
-            },
-          }}
           sortable={false}
         >
           <TextField source="email" />

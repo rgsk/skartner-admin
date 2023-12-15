@@ -1,8 +1,0 @@
-mutation UpdateRelationPermissionToRole(
-  $id: String!
-  $data: RelationPermissionToRoleUpdateInput!
-) {
-  updateRelationPermissionToRole(id: $id, data: $data) {
-    ...RelationPermissionToRoleFields
-  }
-}

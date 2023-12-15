@@ -44,3 +44,34 @@ mutation DeleteRelationsPermissionToUser($ids: [String!]!) {
     count
   }
 }
+
+query RelationPermissionToUser($where: RelationPermissionToUserWhereInput!) {
+  relationPermissionToUser(where: $where) {
+    ...RelationPermissionToUserFields
+  }
+}
+
+mutation CreateRelationPermissionToUser(
+  $permissionId: String!
+  $userId: String!
+  $granterId: String!
+  $isAllowed: Boolean
+) {
+  createRelationPermissionToUser(
+    permissionId: $permissionId
+    userId: $userId
+    granterId: $granterId
+    isAllowed: $isAllowed
+  ) {
+    ...RelationPermissionToUserFields
+  }
+}
+
+mutation UpdateRelationPermissionToUser(
+  $id: String!
+  $data: RelationPermissionToUserUpdateInput!
+) {
+  updateRelationPermissionToUser(id: $id, data: $data) {
+    ...RelationPermissionToUserFields
+  }
+}

@@ -1,0 +1,40 @@
+fragment GreWordFields on GreWord {
+  id
+  cacheWord {
+    text
+  }
+  userId
+  updatedAt
+}
+
+query GreWords(
+  $where: GreWordWhereInput
+  $skip: Int
+  $take: Int
+  $orderBy: [GreWordOrderByWithRelationInput]
+) {
+  greWords(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
+    ...GreWordFields
+  }
+  total: greWordsCount(where: $where)
+}
+
+query GreWord($where: GreWordWhereInput) {
+  greWord(where: $where) {
+    ...GreWordFields
+    gptPrompts {
+      id
+      cacheResponse {
+        text
+        cachePrompt {
+          text
+        }
+        cacheWord {
+          text
+        }
+      }
+      editedResponse
+      greWordId
+    }
+  }
+}

@@ -18,3 +18,9 @@ query Users(
   }
   total: usersCount(where: $where)
 }
+
+query User($where: UserWhereInput!) {
+  user(where: $where) {
+    ...UserFields
+  }
+}

@@ -1,6 +1,5 @@
 import { Box } from '@mui/material';
 import ServerLinks from 'components/ServerLinks';
-import { UsersDocument } from 'gql/graphql';
 import {
   BooleanField,
   Datagrid,
@@ -15,13 +14,7 @@ const UsersList = () => {
       <Box sx={{ marginTop: 5 }}>
         <ServerLinks />
       </Box>
-      <List
-        queryOptions={{
-          meta: {
-            query: UsersDocument,
-          },
-        }}
-      >
+      <List>
         <Datagrid>
           <TextField source="id" sortable={false} />
           <EmailField source="email" />
