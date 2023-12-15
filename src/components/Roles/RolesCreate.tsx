@@ -1,14 +1,7 @@
-import { CreateRoleDocument } from 'gql/graphql';
 import { Create, SimpleForm, TextInput } from 'react-admin';
 
 const RolesCreate = () => (
-  <Create
-    mutationOptions={{
-      meta: {
-        mutation: CreateRoleDocument,
-      },
-    }}
-  >
+  <Create>
     <SimpleForm>
       <TextInput source="name" required={true} fullWidth />
     </SimpleForm>

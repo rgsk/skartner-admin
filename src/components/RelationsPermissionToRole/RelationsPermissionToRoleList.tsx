@@ -1,15 +1,9 @@
 import Resources from 'Resources';
-import {
-  DeleteRelationPermissionToRoleDocument,
-  DeleteRelationsPermissionToRoleDocument,
-  RelationsPermissionToRoleDocument,
-} from 'gql/graphql';
+
 import {
   BooleanField,
-  BulkDeleteButton,
   Datagrid,
   DateField,
-  DeleteButton,
   EditButton,
   FilterPayload,
   List,
@@ -24,24 +18,8 @@ const RelationsPermissionToRoleList: React.FC<
   IRelationsPermissionToRoleListProps
 > = ({ filter }) => {
   return (
-    <List
-      queryOptions={{
-        meta: {
-          query: RelationsPermissionToRoleDocument,
-        },
-      }}
-      filter={filter}
-      resource={Resources.relationsPermissionToRole}
-    >
-      <Datagrid
-        bulkActionButtons={
-          <BulkDeleteButton
-            mutationOptions={{
-              meta: { mutation: DeleteRelationsPermissionToRoleDocument },
-            }}
-          />
-        }
-      >
+    <List filter={filter} resource={Resources.relationsPermissionToRole}>
+      <Datagrid>
         <TextField source="permission.name" sortable={false} />
         <TextField source="role.name" sortable={false} />
         <TextField source="granter.email" sortable={false} />
@@ -49,11 +27,6 @@ const RelationsPermissionToRoleList: React.FC<
         <DateField source="grantedAt" />
         <ShowButton />
         <EditButton />
-        <DeleteButton
-          mutationOptions={{
-            meta: { mutation: DeleteRelationPermissionToRoleDocument },
-          }}
-        />
       </Datagrid>
     </List>
   );

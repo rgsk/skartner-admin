@@ -1,5 +1,4 @@
 import {
-  BulkDeleteButton,
   Datagrid,
   DateField,
   DeleteButton,
@@ -16,7 +15,7 @@ const RolesList = () => {
         <TextInput key="name_contains" source="name_contains" alwaysOn />,
       ]}
     >
-      <Datagrid bulkActionButtons={<BulkDeleteButton />}>
+      <Datagrid>
         <TextField source="id" sortable={false} />
         <TextField source="name" sortable={false} />
         <DateField source="createdAt" />

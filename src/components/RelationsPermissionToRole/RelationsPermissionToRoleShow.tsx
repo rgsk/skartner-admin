@@ -1,8 +1,4 @@
 import {
-  DeleteRelationPermissionToRoleDocument,
-  RelationPermissionToRoleDocument,
-} from 'gql/graphql';
-import {
   BooleanField,
   DateField,
   DeleteButton,
@@ -16,7 +12,7 @@ const RelationsPermissionToRoleShow: React.FC<
   IRelationsPermissionToRoleShowProps
 > = ({}) => {
   return (
-    <Show queryOptions={{ meta: { query: RelationPermissionToRoleDocument } }}>
+    <Show>
       <SimpleShowLayout>
         <TextField source={'permission.name'} />
         <TextField source={'role.name'} />
@@ -24,11 +20,7 @@ const RelationsPermissionToRoleShow: React.FC<
         <BooleanField source={'isAllowed'} />
 
         <DateField source={'grantedAt'} showTime />
-        <DeleteButton
-          mutationOptions={{
-            meta: { mutation: DeleteRelationPermissionToRoleDocument },
-          }}
-        />
+        <DeleteButton />
       </SimpleShowLayout>
     </Show>
   );

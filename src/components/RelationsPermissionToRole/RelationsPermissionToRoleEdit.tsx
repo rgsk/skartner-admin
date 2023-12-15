@@ -1,11 +1,6 @@
-import {
-  RelationPermissionToRoleDocument,
-  UpdateRelationPermissionToRoleDocument,
-} from 'gql/graphql';
 import { Edit } from 'react-admin';
 
 import Resources from 'Resources';
-import { PermissionsDocument, RolesDocument } from 'gql/graphql';
 import useUser from 'hooks/useUser';
 import {
   AutocompleteInput,
@@ -16,12 +11,7 @@ import {
 
 const RelationsPermissionToRoleEdit = () => {
   return (
-    <Edit
-      queryOptions={{ meta: { query: RelationPermissionToRoleDocument } }}
-      mutationOptions={{
-        meta: { mutation: UpdateRelationPermissionToRoleDocument },
-      }}
-    >
+    <Edit>
       <RelationsPermissionToRoleForm />
     </Edit>
   );
@@ -39,11 +29,7 @@ export const RelationsPermissionToRoleForm: React.FC<
   }
   return (
     <SimpleForm defaultValues={{ granterId: user.id }}>
-      <ReferenceInput
-        source="permissionId"
-        reference={Resources.permissions}
-        queryOptions={{ meta: { query: PermissionsDocument } }}
-      >
+      <ReferenceInput source="permissionId" reference={Resources.permissions}>
         <AutocompleteInput
           optionText="name"
           fullWidth
@@ -53,11 +39,7 @@ export const RelationsPermissionToRoleForm: React.FC<
           isRequired
         />
       </ReferenceInput>
-      <ReferenceInput
-        source="roleId"
-        reference={Resources.roles}
-        queryOptions={{ meta: { query: RolesDocument } }}
-      >
+      <ReferenceInput source="roleId" reference={Resources.roles}>
         <AutocompleteInput
           optionText="name"
           fullWidth
