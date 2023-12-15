@@ -48,23 +48,39 @@ describe('dataProviderUtils.getWhereObject', () => {
     });
   });
 
-  it('should handle input objects with nested underscore-separated keys', () => {
+  it('should work with normal object', () => {
     const input = {
-      parent_key_child_key_grandchild: 'value',
+      name: {
+        startsWith: 'rahul',
+        endsWith: 'gupta',
+      },
+      age: {
+        lte: 78,
+      },
+      top: { nested_key1_key2_key3: 'value' },
     };
 
     const output = dataProviderUtils.getWhereObject(input);
 
-    expect(output).toEqual({
-      parent: {
-        key: {
-          child: {
-            key: {
-              grandchild: 'value',
+    expect(output).toMatchInlineSnapshot(`
+      {
+        "age": {
+          "lte": 78,
+        },
+        "name": {
+          "endsWith": "gupta",
+          "startsWith": "rahul",
+        },
+        "top": {
+          "nested": {
+            "key1": {
+              "key2": {
+                "key3": "value",
+              },
             },
           },
         },
-      },
-    });
+      }
+    `);
   });
 });
