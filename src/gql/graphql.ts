@@ -578,6 +578,7 @@ export type Query = {
   relationsPermissionToUser: Array<RelationPermissionToUser>;
   relationsPermissionToUserCount: Scalars['Int'];
   relationsRoleToUser: Array<RelationRoleToUser>;
+  relationsRoleToUserCount: Scalars['Int'];
   role?: Maybe<Role>;
   roles: Array<Role>;
   rolesCount: Scalars['Int'];
@@ -721,6 +722,19 @@ export type QueryRelationsPermissionToUserArgs = {
 
 export type QueryRelationsPermissionToUserCountArgs = {
   where?: InputMaybe<RelationPermissionToUserWhereInput>;
+};
+
+
+export type QueryRelationsRoleToUserArgs = {
+  orderBy?: InputMaybe<Array<InputMaybe<RelationRoleToUserOrderByWithRelationInput>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RelationRoleToUserWhereInput>;
+};
+
+
+export type QueryRelationsRoleToUserCountArgs = {
+  where?: InputMaybe<RelationRoleToUserWhereInput>;
 };
 
 
@@ -874,6 +888,11 @@ export type RelationRoleToUser = {
   roleId: Scalars['String'];
   user?: Maybe<User>;
   userId: Scalars['String'];
+};
+
+export type RelationRoleToUserOrderByWithRelationInput = {
+  assignedAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type RelationRoleToUserUpdateInput = {
@@ -1272,10 +1291,15 @@ export type UpdateRelationPermissionToUserMutation = { __typename?: 'Mutation', 
 
 export type RelationRoleToUserFieldsFragment = { __typename?: 'RelationRoleToUser', id: string, roleId: string, userId: string, assignerId: string, assignedAt: string, role?: { __typename?: 'Role', id: string, name: string } | null, user?: { __typename?: 'User', email: string } | null, assigner?: { __typename?: 'User', email: string } | null };
 
-export type RelationsRoleToUserQueryVariables = Exact<{ [key: string]: never; }>;
+export type RelationsRoleToUserQueryVariables = Exact<{
+  where?: InputMaybe<RelationRoleToUserWhereInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<InputMaybe<RelationRoleToUserOrderByWithRelationInput>> | InputMaybe<RelationRoleToUserOrderByWithRelationInput>>;
+}>;
 
 
-export type RelationsRoleToUserQuery = { __typename?: 'Query', relationsRoleToUser: Array<{ __typename?: 'RelationRoleToUser', id: string, roleId: string, userId: string, assignerId: string, assignedAt: string, role?: { __typename?: 'Role', id: string, name: string } | null, user?: { __typename?: 'User', email: string } | null, assigner?: { __typename?: 'User', email: string } | null }> };
+export type RelationsRoleToUserQuery = { __typename?: 'Query', total: number, relationsRoleToUser: Array<{ __typename?: 'RelationRoleToUser', id: string, roleId: string, userId: string, assignerId: string, assignedAt: string, role?: { __typename?: 'Role', id: string, name: string } | null, user?: { __typename?: 'User', email: string } | null, assigner?: { __typename?: 'User', email: string } | null }> };
 
 export type RelationRoleToUserQueryVariables = Exact<{
   where: RelationRoleToUserWhereInput;
@@ -2466,10 +2490,11 @@ export type UpdateRelationPermissionToUserMutationHookResult = ReturnType<typeof
 export type UpdateRelationPermissionToUserMutationResult = Apollo.MutationResult<UpdateRelationPermissionToUserMutation>;
 export type UpdateRelationPermissionToUserMutationOptions = Apollo.BaseMutationOptions<UpdateRelationPermissionToUserMutation, UpdateRelationPermissionToUserMutationVariables>;
 export const RelationsRoleToUserDocument = gql`
-    query RelationsRoleToUser {
-  relationsRoleToUser {
+    query RelationsRoleToUser($where: RelationRoleToUserWhereInput, $skip: Int, $take: Int, $orderBy: [RelationRoleToUserOrderByWithRelationInput]) {
+  relationsRoleToUser(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
     ...RelationRoleToUserFields
   }
+  total: relationsRoleToUserCount(where: $where)
 }
     ${RelationRoleToUserFieldsFragmentDoc}`;
 
@@ -2485,6 +2510,10 @@ export const RelationsRoleToUserDocument = gql`
  * @example
  * const { data, loading, error } = useRelationsRoleToUserQuery({
  *   variables: {
+ *      where: // value for 'where'
+ *      skip: // value for 'skip'
+ *      take: // value for 'take'
+ *      orderBy: // value for 'orderBy'
  *   },
  * });
  */

@@ -16,10 +16,22 @@ fragment RelationRoleToUserFields on RelationRoleToUser {
   assignedAt
 }
 
-query RelationsRoleToUser {
-  relationsRoleToUser {
+query RelationsRoleToUser(
+  $where: RelationRoleToUserWhereInput
+  $skip: Int
+  $take: Int
+  $orderBy: [RelationRoleToUserOrderByWithRelationInput]
+) {
+  relationsRoleToUser(
+    where: $where
+    skip: $skip
+    take: $take
+    orderBy: $orderBy
+  ) {
     ...RelationRoleToUserFields
   }
+
+  total: relationsRoleToUserCount(where: $where)
 }
 
 query RelationRoleToUser($where: RelationRoleToUserWhereInput!) {
