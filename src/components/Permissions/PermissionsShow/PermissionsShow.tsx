@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 
 import { Show, TabbedShowLayout, TextField } from 'react-admin';
+import { PermissionsTitle } from '../PermissionsEdit';
 import PermissionHierarchy from './Children/PermissionHierarchy';
 import PermissionToRole from './Children/PermissionToRole';
 import PermissionToUser from './Children/PermissionToUser';
@@ -9,7 +10,7 @@ interface IPermissionsShowProps {}
 const PermissionsShow: React.FC<IPermissionsShowProps> = ({}) => {
   return (
     <Box>
-      <Show>
+      <Show title={<PermissionsTitle />}>
         <TabbedShowLayout>
           <TabbedShowLayout.Tab label="summary">
             <TextField source={'id'} />
