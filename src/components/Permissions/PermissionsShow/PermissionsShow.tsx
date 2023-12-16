@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 
-import { DeleteButton, Show, TabbedShowLayout, TextField } from 'react-admin';
+import { Show, TabbedShowLayout, TextField } from 'react-admin';
+import PermissionHierarchy from './Children/PermissionHierarchy';
 import PermissionToRole from './Children/PermissionToRole';
 import PermissionToUser from './Children/PermissionToUser';
 
@@ -13,7 +14,7 @@ const PermissionsShow: React.FC<IPermissionsShowProps> = ({}) => {
           <TabbedShowLayout.Tab label="summary">
             <TextField source={'id'} />
             <TextField source={'name'} />
-            <DeleteButton />
+            <PermissionHierarchy />
           </TabbedShowLayout.Tab>
           <TabbedShowLayout.Tab label="users" path="users">
             <PermissionToUser />

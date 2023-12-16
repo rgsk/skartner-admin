@@ -47,3 +47,11 @@ mutation UpdatePermission($id: String!, $data: PermissionUpdateInput!) {
     ...PermissionFields
   }
 }
+
+query PermissionChildHierarchy($where: PermissionWhereInput) {
+  permissionChildHierarchy(where: $where)
+}
+
+query PermissionParentHierarchy($where: PermissionWhereInput) {
+  permissionParentHierarchy(where: $where)
+}

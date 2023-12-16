@@ -552,10 +552,12 @@ export type Query = {
   greWordsCount: Scalars['Int'];
   hello: HelloWorld;
   permission?: Maybe<Permission>;
+  permissionChildHierarchy?: Maybe<Scalars['Json']>;
   permissionChildrenInHierarchy: Array<Permission>;
   permissionHierarchies: Array<PermissionHierarchy>;
   permissionHierarchiesCount: Scalars['Int'];
   permissionHierarchy?: Maybe<PermissionHierarchy>;
+  permissionParentHierarchy?: Maybe<Scalars['Json']>;
   permissionParentsInHierarchy: Array<Permission>;
   permissions: Array<Permission>;
   permissionsCount: Scalars['Int'];
@@ -643,6 +645,11 @@ export type QueryPermissionArgs = {
 };
 
 
+export type QueryPermissionChildHierarchyArgs = {
+  where?: InputMaybe<PermissionWhereInput>;
+};
+
+
 export type QueryPermissionChildrenInHierarchyArgs = {
   where?: InputMaybe<PermissionWhereInput>;
 };
@@ -663,6 +670,11 @@ export type QueryPermissionHierarchiesCountArgs = {
 
 export type QueryPermissionHierarchyArgs = {
   where?: InputMaybe<PermissionHierarchyWhereInput>;
+};
+
+
+export type QueryPermissionParentHierarchyArgs = {
+  where?: InputMaybe<PermissionWhereInput>;
 };
 
 
@@ -1178,6 +1190,20 @@ export type UpdatePermissionMutationVariables = Exact<{
 
 
 export type UpdatePermissionMutation = { __typename?: 'Mutation', updatePermission: { __typename?: 'Permission', id: string, name: string, meta: any, createdAt: string, updatedAt: string } };
+
+export type PermissionChildHierarchyQueryVariables = Exact<{
+  where?: InputMaybe<PermissionWhereInput>;
+}>;
+
+
+export type PermissionChildHierarchyQuery = { __typename?: 'Query', permissionChildHierarchy?: any | null };
+
+export type PermissionParentHierarchyQueryVariables = Exact<{
+  where?: InputMaybe<PermissionWhereInput>;
+}>;
+
+
+export type PermissionParentHierarchyQuery = { __typename?: 'Query', permissionParentHierarchy?: any | null };
 
 export type RelationPermissionToRoleFieldsFragment = { __typename?: 'RelationPermissionToRole', id: string, permissionId: string, roleId: string, granterId: string, isAllowed?: boolean | null, grantedAt: string, permission?: { __typename?: 'Permission', name: string } | null, role?: { __typename?: 'Role', name: string } | null, granter?: { __typename?: 'User', email: string } | null };
 
@@ -2007,6 +2033,72 @@ export function useUpdatePermissionMutation(baseOptions?: Apollo.MutationHookOpt
 export type UpdatePermissionMutationHookResult = ReturnType<typeof useUpdatePermissionMutation>;
 export type UpdatePermissionMutationResult = Apollo.MutationResult<UpdatePermissionMutation>;
 export type UpdatePermissionMutationOptions = Apollo.BaseMutationOptions<UpdatePermissionMutation, UpdatePermissionMutationVariables>;
+export const PermissionChildHierarchyDocument = gql`
+    query PermissionChildHierarchy($where: PermissionWhereInput) {
+  permissionChildHierarchy(where: $where)
+}
+    `;
+
+/**
+ * __usePermissionChildHierarchyQuery__
+ *
+ * To run a query within a React component, call `usePermissionChildHierarchyQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePermissionChildHierarchyQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePermissionChildHierarchyQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function usePermissionChildHierarchyQuery(baseOptions?: Apollo.QueryHookOptions<PermissionChildHierarchyQuery, PermissionChildHierarchyQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PermissionChildHierarchyQuery, PermissionChildHierarchyQueryVariables>(PermissionChildHierarchyDocument, options);
+      }
+export function usePermissionChildHierarchyLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PermissionChildHierarchyQuery, PermissionChildHierarchyQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PermissionChildHierarchyQuery, PermissionChildHierarchyQueryVariables>(PermissionChildHierarchyDocument, options);
+        }
+export type PermissionChildHierarchyQueryHookResult = ReturnType<typeof usePermissionChildHierarchyQuery>;
+export type PermissionChildHierarchyLazyQueryHookResult = ReturnType<typeof usePermissionChildHierarchyLazyQuery>;
+export type PermissionChildHierarchyQueryResult = Apollo.QueryResult<PermissionChildHierarchyQuery, PermissionChildHierarchyQueryVariables>;
+export const PermissionParentHierarchyDocument = gql`
+    query PermissionParentHierarchy($where: PermissionWhereInput) {
+  permissionParentHierarchy(where: $where)
+}
+    `;
+
+/**
+ * __usePermissionParentHierarchyQuery__
+ *
+ * To run a query within a React component, call `usePermissionParentHierarchyQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePermissionParentHierarchyQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePermissionParentHierarchyQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function usePermissionParentHierarchyQuery(baseOptions?: Apollo.QueryHookOptions<PermissionParentHierarchyQuery, PermissionParentHierarchyQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PermissionParentHierarchyQuery, PermissionParentHierarchyQueryVariables>(PermissionParentHierarchyDocument, options);
+      }
+export function usePermissionParentHierarchyLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PermissionParentHierarchyQuery, PermissionParentHierarchyQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PermissionParentHierarchyQuery, PermissionParentHierarchyQueryVariables>(PermissionParentHierarchyDocument, options);
+        }
+export type PermissionParentHierarchyQueryHookResult = ReturnType<typeof usePermissionParentHierarchyQuery>;
+export type PermissionParentHierarchyLazyQueryHookResult = ReturnType<typeof usePermissionParentHierarchyLazyQuery>;
+export type PermissionParentHierarchyQueryResult = Apollo.QueryResult<PermissionParentHierarchyQuery, PermissionParentHierarchyQueryVariables>;
 export const RelationsPermissionToRoleDocument = gql`
     query RelationsPermissionToRole($where: RelationPermissionToRoleWhereInput, $skip: Int, $take: Int, $orderBy: [RelationPermissionToRoleOrderByWithRelationInput]) {
   relationsPermissionToRole(
