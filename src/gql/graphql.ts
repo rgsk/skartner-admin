@@ -232,7 +232,6 @@ export type Mutation = {
   updateGreWord?: Maybe<GreWord>;
   updateGreWordSearchPromptInput?: Maybe<GreWordSearchPromptInput>;
   updatePermission: Permission;
-  updatePermissionHierarchy?: Maybe<PermissionHierarchy>;
   updateRelationPermissionToRole: RelationPermissionToRole;
   updateRelationPermissionToUser: RelationPermissionToUser;
   updateRelationRoleToUser: RelationRoleToUser;
@@ -442,12 +441,6 @@ export type MutationUpdatePermissionArgs = {
 };
 
 
-export type MutationUpdatePermissionHierarchyArgs = {
-  data: PermissionHierarchyUpdateInput;
-  id: Scalars['String'];
-};
-
-
 export type MutationUpdateRelationPermissionToRoleArgs = {
   data: RelationPermissionToRoleUpdateInput;
   id: Scalars['String'];
@@ -512,11 +505,6 @@ export type PermissionHierarchyOrderByWithRelationInput = {
   id?: InputMaybe<SortOrder>;
 };
 
-export type PermissionHierarchyUpdateInput = {
-  childPermissionId?: InputMaybe<Scalars['String']>;
-  parentPermissionId?: InputMaybe<Scalars['String']>;
-};
-
 export type PermissionHierarchyWhereInput = {
   childPermissionId?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
@@ -564,9 +552,11 @@ export type Query = {
   greWordsCount: Scalars['Int'];
   hello: HelloWorld;
   permission?: Maybe<Permission>;
+  permissionChildrenInHierarchy: Array<Permission>;
   permissionHierarchies: Array<PermissionHierarchy>;
   permissionHierarchiesCount: Scalars['Int'];
   permissionHierarchy?: Maybe<PermissionHierarchy>;
+  permissionParentsInHierarchy: Array<Permission>;
   permissions: Array<Permission>;
   permissionsCount: Scalars['Int'];
   posts?: Maybe<Array<Maybe<Post>>>;
@@ -653,6 +643,11 @@ export type QueryPermissionArgs = {
 };
 
 
+export type QueryPermissionChildrenInHierarchyArgs = {
+  where?: InputMaybe<PermissionWhereInput>;
+};
+
+
 export type QueryPermissionHierarchiesArgs = {
   orderBy?: InputMaybe<Array<InputMaybe<PermissionHierarchyOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
@@ -668,6 +663,11 @@ export type QueryPermissionHierarchiesCountArgs = {
 
 export type QueryPermissionHierarchyArgs = {
   where?: InputMaybe<PermissionHierarchyWhereInput>;
+};
+
+
+export type QueryPermissionParentsInHierarchyArgs = {
+  where?: InputMaybe<PermissionWhereInput>;
 };
 
 
@@ -1130,14 +1130,6 @@ export type CreatePermissionHierarchyMutationVariables = Exact<{
 
 
 export type CreatePermissionHierarchyMutation = { __typename?: 'Mutation', createPermissionHierarchy: { __typename?: 'PermissionHierarchy', id: string, parentPermissionId: string, childPermissionId: string, createdAt: string, parentPermission?: { __typename?: 'Permission', name: string } | null, childPermission?: { __typename?: 'Permission', name: string } | null } };
-
-export type UpdatePermissionHierarchyMutationVariables = Exact<{
-  id: Scalars['String'];
-  data: PermissionHierarchyUpdateInput;
-}>;
-
-
-export type UpdatePermissionHierarchyMutation = { __typename?: 'Mutation', updatePermissionHierarchy?: { __typename?: 'PermissionHierarchy', id: string, parentPermissionId: string, childPermissionId: string, createdAt: string, parentPermission?: { __typename?: 'Permission', name: string } | null, childPermission?: { __typename?: 'Permission', name: string } | null } | null };
 
 export type PermissionFieldsFragment = { __typename?: 'Permission', id: string, name: string, meta: any, createdAt: string, updatedAt: string };
 
@@ -1808,40 +1800,6 @@ export function useCreatePermissionHierarchyMutation(baseOptions?: Apollo.Mutati
 export type CreatePermissionHierarchyMutationHookResult = ReturnType<typeof useCreatePermissionHierarchyMutation>;
 export type CreatePermissionHierarchyMutationResult = Apollo.MutationResult<CreatePermissionHierarchyMutation>;
 export type CreatePermissionHierarchyMutationOptions = Apollo.BaseMutationOptions<CreatePermissionHierarchyMutation, CreatePermissionHierarchyMutationVariables>;
-export const UpdatePermissionHierarchyDocument = gql`
-    mutation UpdatePermissionHierarchy($id: String!, $data: PermissionHierarchyUpdateInput!) {
-  updatePermissionHierarchy(id: $id, data: $data) {
-    ...PermissionHierarchyFields
-  }
-}
-    ${PermissionHierarchyFieldsFragmentDoc}`;
-export type UpdatePermissionHierarchyMutationFn = Apollo.MutationFunction<UpdatePermissionHierarchyMutation, UpdatePermissionHierarchyMutationVariables>;
-
-/**
- * __useUpdatePermissionHierarchyMutation__
- *
- * To run a mutation, you first call `useUpdatePermissionHierarchyMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdatePermissionHierarchyMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updatePermissionHierarchyMutation, { data, loading, error }] = useUpdatePermissionHierarchyMutation({
- *   variables: {
- *      id: // value for 'id'
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useUpdatePermissionHierarchyMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePermissionHierarchyMutation, UpdatePermissionHierarchyMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdatePermissionHierarchyMutation, UpdatePermissionHierarchyMutationVariables>(UpdatePermissionHierarchyDocument, options);
-      }
-export type UpdatePermissionHierarchyMutationHookResult = ReturnType<typeof useUpdatePermissionHierarchyMutation>;
-export type UpdatePermissionHierarchyMutationResult = Apollo.MutationResult<UpdatePermissionHierarchyMutation>;
-export type UpdatePermissionHierarchyMutationOptions = Apollo.BaseMutationOptions<UpdatePermissionHierarchyMutation, UpdatePermissionHierarchyMutationVariables>;
 export const PermissionsDocument = gql`
     query Permissions($where: PermissionWhereInput, $skip: Int, $take: Int, $orderBy: [PermissionOrderByWithRelationInput]) {
   permissions(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {

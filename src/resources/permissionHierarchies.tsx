@@ -1,6 +1,5 @@
 import { ResourceType } from 'ResourceType';
 import PermissionHierarchiesCreate from 'components/PermissionHierarchies/PermissionHierarchiesCreate';
-import PermissionHierarchiesEdit from 'components/PermissionHierarchies/PermissionHierarchiesEdit';
 import PermissionHierarchiesList from 'components/PermissionHierarchies/PermissionHierarchiesList';
 import PermissionHierarchiesShow from 'components/PermissionHierarchies/PermissionHierarchiesShow';
 import { Fetcher } from 'fetcher';
@@ -10,23 +9,20 @@ import {
   DeletePermissionHierarchyDocument,
   PermissionHierarchiesDocument,
   PermissionHierarchyDocument,
-  UpdatePermissionHierarchyDocument,
 } from 'gql/graphql';
 
-const permissionHierarchies: ResourceType = {
+const permissionHierarchies: Partial<ResourceType> = {
   list: PermissionHierarchiesList,
   show: PermissionHierarchiesShow,
   create: PermissionHierarchiesCreate,
-  edit: PermissionHierarchiesEdit,
 };
 
 export default permissionHierarchies;
 
-export const permissionHierarchiesFetcher: Fetcher = {
+export const permissionHierarchiesFetcher: Partial<Fetcher> = {
   list: PermissionHierarchiesDocument,
   one: PermissionHierarchyDocument,
   delete: DeletePermissionHierarchyDocument,
   deleteMany: DeletePermissionHierarchiesDocument,
   create: CreatePermissionHierarchyDocument,
-  update: UpdatePermissionHierarchyDocument,
 };

@@ -58,12 +58,3 @@ mutation CreatePermissionHierarchy(
     ...PermissionHierarchyFields
   }
 }
-
-mutation UpdatePermissionHierarchy(
-  $id: String!
-  $data: PermissionHierarchyUpdateInput!
-) {
-  updatePermissionHierarchy(id: $id, data: $data) {
-    ...PermissionHierarchyFields
-  }
-}
