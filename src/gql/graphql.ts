@@ -577,6 +577,7 @@ export type Query = {
   rolesCount: Scalars['Int'];
   sendSinglePrompt: SendSinglePromptResponse;
   user?: Maybe<User>;
+  userPermissionsGraph?: Maybe<Scalars['Json']>;
   userSession?: Maybe<UserSession>;
   userSessions: Array<UserSession>;
   userSessionsCount: Scalars['Int'];
@@ -785,6 +786,11 @@ export type QuerySendSinglePromptArgs = {
 
 export type QueryUserArgs = {
   where: UserWhereInput;
+};
+
+
+export type QueryUserPermissionsGraphArgs = {
+  where?: InputMaybe<UserWhereInput>;
 };
 
 
@@ -1448,6 +1454,13 @@ export type UserQueryVariables = Exact<{
 
 
 export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, email: string, createdAt: string, meta: { __typename?: 'UserMetaParsedJsonValue', defaultGreWordSearchPromptInput?: string | null, showDefaultGreWordSearchPromptInputs?: boolean | null } } | null };
+
+export type UserPermissionsGraphQueryVariables = Exact<{
+  where?: InputMaybe<UserWhereInput>;
+}>;
+
+
+export type UserPermissionsGraphQuery = { __typename?: 'Query', userPermissionsGraph?: any | null };
 
 export const GreWordFieldsFragmentDoc = gql`
     fragment GreWordFields on GreWord {
@@ -3118,3 +3131,36 @@ export function useUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserQ
 export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
 export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
 export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
+export const UserPermissionsGraphDocument = gql`
+    query UserPermissionsGraph($where: UserWhereInput) {
+  userPermissionsGraph(where: $where)
+}
+    `;
+
+/**
+ * __useUserPermissionsGraphQuery__
+ *
+ * To run a query within a React component, call `useUserPermissionsGraphQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserPermissionsGraphQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserPermissionsGraphQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useUserPermissionsGraphQuery(baseOptions?: Apollo.QueryHookOptions<UserPermissionsGraphQuery, UserPermissionsGraphQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserPermissionsGraphQuery, UserPermissionsGraphQueryVariables>(UserPermissionsGraphDocument, options);
+      }
+export function useUserPermissionsGraphLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserPermissionsGraphQuery, UserPermissionsGraphQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserPermissionsGraphQuery, UserPermissionsGraphQueryVariables>(UserPermissionsGraphDocument, options);
+        }
+export type UserPermissionsGraphQueryHookResult = ReturnType<typeof useUserPermissionsGraphQuery>;
+export type UserPermissionsGraphLazyQueryHookResult = ReturnType<typeof useUserPermissionsGraphLazyQuery>;
+export type UserPermissionsGraphQueryResult = Apollo.QueryResult<UserPermissionsGraphQuery, UserPermissionsGraphQueryVariables>;

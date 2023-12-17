@@ -6,6 +6,7 @@ import {
   DateField,
   EmailField,
   List,
+  ShowButton,
   TextField,
 } from 'react-admin';
 const UsersList = () => {
@@ -23,6 +24,7 @@ const UsersList = () => {
             sortable={false}
           />
           <DateField source="createdAt" />
+          <ShowButton />
         </Datagrid>
       </List>
     </Box>

@@ -62,6 +62,7 @@ const RolePermissionsGraphDisplay: React.FC<
   const { data: { rolePermissionsGraph } = {} } = useRolePermissionsGraphQuery({
     variables: { where: { id: { equals: role?.id } } },
     skip: !role,
+    fetchPolicy: 'network-only',
   });
   if (!rolePermissionsGraph) {
     return null;

@@ -24,3 +24,7 @@ query User($where: UserWhereInput!) {
     ...UserFields
   }
 }
+
+query UserPermissionsGraph($where: UserWhereInput) {
+  userPermissionsGraph(where: $where)
+}
