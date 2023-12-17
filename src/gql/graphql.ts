@@ -572,6 +572,7 @@ export type Query = {
   relationsRoleToUser: Array<RelationRoleToUser>;
   relationsRoleToUserCount: Scalars['Int'];
   role?: Maybe<Role>;
+  rolePermissionsGraph?: Maybe<Scalars['Json']>;
   roles: Array<Role>;
   rolesCount: Scalars['Int'];
   sendSinglePrompt: SendSinglePromptResponse;
@@ -751,6 +752,11 @@ export type QueryRelationsRoleToUserCountArgs = {
 
 
 export type QueryRoleArgs = {
+  where?: InputMaybe<RoleWhereInput>;
+};
+
+
+export type QueryRolePermissionsGraphArgs = {
   where?: InputMaybe<RoleWhereInput>;
 };
 
@@ -1404,6 +1410,13 @@ export type CreateRoleMutationVariables = Exact<{
 
 
 export type CreateRoleMutation = { __typename?: 'Mutation', createRole: { __typename?: 'Role', id: string, name: string, meta: any, createdAt: string, updatedAt: string } };
+
+export type RolePermissionsGraphQueryVariables = Exact<{
+  where?: InputMaybe<RoleWhereInput>;
+}>;
+
+
+export type RolePermissionsGraphQuery = { __typename?: 'Query', rolePermissionsGraph?: any | null };
 
 export type UserSessionFieldsFragment = { __typename?: 'UserSession', id: string, startedAt: string, endedAt?: string | null, duration?: number | null, user: { __typename?: 'User', email: string } };
 
@@ -2959,6 +2972,39 @@ export function useCreateRoleMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateRoleMutationHookResult = ReturnType<typeof useCreateRoleMutation>;
 export type CreateRoleMutationResult = Apollo.MutationResult<CreateRoleMutation>;
 export type CreateRoleMutationOptions = Apollo.BaseMutationOptions<CreateRoleMutation, CreateRoleMutationVariables>;
+export const RolePermissionsGraphDocument = gql`
+    query RolePermissionsGraph($where: RoleWhereInput) {
+  rolePermissionsGraph(where: $where)
+}
+    `;
+
+/**
+ * __useRolePermissionsGraphQuery__
+ *
+ * To run a query within a React component, call `useRolePermissionsGraphQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRolePermissionsGraphQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRolePermissionsGraphQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useRolePermissionsGraphQuery(baseOptions?: Apollo.QueryHookOptions<RolePermissionsGraphQuery, RolePermissionsGraphQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RolePermissionsGraphQuery, RolePermissionsGraphQueryVariables>(RolePermissionsGraphDocument, options);
+      }
+export function useRolePermissionsGraphLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RolePermissionsGraphQuery, RolePermissionsGraphQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RolePermissionsGraphQuery, RolePermissionsGraphQueryVariables>(RolePermissionsGraphDocument, options);
+        }
+export type RolePermissionsGraphQueryHookResult = ReturnType<typeof useRolePermissionsGraphQuery>;
+export type RolePermissionsGraphLazyQueryHookResult = ReturnType<typeof useRolePermissionsGraphLazyQuery>;
+export type RolePermissionsGraphQueryResult = Apollo.QueryResult<RolePermissionsGraphQuery, RolePermissionsGraphQueryVariables>;
 export const UserSessionsDocument = gql`
     query UserSessions($where: UserSessionWhereInput, $skip: Int, $take: Int, $orderBy: [UserSessionOrderByWithRelationInput]) {
   userSessions(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {

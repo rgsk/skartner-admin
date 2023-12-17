@@ -1,7 +1,6 @@
 import {
   BooleanField,
   DateField,
-  DeleteButton,
   Show,
   TabbedShowLayout,
   TextField,
@@ -20,6 +19,7 @@ import {
   UsersQuery,
   useCreateRelationPermissionToRoleMutation,
   useCreateRelationRoleToUserMutation,
+  useRolePermissionsGraphQuery,
 } from 'gql/graphql';
 import useUser from 'hooks/useUser';
 import { useMemo, useState } from 'react';
@@ -39,7 +39,7 @@ const RolesShow: React.FC<IRolesShowProps> = ({}) => {
         <TabbedShowLayout.Tab label="summary">
           <TextField source={'id'} />
           <TextField source={'name'} />
-          <DeleteButton />
+          <RolePermissionsGraphDisplay />
         </TabbedShowLayout.Tab>
         <TabbedShowLayout.Tab label="users" path="users">
           <RoleToUser />
@@ -53,6 +53,25 @@ const RolesShow: React.FC<IRolesShowProps> = ({}) => {
 };
 
 export default RolesShow;
+
+interface IRolePermissionsGraphDisplayProps {}
+const RolePermissionsGraphDisplay: React.FC<
+  IRolePermissionsGraphDisplayProps
+> = ({}) => {
+  const role = useRecordContext() as RoleQuery['role'];
+  const { data: { rolePermissionsGraph } = {} } = useRolePermissionsGraphQuery({
+    variables: { where: { id: { equals: role?.id } } },
+    skip: !role,
+  });
+  if (!rolePermissionsGraph) {
+    return null;
+  }
+  return (
+    <div>
+      <pre>{JSON.stringify(JSON.parse(rolePermissionsGraph), null, 4)}</pre>
+    </div>
+  );
+};
 
 interface IPermissionToRoleProps {}
 const PermissionToRole: React.FC<IPermissionToRoleProps> = ({}) => {
@@ -88,7 +107,7 @@ const PermissionToRole: React.FC<IPermissionToRoleProps> = ({}) => {
       permissions
         ?.filter((p) => {
           return !relationsPermissionToRole?.some(
-            (r) => r.permissionId === p.id,
+            (r) => r.permissionId === p.id
           );
         })
         ?.map((p) => p.name) ?? []
@@ -98,7 +117,7 @@ const PermissionToRole: React.FC<IPermissionToRoleProps> = ({}) => {
   const onSelect = (permissionName: string) => {
     if (role && user) {
       const selectedPermission = permissions?.find(
-        (p) => p.name === permissionName,
+        (p) => p.name === permissionName
       );
       if (selectedPermission) {
         createreateRelationPermissionToRoleMutation({
@@ -170,7 +189,7 @@ const RoleToUser: React.FC<IRoleToUserProps> = ({}) => {
       filter: {
         email_contains: userEmailSearchInput,
       },
-    },
+    }
   );
 
   const [

@@ -47,3 +47,7 @@ mutation CreateRole($name: String!) {
     ...RoleFields
   }
 }
+
+query RolePermissionsGraph($where: RoleWhereInput) {
+  rolePermissionsGraph(where: $where)
+}
