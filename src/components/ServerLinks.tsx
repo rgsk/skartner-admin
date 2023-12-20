@@ -13,7 +13,7 @@ const ServerLinks: React.FC<IServerLinksProps> = ({}) => {
         target="_blank"
         rel="noreferrer"
       >
-        Visit Graphql Playground
+        Graphql Playground
       </a>
       <a
         href={`${environmentVars.SKARTNER_SERVER}/queues?token=${token}`}
